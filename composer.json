@@ -3,8 +3,9 @@
   "type": "plugin",
   "version": "0.1.0",
   "description": "kirby3 plugin to generate an xml-based sitemap",
+  "license": "MIT",
   "keywords": [
-    "kirby", "kirby3", "sitemap"
+    "kirby3", "sitemap"
   ],
   "autoload": {
     "files": ["config.php"],
