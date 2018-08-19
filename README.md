@@ -143,4 +143,4 @@ You are prohibited from using this plugin in any project that promotes racism, s
 
 ## Buy Me A Coffee
 
-To show your support for this project you are welcome to [buy me a coffee](buymeacoff.ee/omz13).
+To show your support for this project you are welcome to [buy me a coffee](https://buymeacoff.ee/omz13).
