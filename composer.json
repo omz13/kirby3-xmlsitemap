@@ -1,0 +1,41 @@
+{
+  "name": "omz13/kirby3-xmlsitemap",
+  "type": "plugin",
+  "version": "0.1.0",
+  "description": "kirby3 plugin to generate an xml-based sitemap",
+  "keywords": [
+    "kirby", "kirby3", "sitemap"
+  ],
+  "autoload": {
+    "files": ["config.php"],
+    "psr-4": {
+      "omz13\\": "classes/"
+    }
+  },
+
+  "authors": [{
+    "name": "David Somers",
+    "email": "dsomers@omz13.com",
+    "homepage": "https://meldingstuff.com",
+    "role": "developer"
+  }],
+
+  "repositories": [{
+    "type": "vcs",
+    "url": "https://github.com/k-next/kirby"
+  }],
+
+  "require": {
+    "php": ">=7.1"
+  },
+
+  "require-dev": {
+    "composer/installers": "~1.0",
+    "getkirby/cms": "dev-master as 3.0.0"
+  },
+  "scripts": {
+      "build": "composer update; composer dumpautoload -o;",
+      "zip": "rm kirby3-xmlsitemap.zip; composer remove getkirby/cms; composer dumpautoload -o; composer archive --format=zip --file=kirby3-xmlsitemap; composer require getkirby/cms:'dev-master as 3.0.0'; composer dumpautoload -o;"
+  },
+  "minimum-stability": "beta"
+}
