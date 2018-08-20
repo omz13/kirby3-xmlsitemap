@@ -14,8 +14,8 @@ Implementation details:
 
 - For all pages, `<loc>` and `<lastmod>` are given.
 - For pages at the site's root (i.e. at a depth of 1). the <`priority`> is set to 1.0; for child pages, it is set to 0.9; for grandchildren and below it is not given.
-- The generated `sitemap.xls` has an accompanying `sitemap.xsl` to produce a prettified page for human consumption.
-- Only pages that have a status of "published" are included (everything else, `drafts` and `unlisted`, are excluded)
+- The generated `sitemap.xls` has an accompanying `sitemap.xsl` to produce a prettified page for human consumption. 
+- Only pages that have a status of "published" are included (everything else, `drafts` and `unlisted`, are excluded).
 <!-- - If a page has the methods `isunderembargo`[^ https://github.com/omz13/kirby3-sunset] or `issunet` [^ https://github.com/omz13/kirby3-sunset] these are respected vis-à-vis inclusion or exclusion from the xmlsitemap. -->
 - The error page is automatically excluded.
 - Pages made using certain templates can be excluded; c.f. the use of `excludePageWhenTemplateIs` in _Configuration_.
@@ -30,7 +30,7 @@ Implementation details:
 
 If your kirby3-based site is managed-using-composer, simply invoke `composer require omz13/kirby3-xmlsitemap:'@dev'`, or manually add `omz13/kirby3-xmlsitemap` as an item into the 'require' component of your site's `composer.json`:
 
-```
+```yaml
 "require": {
   ...
   "omz13/kirby3-xmlsitemap": "@dev",
@@ -64,6 +64,7 @@ The following mechanisms can be used to modify the plugin's behaviour.
 
 In your site's `site/config/config.php` the following entries under the key `omz13.xmlsitemap` can be used:
 
+- `disable` : a boolean which, if true, to disable the xmlsitemap functionality (c.f. `xmlsitemap` in _via `site.txt`_).
 - `debugqueryvalue` : a string to be as the value for the query parameter `debug` to return the xml-sitemap with debugging information. The global kirby `debug` configuration must also be true for this to work. The url must be to `/sitemap.xml?debug=debugqueryvalue` and not `/sitemap?debug=_debugqueryvalue_` (i.e. the `.xls` part is important). Be aware that the debugging information will show, if applicable, details of any pages that have been excluded (so if you are using this in production and you don't want things to leak, set `debugqueryvalue` to something random).
 - `excludePageWhenTemplateIs` : an array of templates names whose pages are to be excluded from the xml-sitemap.
 - `excludeChildrenWhenTemplateIs` : an array of templates names whose pages children are to be ignored; this is used for one-pagers (where the principal page will be included and all the 'virtual' children ignored).
@@ -102,7 +103,7 @@ return [
 
 The plugin can be explicitly disabled in `content\site.txt` by having an entry for `xmlsitemap` and setting this to `false`. This could be achieved through the panel by adding the following into `site/blueprints/site.yml`:
 
-```
+```yaml
 type:          fields
 fields:
   xmlsitemap:
@@ -117,7 +118,7 @@ fields:
 
 If a page's content has a field called `excludefromxmlsitemap` and this is set to `true`, then that page (and any children, if present) will be excluded. Similarly to `site.txt`, this can be easily achieved in a blueprint.
 
-```
+```yaml
 type:          fields
 fields:
   excludefromxmlsitemap:

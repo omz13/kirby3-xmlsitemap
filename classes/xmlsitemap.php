@@ -34,6 +34,15 @@ class xmlsitemap
       return $default;
   }
 
+  public static function isEnabled(): bool
+  {
+    if (self::getConfigurationForKey("disable")=="true")
+      return false;
+    if (kirby()->site()->content()->xmlsitemap() == "false")
+      return false;
+    return true;
+  }
+
   public static function getStylesheet(): string
   {
       $f = file_get_contents(__DIR__ . "/../assets/xmlsitemap.xsl");
