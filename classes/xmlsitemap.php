@@ -159,10 +159,12 @@ class xmlsitemap
       // set modified date to be last date vis-a-vis when file modified /content embargo time / content date
       $r .= '  <lastmod>' . date("c", max($timestamp_m, $timestamp_e, $timestamp_c)) . "</lastmod>\n";
 
+/* don't bother with priority - we ignore those. It's essentially a bag of noise" - [ref https://twitter.com/methode/status/846796737750712320]
       if ($p->depth()==1)
         $r.="  <priority>". ($p->isHomePage() ? "1.0" : "0.9") . "</priority>\n";
       if ($p->depth()>=2)
         $r.="  <priority>0.8</priority>\n";
+*/
 
       static::addImagesFromPageToSitemap($p, $r);
 
