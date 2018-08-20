@@ -67,8 +67,9 @@ class xmlsitemap
     $r =
       "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" .
       "<?xml-stylesheet type=\"text/xsl\" href=\"/sitemap.xsl\"?>\n" .
-      "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xhtml=\"http://www.w3.org/1999/xhtml\">\n" .
-      static::addPagesToSitemap($p) .
+      "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\">\n";
+    static::addPagesToSitemap($p, $r);
+    $r.=
       "</urlset>\n" .
       "<!-- sitemap generated using https://github.com/omz13/kirby3-xmlsitemap -->\n";
 
@@ -79,23 +80,38 @@ class xmlsitemap
       $r .= "<!-- That took $elapsed microseconds -->\n";
       $r .= "<!-- Generated at " . static::$generatedat . " -->\n";
     }
-
     return $r;
   }
 
-  private static function addComment(string $m): string
+  private static function addComment(string &$r, string $m): void
   {
     if (static::$debug == true)
-      return "<!-- " . $m . " -->\n";
-    else
-      return "";
+      $r.= "<!-- " . $m . " -->\n";
   }
 
-  private static function addPagesToSitemap(\Kirby\Cms\Pages $pages, string $r = ""): string
+  private static function addImagesFromPageToSitemap(\Kirby\Cms\Page $page, string &$r)
   {
+    foreach($page->images() as $i)
+    {
+      $r .=
+        "  <image:image>\n" .
+        "    <image:loc>" . $i->url() . "</image:loc>\n" .
+        "  </image:image>\n" ;
+    }
+  }
 
+  private static function addImagesToSitemap(\Kirby\Cms\Pages $pages, string &$r)
+  {
     foreach ($pages as $p) {
-      $r .= static::addComment("crunching ".$p->url()." [t=".$p->template()->name()."] [d=". $p->depth()."]");
+      static::addComment($r, "imagining ".$p->url()." [t=".$p->template()->name()."] [d=". $p->depth()."]");
+      static::addImagesFromPageToSitemap($p, $r);
+    }
+  }
+
+  private static function addPagesToSitemap(\Kirby\Cms\Pages $pages, string &$r)
+  {
+    foreach ($pages as $p) {
+      static::addComment($r, "crunching ".$p->url()." [t=".$p->template()->name()."] [d=". $p->depth()."]");
 
       // don't include the error page
       if ($p->isErrorPage()) {
@@ -104,20 +120,20 @@ class xmlsitemap
 
       // exclude because template used is in the exclusion list:
       if (isset(static::$optionXPWTI) && in_array($p->template()->name(), static::$optionXPWTI)) {
-        $r .= static::addComment("excluding " . $p->url() . " because excludePageWhenTemplateIs (" . $p->template()->name() . ")");
+        static::addComment($r, "excluding " . $p->url() . " because excludePageWhenTemplateIs (" . $p->template()->name() . ")");
         continue;
       }
 
       // exclude because page content field 'excludefromxmlsitemap':
       if ($p->content()->excludefromxmlsitemap() == "true") {
-        $r .= static::addComment("excluding " . $p->url() . " because excludefromxmlsitemap");
+        static::addComment($r, "excluding " . $p->url() . " because excludefromxmlsitemap");
         continue;
       }
 
       // exclude because, if supported, the page is sunset:
       if ($p->hasMethod("issunset")) {
         if ($p->issunset()) {
-          $r .= static::addComment("excluding " . $p->url() . " because issunset");
+          static::addComment($r, "excluding " . $p->url() . " because issunset");
           continue;
         }
       }
@@ -125,12 +141,13 @@ class xmlsitemap
       // exclude because, if supported,  the page is under embargo
       if ($p->hasMethod("isunderembargo")) {
         if ($p->isunderembargo()) {
-          $r .= static::addComment("excluding " . $p->url() . " because isunderembargo");
+          static::addComment($r, "excluding " . $p->url() . " because isunderembargo");
           continue;
         }
       }
 
       // <loc>https://www.example.com/slug</loc>
+
       $r .= "<url>\n";
       // for the homepage, ensure we end the URL with a /
       $r .= "  <loc>" . $p->url() . ($p->isHomePage() ? "/" : "") . "</loc>\n";
@@ -147,25 +164,23 @@ class xmlsitemap
       if ($p->depth()>=2)
         $r.="  <priority>0.8</priority>\n";
 
-      $r .= "</url>\n";
+      static::addImagesFromPageToSitemap($p, $r);
 
       if ($p->children() !== null) {
-        if (!isset(static::$optionXCWTI))
-        {
-          // no exclusions set, so jump into the children
-          $r .= static::addPagesToSitemap($p->children(), "");
-        }
-        else
-        {
-          // jump in, unless the template used is in the exclusion set
-          if (!in_array($p->template()->name(), static::$optionXCWTI)) {
-            $r .= static::addPagesToSitemap($p->children(), "");
-          } else {
-            $r .= static::addComment("ignoring children of " . $p->url() . " because excludeChildrenWhenTemplateIs (" . $p->template()->name() . ")");
-          }
+        // jump into the children, unless the current page's template is in the exclude-its-children set
+        if (!in_array($p->template()->name(), static::$optionXCWTI)) {
+          $r .= "</url>\n";
+          static::addPagesToSitemap($p->children(), $r);
+        } else {
+          static::addComment($r, "ignoring children of " . $p->url() . " because excludeChildrenWhenTemplateIs (" . $p->template()->name() . ")");
+          static::addImagesToSitemap($p->children(), $r);
+          $r .= "</url>\n";
         }
       }
+      else {
+        $r .= "</url>\n";
+      }
     }
-    return $r;
+//    return $r;
   }
 }
