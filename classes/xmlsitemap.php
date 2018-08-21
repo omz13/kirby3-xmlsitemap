@@ -53,7 +53,7 @@ class xmlsitemap
 
   public static function getSitemap(\Kirby\Cms\Pages $p, bool $debug = false): string
   {
-    return static::generateSitemap($p, $debug);
+      return static::generateSitemap($p, $debug);
   }
 
   private static function generateSitemap(\Kirby\Cms\Pages $p, bool $debug = false): string
@@ -110,7 +110,8 @@ class xmlsitemap
 
   private static function addPagesToSitemap(\Kirby\Cms\Pages $pages, string &$r)
   {
-    foreach ($pages as $p) {
+    $sortedpages=$pages->sortBy('url','asc');
+    foreach ($sortedpages as $p) {
       static::addComment($r, "crunching ".$p->url()." [t=".$p->template()->name()."] [d=". $p->depth()."]");
 
       // don't include the error page
@@ -149,8 +150,7 @@ class xmlsitemap
       // <loc>https://www.example.com/slug</loc>
 
       $r .= "<url>\n";
-      // for the homepage, ensure we end the URL with a /
-      $r .= "  <loc>" . $p->url() . ($p->isHomePage() ? "/" : "") . "</loc>\n";
+      $r .= "  <loc>" . $p->url() . /*($p->isHomePage() ? "/" : "") .*/ "</loc>\n";
 
       $timestamp_c = strtotime($p->content()->date());
       $timestamp_e = strtotime($p->content()->embargo());
