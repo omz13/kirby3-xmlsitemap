@@ -10,11 +10,11 @@
 
 For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates /sitemap.xml and provides a pretty /sitemap.xls too.
 
-Implementation details:
+#### Implementation details/features
 
-- For all pages, `<loc>` and `<lastmod>` are given.
-- For pages at the site's root (i.e. at a depth of 1). the <`priority`> is set to 1.0; for child pages, it is set to 0.9; for grandchildren and below it is not given.
-- The generated `sitemap.xls` has an accompanying `sitemap.xsl` to produce a prettified page for human consumption. 
+- For all pages, `<loc>` and `<lastmod>` are given; `<priority>` is not given because "its a bag of noise"; `<changefreq>` is also not given because it does not affect ranking.
+- For images their location is given in `<image:loc>`.
+- The generated `sitemap.xls` has an accompanying `sitemap.xsl` to produce a prettified page for human consumption.
 - Only pages that have a status of "published" are included (everything else, `drafts` and `unlisted`, are excluded).
 <!-- - If a page has the methods `isunderembargo`[^ https://github.com/omz13/kirby3-sunset] or `issunet` [^ https://github.com/omz13/kirby3-sunset] these are respected vis-à-vis inclusion or exclusion from the xmlsitemap. -->
 - The error page is automatically excluded.
@@ -22,7 +22,10 @@ Implementation details:
 - The children of pages made using certain templates can be excluded; c.f. the use of `excludeChildrenWhenTemplateIs` in _Configuration_.
 - For debugging purposes, the generated sitemap can include additional information as xml comments; c.f. the use of `debugqueryvalue` in _Configuration_.
 - For debugging purposes, the `debug` flag in `site/config.php` needs to be set too.
-- Kirby3 is under beta, therefore this plugin, and indeed kirby3 itself, may or may not play nicely with each other, or indeed work at all: use it for testing purposes only; if you use it in production then you should be aware of the risks.
+
+#### Caveat
+
+Kirby3 is under beta, therefore this plugin, and indeed kirby3 itself, may or may not play nicely with each other, or indeed work at all: use it for testing purposes only; if you use it in production then you should be aware of the risks.
 
 ### Installation
 
@@ -142,6 +145,11 @@ This plugin is provided "as is" with no guarantee. Use it at your own risk and a
 
 You are prohibited from using this plugin in any project that promotes racism, sexism, homophobia, animal abuse, violence or any other form of hate speech.
 
-## Buy Me A Coffee
+### Buy Me A Coffee
 
 To show your support for this project you are welcome to [buy me a coffee](https://buymeacoff.ee/omz13).
+
+<!-- If you are using this plugin on a kirby3 site that has a Personal licence, to show your support for this project you are welcome to [buy me a coffee](https://buymeacoff.ee/omz13).
+
+If you are using this plugin with a kirby3 site that has a Pro licence, to show your support for this project you are greatly encouraged to [buy me a coffee](https://buymeacoff.ee/omz13).
+-->
