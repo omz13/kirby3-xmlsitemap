@@ -15,7 +15,9 @@ Kirby::plugin('omz13/xmlsitemap', [
   ],
 
   'routes' => [
+/*
     [
+
       'pattern' => 'sitemap',
       'action' => function () {
         if (omz13\xmlsitemap::isEnabled()) {
@@ -25,6 +27,7 @@ Kirby::plugin('omz13/xmlsitemap', [
         }
       }
     ],
+*/
 
     [
       'pattern' => 'sitemap.xml',
