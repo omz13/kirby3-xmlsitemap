@@ -9,7 +9,8 @@ Kirby::plugin('omz13/xmlsitemap', [
       'disable' => false,
       'debugqueryvalue' => '42',
       'excludePageWhenTemplateIs' => [],
-      'excludeChildrenWhenTemplateIs' => []
+      'excludeChildrenWhenTemplateIs' => [],
+      'excludePageWhenSlugIs' => [],
       ]
     ]
   ],

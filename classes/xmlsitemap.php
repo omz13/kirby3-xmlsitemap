@@ -6,8 +6,9 @@ class xmlsitemap
 {
   static $generatedat; // timestamp when sitemap generated
   static $debug;
-  static $optionXCWTI;
-  static $optionXPWTI;
+  static $optionXCWTI; // exclude children when template is
+  static $optionXPWTI; // exclude page when template is
+  static $optionXPWSI; // exclude page when slug is
 
   // helper
   public function getNameOfClass()
@@ -63,6 +64,7 @@ class xmlsitemap
     static::$debug = $debug && kirby()->option('debug') !== null &&  kirby()->option('debug')==true;
     static::$optionXCWTI = static::getConfigurationForKey('excludeChildrenWhenTemplateIs');
     static::$optionXPWTI = static::getConfigurationForKey('excludePageWhenTemplateIs');
+    static::$optionXPWSI = static::getConfigurationForKey('excludePageWhenSlugIs');
 
     $r =
       "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" .
@@ -122,6 +124,12 @@ class xmlsitemap
       // exclude because template used is in the exclusion list:
       if (isset(static::$optionXPWTI) && in_array($p->template()->name(), static::$optionXPWTI)) {
         static::addComment($r, "excluding " . $p->url() . " because excludePageWhenTemplateIs (" . $p->template()->name() . ")");
+        continue;
+      }
+
+      // exclude because slug is in the exclusion list:
+      if (isset(static::$optionXPWSI) && in_array($p->slug(), static::$optionXPWSI)) {
+        static::addComment($r, "excluding " . $p->url() . " because excludePageWhenSlugIs (" . $p->template()->name() . ")");
         continue;
       }
 
