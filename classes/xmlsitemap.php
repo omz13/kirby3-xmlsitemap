@@ -83,6 +83,7 @@ class xmlsitemap
     if (static::$debug == true) {
       $elapsed = $tend - $tbeg;
       static::$generatedat = $tend;
+      $r .= "<!-- v" . static::$version . " -->\n";
       $r .= "<!-- That took $elapsed microseconds -->\n";
       $r .= "<!-- Generated at " . static::$generatedat . " -->\n";
     }
