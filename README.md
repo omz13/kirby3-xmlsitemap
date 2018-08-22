@@ -84,7 +84,7 @@ For example, for the kirby3 starterkit, the following would be indicative:
 return [
   'omz13.xmlsitemap' => [
     'excludeChildrenWhenTemplateIs' => [ 'events','one-pager','shop','team','testimonials' ],
-    'excludePageWhenTemplateIs' => [ 'sandbox','contact' ],
+    'excludePageWhenTemplateIs' => [ 'contact','sandbox' ],
     'excludePageWhenSlugIs' => [ 'form' ]
   ],
 ];
