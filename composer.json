@@ -33,29 +33,11 @@
   },
   "require-dev": {
     "composer/installers": "~1.0",
-    "bonndan/release-manager": "dev-develop"
+    "liip/rmt": "^1.3"
   },
   "scripts": {
     "build": "composer update; composer dumpautoload -o;",
     "zip": "rm omz13-kirby3-xmlsitemap.zip; composer remove getkirby/cms; composer dumpautoload -o; composer archive --format=zip --file=omz13-kirby3-xmlsitemap; composer require getkirby/cms: 'dev-master as 3.0.0 | >=3.0.0-beta-3'; composer dumpautoload -o;"
   },
-  "minimum-stability": "beta",
-  "extra": {
-    "rmt": {
-      "vcs": "git",
-      "prerequisites": [],
-      "preReleaseActions": [{
-          "name": "version-stamp",
-          "const": "XMLSITEMAP_VERSION"
-        },
-        "composer-update",
-        "changelog-update",
-        "changelog-render"
-      ],
-      "versionPersister": "composer",
-      "postReleaseActions": [
-        "vcs-commit"
-      ]
-    }
-  }
+  "minimum-stability": "beta"
 }

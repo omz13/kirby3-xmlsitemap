@@ -1,3 +1,4 @@
 #!/usr/bin/env php
-<?php define('RMT_ROOT_DIR', __DIR__); ?>
-<?php require 'vendor/bonndan/release-manager/command.php'; ?>
+<?php
+define('RMT_ROOT_DIR', __DIR__);
+require 'vendor/liip/rmt/command.php';

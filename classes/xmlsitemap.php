@@ -2,6 +2,8 @@
 
 namespace omz13;
 
+define('XMLSITEMAP_VERSION', '0.1.0');
+
 class xmlsitemap
 {
   static $generatedat; // timestamp when sitemap generated
@@ -9,6 +11,8 @@ class xmlsitemap
   static $optionXCWTI; // exclude children when template is
   static $optionXPWTI; // exclude page when template is
   static $optionXPWSI; // exclude page when slug is
+
+  static $version = XMLSITEMAP_VERSION;
 
   // helper
   public function getNameOfClass()
@@ -19,7 +23,7 @@ class xmlsitemap
   // because
   public static function ping(): string
   {
-    return static::class . " pong";
+    return static::class . " pong " . static::$version;
   }
 
   public static function getConfigurationForKey(string $key, $default = null)
