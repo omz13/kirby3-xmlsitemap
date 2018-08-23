@@ -36,7 +36,7 @@ class xmlsitemap
   {
     $o = option('omz13.xmlsitemap');
 
-    if (!empty($o))
+    if (isset($o))
       if (array_key_exists("$key", $o))
         return $o["$key"];
       else
@@ -156,13 +156,13 @@ class xmlsitemap
 
       if ($p->children() !== null) {
         // jump into the children, unless the current page's template is in the exclude-its-children set
-        if (!in_array($p->template()->name(), static::$optionXCWTI)) {
-          $r .= "</url>\n";
-          static::addPagesToSitemap($p->children(), $r);
-        } else {
+        if (isset(static::$optionXCWTI) && in_array($p->template()->name(), static::$optionXCWTI)) {
           static::addComment($r, "ignoring children of " . $p->url() . " because excludeChildrenWhenTemplateIs (" . $p->template()->name() . ")");
           static::addImagesToSitemap($p->children(), $r);
           $r .= "</url>\n";
+        } else {
+          $r .= "</url>\n";
+          static::addPagesToSitemap($p->children(), $r);
         }
       } else {
         $r .= "</url>\n";
