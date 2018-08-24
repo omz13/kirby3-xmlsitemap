@@ -80,21 +80,23 @@ In your site's `site/config/config.php` the following entries under the key `omz
 - `excludePageWhenSlugIs` : an array of slug names whose pages are to be excluded from the xml-sitemap.
 - `excludeChildrenWhenTemplateIs` : an array of templates names whose children are to be ignored (but pages associated with the template is to be included); this is used for one-pagers (where the principal page will be included and all the 'virtual' children ignored).
 
-For example, for the kirby3 starterkit, the following would be indicative:
+For example, for the (Kirby Starter Kit)[https://github.com/k-next/starterkit], the following would be applicable:
 
 ```php
 <?php
 
 return [
   'omz13.xmlsitemap' => [
-    'excludePageWhenTemplateIs' => [ 'contact','sandbox' ],
-    'excludePageWhenSlugIs' => [ 'form' ],
-    'excludeChildrenWhenTemplateIs' => [ 'events','one-pager','shop','team','testimonials' ]
+    'disable' => false,
+    'includeUnlistedWhenSlugIs' => [ ],
+    'excludeChildrenWhenTemplateIs' => ['events','one-pager','shop','team','testimonials'],
+    'excludePageWhenTemplateIs' => ['contact','sandbox'],
+    'excludePageWhenSlugIs' => [ 'form' ]
   ],
 ];
 ```
 
-For example, to have a debugged sitemap returned  (at /sitemap.xml?debug=wombat)
+And to have a debugged sitemap returned  at `/sitemap.xml?debug=wombat`, it would be:
 
 ```php
 <?php
@@ -103,7 +105,12 @@ return [
   'debug'  => true,
 
   'omz13.xmlsitemap' => [
-    'debugqueryvalue=wombat'
+    'disable' => false,
+    'debugqueryvalue' => 'wombat',
+    'includeUnlistedWhenSlugIs' => [ ],
+    'excludeChildrenWhenTemplateIs' => ['events','one-pager','shop','team','testimonials'],
+    'excludePageWhenTemplateIs' => ['contact','sandbox'],
+    'excludePageWhenSlugIs' => [ 'form' ]
   ],
 ];
 ```
