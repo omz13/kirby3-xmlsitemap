@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<ruleset name="MyStandard">
+    <description>
+        PSR2 with changes:
+            * spaces at 2
+            * bracers on end of line instead new line
+            * lines can be as long as they want
+    </description>
+
+    <!-- tabs -->
+    <arg name="tab-width" value="2"/>
+
+    <rule ref="PSR2">
+        <!-- bracers -->
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine" />
+        <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine" />
+    </rule>
+
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <properties>
+            <property name="indent" value="2"/>
+        </properties>
+    </rule>
+
+    <!-- bracers -->
+    <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie" />
+    <rule ref="Generic.Classes.OpeningBraceSameLine"/>
+
+    <!-- line length -->
+    <rule ref="Generic.Files.LineLength">
+      <exclude name="Generic.Files.LineLength"/>
+    </rule>
+
+</ruleset>
