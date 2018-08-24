@@ -18,13 +18,15 @@ For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates `/si
 - The generated `sitemap.xls` has an accompanying `sitemap.xsl` to produce a prettified page for human consumption.
 - Only pages that have a status of "published" are included (everything else, `drafts` and `unlisted`, are excluded).
 <!-- - If a page has the methods `isunderembargo`[^ https://github.com/omz13/kirby3-sunset] or `issunet` [^ https://github.com/omz13/kirby3-sunset] these are respected vis-à-vis inclusion or exclusion from the xmlsitemap. -->
-- The error page is automatically excluded.
 - Pages or their children can be excluded based on the following criteria, and in the following priority:
+  - The homepage is always included.
+  - The error page is always excluded.
+  - Only pages that have a status of "published" are included, i.e. those with "draft" or "unpublished" are excluded.
+  - Unpublished pages can be explicitly included based on their slugname; c.f. `includeUnlistedWhenSlugIs` is _Configuration_.
 	- Pages made using certain templates can be excluded; c.f. the use of `excludePageWhenTemplateIs` in _Configuration_.
 	- Pages with certain slugnames can be excluded; c.f. the use of `excludePageWhenSlugIs` in _Configuration_.
 	- The children of pages made using certain templates can be excluded; c.f. the use of `excludeChildrenWhenTemplateIs` in _Configuration_.
 - For debugging purposes, the generated sitemap can include additional information as xml comments; c.f. the use of `debugqueryvalue` in _Configuration_.
-- For debugging purposes, the `debug` flag in `site/config.php` needs to be set too.
 
 #### Caveat
 
@@ -71,7 +73,9 @@ The following mechanisms can be used to modify the plugin's behaviour.
 In your site's `site/config/config.php` the following entries under the key `omz13.xmlsitemap` can be used:
 
 - `disable` : a boolean which, if true, to disable the xmlsitemap functionality (c.f. `xmlsitemap` in _via `site.txt`_).
-- `debugqueryvalue` : a string to be as the value for the query parameter `debug` to return the xml-sitemap with debugging information. The global kirby `debug` configuration must also be true for this to work. The url must be to `/sitemap.xml?debug=debugqueryvalue` and not `/sitemap?debug=_debugqueryvalue_` (i.e. the `.xls` part is important). Be aware that the debugging information will show, if applicable, details of any pages that have been excluded (so if you are using this in production and you don't want things to leak, set `debugqueryvalue` to something random).
+- `debugqueryvalue` : a string to be as the value for the query parameter `debug` to return the xml-sitemap with debugging information. The global kirby `debug` configuration must also be true for this to work. The url must be to `/sitemap.xml?debug=debugqueryvalue` and not `/sitemap?debug=_debugqueryvalue_` (i.e. the `.xls` part is important). Be aware that the debugging information will show, if applicable, details of any pages that have been excluded (so if you are using this in production and you don't want things to leak, set `debugqueryvalue` to something random). Furthermore, the site debug flag needs to be set too (i.e. the `debug` flag in `site/config.php`).
+
+- `includeUnlistedWhenSlugIs` : an array of slugnames whose pages are to be included if their status is unlisted.
 - `excludePageWhenTemplateIs` : an array of templates names whose pages are to be excluded from the xml-sitemap.
 - `excludePageWhenSlugIs` : an array of slug names whose pages are to be excluded from the xml-sitemap.
 - `excludeChildrenWhenTemplateIs` : an array of templates names whose children are to be ignored (but pages associated with the template is to be included); this is used for one-pagers (where the principal page will be included and all the 'virtual' children ignored).

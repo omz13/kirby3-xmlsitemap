@@ -8,6 +8,7 @@ class xmlsitemap
 {
   static $generatedat; // timestamp when sitemap generated
   static $debug;
+  static $optionIUWSI; // include unlisted when slug is
   static $optionXCWTI; // exclude children when template is
   static $optionXPWTI; // exclude page when template is
   static $optionXPWSI; // exclude page when slug is
@@ -63,9 +64,11 @@ class xmlsitemap
     $tbeg = microtime(true);
     // set debug if the global kirby option for debug is also set
     static::$debug = $debug && kirby()->option('debug') !== null && kirby()->option('debug') == true;
+    static::$optionIUWSI = static::getConfigurationForKey('includeUnlistedWhenSlugIs');
     static::$optionXCWTI = static::getConfigurationForKey('excludeChildrenWhenTemplateIs');
     static::$optionXPWTI = static::getConfigurationForKey('excludePageWhenTemplateIs');
     static::$optionXPWSI = static::getConfigurationForKey('excludePageWhenSlugIs');
+
 
     $r =
       "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" .
@@ -91,11 +94,24 @@ class xmlsitemap
   {
     $sortedpages = $pages->sortBy('url', 'asc');
     foreach ($sortedpages as $p) {
-      static::addComment($r, "crunching " . $p->url() . " [t=" . $p->template()->name() . "] [d=" . $p->depth() . "]");
+      static::addComment($r, "crunching " . $p->url() . " [t=" . $p->template()->name() . "] [s=".$p->status()."] [d=" . $p->depth() . "]");
 
       // don't include the error page
       if ($p->isErrorPage()) {
         continue;
+      }
+
+      if ($p->status()=="unlisted" && !$p->isHomePage())
+      {
+        if (isset(static::$optionIUWSI) && in_array($p->slug(), static::$optionIUWSI))
+        {
+          static::addComment($r, "including " . $p->url() . " because unlisted but in includeUnlistedWhenSlugIs");
+        }
+        else
+        {
+          static::addComment($r, "excluding " . $p->url() . " because unlisted");
+          continue;
+        }
       }
 
       // exclude because template used is in the exclusion list:
