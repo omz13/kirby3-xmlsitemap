@@ -2,6 +2,32 @@
 VERSION 0  FIXES AND FEATURES
 =============================
 
+   Version 0.2 - Fixes and Features
+      25/08/2018 13:27  0.2.0  initial release
+         2d9ee17 Chore: rmt tweaks
+         fa3aa1a Refactor: reduce noise from mess
+         bca2bb0 Chore: implement composer style fix and mess
+         d5c4105 Fix: robust handling of check against debugqueryvalue
+         949fdf6 Feat: configuration for includeUnlistedWhenSlugIs
+         e16e364 Docs: reorder configuration options in order they are processed
+         472099f Fix: guards and exclusion logic
+         5ebb619 Refactor: reformat
+         c645919 Feat: Include version number when generating in debug mode
+         49ad92f Docs: typo
+         de79404 Chore: change to liip/RMT for release management
+         42e701b Chore: tweak composer config
+         9fed299 Feat: show number of images in prettified render
+         c61056f Feat: add option excludePageWhenSlugIs
+         b2066f6 Fix: Do not route /sitemap
+         e947a22 Docs: Update readme to clarify implementation details
+         217a884 Feat: Entries in the sitemap are now sorted
+         50ad7c1 Chore: Use bonndan/release-manager
+         6f8f081 Don’t do <priority>.
+         320310a Implement <image:loc>
+         cecd43b Refactor (implement isEnabled)
+         1de04e4 typo
+         c7f32f5 typo
+
    Version 0.1 - Initial Release
       19/08/2018 16:04  0.1.0  Initial Release
          5c3bd8c meta
