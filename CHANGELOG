@@ -3,6 +3,7 @@ VERSION 0  FIXES AND FEATURES
 =============================
 
    Version 0.2 - Fixes and Features
+      25/08/2018 19:43  0.2.1  Fix: rmt borked the release so refactor and improve
       25/08/2018 13:27  0.2.0  initial release
          2d9ee17 Chore: rmt tweaks
          fa3aa1a Refactor: reduce noise from mess

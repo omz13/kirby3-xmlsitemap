@@ -2,7 +2,7 @@
 // phpcs:disable Squiz.Classes.ValidClassName.NotCamelCaps
 namespace omz13;
 
-define('XMLSITEMAP_VERSION', '0.2.0');
+define('XMLSITEMAP_VERSION', '0.2.1');
 
 class XMLSitemap {
 

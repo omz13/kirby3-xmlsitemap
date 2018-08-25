@@ -5,9 +5,11 @@ build:
 
 sanity:
 	composer validate
-	composer style
-	composer fix
-	composer mess
+	composer run-script sanity
 
 zip:
 	composer run-script zip
+
+release:
+	composer run-script release
+	./rmt release

@@ -10,8 +10,9 @@ _default:
     #  Custom action can be added by provided a relative path the the php script. Example:
     #   - relative/path/to/your-own-sript.php
       prerequisites:
+        - working-copy-check:
+            allow-ignore: true
         - composer-json-check
-        - working-copy-check
         - display-last-changes
 
     # GENERAL CONFIG
@@ -34,6 +35,7 @@ master:
         vcs-tag:
             tag-prefix: ''         # No more prefix for tags
     pre-release-actions:
+        composer-update: ~
         update-version-class:
             class: omz13\xmlsitemap
         changelog-update:          # Update a CHANGELOG file before the release
