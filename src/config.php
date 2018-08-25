@@ -35,10 +35,10 @@ Kirby::plugin(
     [
       'pattern' => 'sitemap.xml',
       'action' => function () {
-        if (omz13\xmlsitemap::isEnabled()) {
-            $dqv=omz13\xmlsitemap::getConfigurationForKey('debugqueryvalue');
+        if (omz13\XMLSitemap::isEnabled()) {
+            $dqv=omz13\XMLSitemap::getConfigurationForKey('debugqueryvalue');
             $dodebug = (isset($dqv) && $dqv == get('debug'));
-            return new Kirby\Cms\Response(omz13\xmlsitemap::getSitemap(kirby()->site()->pages(), $dodebug), "application/xml");
+            return new Kirby\Cms\Response(omz13\XMLSitemap::getSitemap(kirby()->site()->pages(), $dodebug), "application/xml");
         } else {
             header('HTTP/1.0 404 Not Found');
             echo("This site does not have a <a href=https://www.sitemaps.org>sitemap</a>; sorry.");
@@ -50,7 +50,7 @@ Kirby::plugin(
     [
       'pattern' => 'sitemap.xsl',
       'action' => function () {
-        return new Kirby\Cms\Response(omz13\xmlsitemap::getStylesheet(), "xsl");
+        return new Kirby\Cms\Response(omz13\XMLSitemap::getStylesheet(), "xsl");
       }
     ]
     ],

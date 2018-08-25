@@ -4,7 +4,7 @@ namespace omz13;
 
 define('XMLSITEMAP_VERSION', '0.1.0');
 
-class xmlsitemap {
+class XMLSitemap {
 
   private static $generatedat; // timestamp when sitemap generated
   private static $debug;
@@ -144,12 +144,12 @@ class xmlsitemap {
         $r .= "  <loc>" . $p->url() . /*($p->isHomePage() ? "/" : "") .*/
         "</loc>\n";
 
-        $timestamp_c = strtotime($p->content()->date());
-        $timestamp_e = strtotime($p->content()->embargo());
-        $timestamp_m = file_exists($p->contentFile()) ? filemtime($p->contentFile()) : 0;
+        $timestampC = strtotime($p->content()->date());
+        $timestampE = strtotime($p->content()->embargo());
+        $timestampM = file_exists($p->contentFile()) ? filemtime($p->contentFile()) : 0;
 
         // set modified date to be last date vis-a-vis when file modified /content embargo time / content date
-        $r .= '  <lastmod>' . date("c", max($timestamp_m, $timestamp_e, $timestamp_c)) . "</lastmod>\n";
+        $r .= '  <lastmod>' . date("c", max($timestampM, $timestampE, $timestampC)) . "</lastmod>\n";
 
         /* don't bother with priority - we ignore those. It's essentially a bag of noise" - [ref https://twitter.com/methode/status/846796737750712320]
         if ($p->depth()==1)
