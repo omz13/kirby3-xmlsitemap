@@ -10,7 +10,7 @@
 
 For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates `/sitemap.xml` and provides a prettyfier (`/sitemap.xsl`)for humans.
 
-#### Implementation details/features
+#### Overview
 
 - Generates a [sitemap](https://www.sitemaps.org); [valid](https://webmaster.yandex.com/tools/sitemap/) too.
 - For all pages, `<loc>` and `<lastmod>` are given; `<priority>` is not given because "its a bag of noise"; `<changefreq>` is also not given because it does not affect ranking.
@@ -31,6 +31,32 @@ For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates `/si
 #### Caveat
 
 Kirby3 is under beta, therefore this plugin, and indeed kirby3 itself, may or may not play nicely with each other, or indeed work at all: use it for testing purposes only; if you use it in production then you should be aware of the risks.
+
+#### Roadmap
+
+For 1.0, the non-binding list of planned features and implementation notes are:
+
+- [x] MVP (`loc` and `lastmod`) **done 0.1**
+- [ ] ~~`<priority>`~~
+- [ ] ~~`<changefreq>`~~
+- [x] Respect page status **done 0.2** c.f. `includeUnlistedWhenSlugIs`
+- [ ] One-pager support **done 0.1** c.f. `excludeChildrenWhenTemplateIs` 
+- [x] [Image sitemap]((https://support.google.com/webmasters/answer/178636?hl=en)) `<image:image>`
+- [x] `<image:loc>` **done 0.2**
+- [ ] `<image:caption>`
+- [ ] `<image:title>`
+- [ ] `<image:license>`
+- [x] Exclusion of individual pages – **done 0.2** c.f.  `excludePageWhenSlugIs`
+- [x] Exclusion of pages by template – **done 0.1** c.f. `excludePageWhenTemplateIs`
+- [ ] ~~Overriding of stylesheet~~
+- [ ] robots.txt
+- [ ] Cache (DoS mitigation)
+- [ ] Automate GitHub release – [gothub](https://github.com/itchio/gothub)? [github-release-notes](https://github.com/github-tools/github-release-notes)?
+- [ ] Inform search engine crawlers when map changes
+- [ ] Guard 50,000 URLs limit
+- [ ] Guard 50MB limit
+- [ ] [Sitemap Index files](https://www.sitemaps.org/protocol.html#index)
+- [ ] [Video sitemap](https://support.google.com/webmasters/answer/80471?hl=en&ref_topic=4581190) `<video:video>`
 
 ### Installation
 
