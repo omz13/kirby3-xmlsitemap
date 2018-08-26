@@ -85,6 +85,7 @@ class XMLSitemap {
       return $r;
   }
 
+  /** @SuppressWarnings("Complexity") */
   private static function addPagesToSitemap(\Kirby\Cms\Pages $pages, string &$r) {
       $sortedpages = $pages->sortBy('url', 'asc');
     foreach ($sortedpages as $p) {
