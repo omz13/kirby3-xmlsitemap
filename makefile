@@ -2,6 +2,7 @@
 
 build:
 	composer run-script build
+	vendor/bin/phploc src/
 
 sanity:
 	composer validate
