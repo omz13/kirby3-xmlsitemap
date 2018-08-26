@@ -45,15 +45,48 @@
     ],
     "fix": "./vendor/bin/phpcbf --standard=./ruleset.xml ./src/*",
     "build": [
+      "composer update",
       "@sanity",
-      "composer update; composer dumpautoload -o;"
+      "composer dumpautoload -o"
     ],
     "release": [
       "composer update",
       "@sanity",
-      "composer update --no-dev; composer dumpautoload -o;"
+      "composer update --no-dev",
+      "composer dumpautoload -o"
     ],
-    "zip": "rm omz13-kirby3-xmlsitemap.zip; composer remove getkirby/cms; composer dumpautoload -o; composer archive --format=zip --file=omz13-kirby3-xmlsitemap; composer require getkirby/cms: 'dev-master as 3.0.0 | >=3.0.0-beta-3'; composer dumpautoload -o;"
+    "zip": [
+      "composer remove getkirby/cms",
+      "composer dumpautoload -o",
+      "composer archive --format=zip --dir=dist",
+      "composer require getkirby/cms:'^3.0.0-beta-5 || dev-master as 3.0.0'",
+      "@build"
+    ]
+  },
+  "archive": {
+    "exclude": [
+      ".*",
+      "RMT",
+      "makefile",
+      "*.xml",
+      "!/vendor/*",
+      "/vendor/*/*/.*",
+      "/vendor/*/*/*.json",
+      "/vendor/*/*/*.txt",
+      "/vendor/*/*/*.md",
+      "/vendor/*/*/*.yml",
+      "/vendor/*/*/*.yaml",
+      "/vendor/*/*/*.xml",
+      "/vendor/*/*/*.dist",
+      "/vendor/*/*/LICENSE",
+      "/vendor/*/*/COPYING",
+      "/vendor/*/*/docs/*",
+      "/vendor/*/*/example/*",
+      "/vendor/*/*/examples/*",
+      "/vendor/*/*/test/*",
+      "/vendor/*/*/tests/*",
+      "/vendor/*/*/php4/*"
+  ]
   },
   "minimum-stability": "beta"
 }

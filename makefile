@@ -13,3 +13,4 @@ zip:
 release:
 	composer run-script release
 	./rmt release
+	composer run-script zip
