@@ -8,6 +8,7 @@ class XMLSitemap {
 
   private static $generatedat; // timestamp when sitemap generated
   private static $debug;
+  private static $optionNOIMG; // disable including image data
   private static $optionIUWSI; // include unlisted when slug is
   private static $optionXCWTI; // exclude children when template is
   private static $optionXPWTI; // exclude page when template is
@@ -59,16 +60,34 @@ class XMLSitemap {
       $tbeg = microtime(true);
       // set debug if the global kirby option for debug is also set
       static::$debug = $debug && kirby()->option('debug') !== null && kirby()->option('debug') == true;
+      static::$optionNOIMG = static::getConfigurationForKey('disableImages',false);
       static::$optionIUWSI = static::getConfigurationForKey('includeUnlistedWhenSlugIs');
       static::$optionXCWTI = static::getConfigurationForKey('excludeChildrenWhenTemplateIs');
       static::$optionXPWTI = static::getConfigurationForKey('excludePageWhenTemplateIs');
       static::$optionXPWSI = static::getConfigurationForKey('excludePageWhenSlugIs');
 
+      $r = "";
 
-      $r =
+      $r .=
       "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" .
       "<?xml-stylesheet type=\"text/xsl\" href=\"/sitemap.xsl\"?>\n" .
-      "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\">\n";
+      "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" ";
+
+      if (static::$optionNOIMG != true)
+        $r .= " xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\"";
+
+      $r .= ">\n";
+
+      if (static::$debug == true) {
+        $r .= "<!--                 disableImages = " . json_encode(static::$optionNOIMG) . " -->\n";
+        $r .= "<!--     includeUnlistedWhenSlugIs = " . json_encode(static::$optionIUWSI) . " -->\n";
+        $r .= "<!-- excludeChildrenWhenTemplateIs = " . json_encode(static::$optionXCWTI) . " -->\n";
+        $r .= "<!--     excludePageWhenTemplateIs = " . json_encode(static::$optionXPWTI) . " -->\n";
+        $r .= "<!--         excludePageWhenSlugIs = " . json_encode(static::$optionXPWSI) . " -->\n";
+      }
+
+
+
       static::addPagesToSitemap($p, $r);
       $r .=
       "</urlset>\n" .
@@ -159,13 +178,15 @@ class XMLSitemap {
         $r.="  <priority>0.8</priority>\n";
         */
 
-        static::addImagesFromPageToSitemap($p, $r);
+        if (static::$optionNOIMG != true)
+          static::addImagesFromPageToSitemap($p, $r);
 
       if ($p->children() !== null) {
           // jump into the children, unless the current page's template is in the exclude-its-children set
         if (isset(static::$optionXCWTI) && in_array($p->intendedTemplate(), static::$optionXCWTI)) {
             static::addComment($r, "ignoring children of " . $p->url() . " because excludeChildrenWhenTemplateIs (" . $p->intendedTemplate() . ")");
-            static::addImagesToSitemap($p->children(), $r);
+            if (static::$optionNOIMG != true)
+              static::addImagesToSitemap($p->children(), $r);
             $r .= "</url>\n";
         } else {
             $r .= "</url>\n";

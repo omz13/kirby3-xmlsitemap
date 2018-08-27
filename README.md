@@ -14,7 +14,7 @@ For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates `/si
 
 - Generates a [sitemap](https://www.sitemaps.org); [valid](https://webmaster.yandex.com/tools/sitemap/) too.
 - For all pages, `<loc>` and `<lastmod>` are given; `<priority>` is not given because "its a bag of noise"; `<changefreq>` is also not given because it does not affect ranking.
-- For images their location is given in `<image:loc>`.
+- When a page is included in the xml-sitemap, information for images (`<image:loc>`) on each page is inclued unless this is disabled; c.f. `disableImages` in _Configuration_.
 - The generated `sitemap.xls` has an accompanying `sitemap.xsl` to produce a prettified page for human consumption.
 - Only pages that have a status of "published" are included (everything else, `drafts` and `unlisted`, are excluded).
 <!-- - If a page has the methods `isunderembargo`[^ https://github.com/omz13/kirby3-sunset] or `issunet` [^ https://github.com/omz13/kirby3-sunset] these are respected vis-à-vis inclusion or exclusion from the xmlsitemap. -->
@@ -22,7 +22,7 @@ For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates `/si
   - The homepage is always included.
   - The error page is always excluded.
   - Only pages that have a status of "published" are included, i.e. those with "draft" or "unpublished" are excluded.
-  - Unpublished pages can be explicitly included based on their slugname; c.f. `includeUnlistedWhenSlugIs` is _Configuration_.
+  - Unpublished pages can be explicitly included based on their slugname; c.f. `includeUnlistedWhenSlugIs` in _Configuration_.
 	- Pages made using certain templates can be excluded; c.f. the use of `excludePageWhenTemplateIs` in _Configuration_.
 	- Pages with certain slugnames can be excluded; c.f. the use of `excludePageWhenSlugIs` in _Configuration_.
 	- The children of pages made using certain templates can be excluded; c.f. the use of `excludeChildrenWhenTemplateIs` in _Configuration_.
@@ -40,12 +40,13 @@ For 1.0, the non-binding list of planned features and implementation notes are:
 - [ ] ~~`<priority>`~~
 - [ ] ~~`<changefreq>`~~
 - [x] Respect page status **done 0.2** c.f. `includeUnlistedWhenSlugIs`
-- [ ] One-pager support **done 0.1** c.f. `excludeChildrenWhenTemplateIs` 
-- [x] [Image sitemap]((https://support.google.com/webmasters/answer/178636?hl=en)) `<image:image>`
+- [ ] One-pager support **done 0.1** c.f. `excludeChildrenWhenTemplateIs`
+- [x] Include [image sitemap]((https://support.google.com/webmasters/answer/178636?hl=en)) `<image:image>`
 - [x] `<image:loc>` **done 0.2**
 - [ ] `<image:caption>`
 - [ ] `<image:title>`
 - [ ] `<image:license>`
+- [x] Exclude image sitemap; c.f. `disableImages`
 - [x] Exclusion of individual pages – **done 0.2** c.f.  `excludePageWhenSlugIs`
 - [x] Exclusion of pages by template – **done 0.1** c.f. `excludePageWhenTemplateIs`
 - [ ] ~~Overriding of stylesheet~~
@@ -100,7 +101,7 @@ In your site's `site/config/config.php` the following entries under the key `omz
 
 - `disable` : a boolean which, if true, to disable the xmlsitemap functionality (c.f. `xmlsitemap` in _via `site.txt`_).
 - `debugqueryvalue` : a string to be as the value for the query parameter `debug` to return the xml-sitemap with debugging information. The global kirby `debug` configuration must also be true for this to work. The url must be to `/sitemap.xml?debug=debugqueryvalue` and not `/sitemap?debug=_debugqueryvalue_` (i.e. the `.xls` part is important). Be aware that the debugging information will show, if applicable, details of any pages that have been excluded (so if you are using this in production and you don't want things to leak, set `debugqueryvalue` to something random). Furthermore, the site debug flag needs to be set too (i.e. the `debug` flag in `site/config.php`).
-
+- `disableImages` : a boolean which, if true, disables including data for images related to pages included in the xml-sitemap.
 - `includeUnlistedWhenSlugIs` : an array of slugnames whose pages are to be included if their status is unlisted.
 - `excludePageWhenTemplateIs` : an array of templates names whose pages are to be excluded from the xml-sitemap.
 - `excludePageWhenSlugIs` : an array of slug names whose pages are to be excluded from the xml-sitemap.
