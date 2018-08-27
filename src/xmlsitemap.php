@@ -89,7 +89,7 @@ class XMLSitemap {
   private static function addPagesToSitemap(\Kirby\Cms\Pages $pages, string &$r) {
       $sortedpages = $pages->sortBy('url', 'asc');
     foreach ($sortedpages as $p) {
-        static::addComment($r, "crunching " . $p->url() . " [t=" . $p->template()->name() . "] [s=" . $p->status() . "] [d=" . $p->depth() . "]");
+        static::addComment($r, "crunching " . $p->url() . " [it=" . $p->intendedTemplate() . "] [s=" . $p->status() . "] [d=" . $p->depth() . "]");
 
         // don't include the error page
       if ($p->isErrorPage()) {
@@ -106,14 +106,14 @@ class XMLSitemap {
       }
 
         // exclude because template used is in the exclusion list:
-      if (isset(static::$optionXPWTI) && in_array($p->template()->name(), static::$optionXPWTI)) {
-          static::addComment($r, "excluding " . $p->url() . " because excludePageWhenTemplateIs (" . $p->template()->name() . ")");
+      if (isset(static::$optionXPWTI) && in_array($p->intendedTemplate(), static::$optionXPWTI)) {
+          static::addComment($r, "excluding " . $p->url() . " because excludePageWhenTemplateIs (" . $p->intendedTemplate() . ")");
           continue;
       }
 
         // exclude because slug is in the exclusion list:
       if (isset(static::$optionXPWSI) && in_array($p->slug(), static::$optionXPWSI)) {
-          static::addComment($r, "excluding " . $p->url() . " because excludePageWhenSlugIs (" . $p->template()->name() . ")");
+          static::addComment($r, "excluding " . $p->url() . " because excludePageWhenSlugIs (" . $p->slug() . ")");
           continue;
       }
 
@@ -163,8 +163,8 @@ class XMLSitemap {
 
       if ($p->children() !== null) {
           // jump into the children, unless the current page's template is in the exclude-its-children set
-        if (isset(static::$optionXCWTI) && in_array($p->template()->name(), static::$optionXCWTI)) {
-            static::addComment($r, "ignoring children of " . $p->url() . " because excludeChildrenWhenTemplateIs (" . $p->template()->name() . ")");
+        if (isset(static::$optionXCWTI) && in_array($p->intendedTemplate(), static::$optionXCWTI)) {
+            static::addComment($r, "ignoring children of " . $p->url() . " because excludeChildrenWhenTemplateIs (" . $p->intendedTemplate() . ")");
             static::addImagesToSitemap($p->children(), $r);
             $r .= "</url>\n";
         } else {
@@ -195,7 +195,7 @@ class XMLSitemap {
 
   private static function addImagesToSitemap(\Kirby\Cms\Pages $pages, string &$r) {
     foreach ($pages as $p) {
-        static::addComment($r, "imagining " . $p->url() . " [t=" . $p->template()->name() . "] [d=" . $p->depth() . "]");
+        static::addComment($r, "imagining " . $p->url() . " [it=" . $p->intendedTemplate() . "] [d=" . $p->depth() . "]");
         static::addImagesFromPageToSitemap($p, $r);
     }
   }
