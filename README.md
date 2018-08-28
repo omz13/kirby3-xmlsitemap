@@ -8,7 +8,9 @@
 
 ### Purpose
 
-For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates `/sitemap.xml` and provides a prettyfier (`/sitemap.xsl`)for humans.
+For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates an xml-based sitemap at `/sitemap.xml` and provides a prettyfier (`/sitemap.xsl`) for humans.
+
+For a user-oriented html-based sitemp, kindly see [omz13/kirby3-htmlsitemap](https://github.com/omz13/kirby3-htmlsitemap).
 
 #### Overview
 
@@ -16,25 +18,24 @@ For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates `/si
 - For all pages, `<loc>` and `<lastmod>` are given; `<priority>` is not given because "its a bag of noise"; `<changefreq>` is also not given because it does not affect ranking.
 - `<lastmod`> is calculated using the most recent date from the fields, if present, of `date` or `embargo` in a page.
 - When a page is included in the xml-sitemap, information for images (`<image:loc>`) on each page is inclued unless this is disabled; c.f. `disableImages` in _Configuration_.
-- The generated `sitemap.xls` has an accompanying `sitemap.xsl` to produce a prettified page for human consumption.
+- The generated `sitemap.xml` has an accompanying `sitemap.xsl` to produce a prettified page for human consumption.
 - Only pages that have a status of "published" are included (everything else, `drafts` and `unlisted`, are excluded).
-<!-- - If a page has the methods `isunderembargo`[^ https://github.com/omz13/kirby3-sunset] or `issunet` [^ https://github.com/omz13/kirby3-sunset] these are respected vis-à-vis inclusion or exclusion from the xmlsitemap. -->
-- Pages or their children can be excluded based on the following criteria, and in the following priority:
+- Pages or their children can be excluded based on the following criteria, and in the following order:
   - The homepage is always included.
   - The error page is always excluded.
   - Only pages that have a status of "published" are included, i.e. those with "draft" or "unpublished" are excluded.
   - Unpublished pages can be explicitly included based on their slugname; c.f. `includeUnlistedWhenSlugIs` in _Configuration_.
-	- Pages made using certain templates can be excluded; c.f. the use of `excludePageWhenTemplateIs` in _Configuration_.
-	- Pages with certain slugnames can be excluded; c.f. the use of `excludePageWhenSlugIs` in _Configuration_.
-  - If a page has a field called `excludefromxmlsitemap` and it is `true`, the page is excluded.
-  - If the page has a method `issunset` and this returns `true`,  the page is excluded.
-  - If the page has a method `isunderembargo` and this returns `true`, the page is excluded.
-	- The children of pages made using certain templates are excluded; c.f. the use of `excludeChildrenWhenTemplateIs` in _Configuration_.
-- For debugging purposes, the generated sitemap can include additional information as xml comments; c.f. the use of `debugqueryvalue` in _Configuration_.
+  - Pages made using certain templates can be excluded; c.f. `excludePageWhenTemplateIs` in _Configuration_.
+  - Pages with certain slugnames can be excluded; c.f. `excludePageWhenSlugIs` in _Configuration_.
+  - Pages with a content field `excludefromxmlsitemap` that is `true` are excluded.
+  - Pages with a method `issunset` that returns `true` are excluded.
+  - Pages with a method `isunderembargo` that returns `true` are excluded.
+  - The children of pages made using certain templates can be excluded; c.f. `excludeChildrenWhenTemplateIs` in _Configuration_.
+- For debugging purposes, the generated sitemap can include additional information as xml comments; c.f. `debugqueryvalue` in _Configuration_.
 
 #### Caveat
 
-Kirby3 is under beta, therefore this plugin, and indeed kirby3 itself, may or may not play nicely with each other, or indeed work at all: use it for testing purposes only; if you use it in production then you should be aware of the risks.
+Kirby3 is under beta, therefore this plugin, and indeed kirby3 itself, may or may not play nicely with each other, or indeed work at all: use it for testing purposes only; if you use it in production then you should be aware of the risks and know what you are doing.
 
 #### Roadmap
 
@@ -43,15 +44,16 @@ For 1.0, the non-binding list of planned features and implementation notes are:
 - [x] MVP (`loc` and `lastmod`) **done 0.1**
 - [ ] ~~`<priority>`~~
 - [ ] ~~`<changefreq>`~~
-- [x] Respect page status **done 0.2** c.f. `includeUnlistedWhenSlugIs`
-- [ ] One-pager support **done 0.1** c.f. `excludeChildrenWhenTemplateIs`
+- [x] Respect page status **done 0.2**
+- [x] Allow specific unlisted pages to be included **done 0.2** c.f.  `includeUnlistedWhenSlugIs`
+- [x] One-pager support **done 0.1** c.f. `excludeChildrenWhenTemplateIs`
 - [x] Include [image sitemap]((https://support.google.com/webmasters/answer/178636?hl=en)) `<image:image>`
 - [x] `<image:loc>` **done 0.2**
 - [ ] `<image:caption>`
 - [ ] `<image:title>`
 - [ ] `<image:license>`
-- [x] Exclude image sitemap; c.f. `disableImages`
-- [x] Exclusion of individual pages – **done 0.2** c.f.  `excludePageWhenSlugIs`
+- [x] Exclude image sitemap; c.f. `disableImages` **done 0.3**
+- [x] Exclusion of individual pages – **done 0.2** c.f. `excludePageWhenSlugIs`
 - [x] Exclusion of pages by template – **done 0.1** c.f. `excludePageWhenTemplateIs`
 - [ ] Better heuristics for `<lastmod>` (e.g. `modifiedat` field?)
 - [ ] ~~Overriding of stylesheet~~
@@ -68,7 +70,7 @@ For 1.0, the non-binding list of planned features and implementation notes are:
 
 #### via composer
 
-If your kirby3-based site is managed-using-composer, simply invoke `composer require omz13/kirby3-xmlsitemap`, or add `omz13/kirby3-xmlsitemap` to the 'require' component of your site's `composer.json` as necessary, e.g. to be on the bleeding-edge:
+If your kirby3-based site is managed using-composer, simply invoke `composer require omz13/kirby3-xmlsitemap`, or add `omz13/kirby3-xmlsitemap` to the "require" component of your site's `composer.json` as necessary, e.g. to be on the bleeding-edge:
 
 ```yaml
 "require": {
@@ -103,7 +105,7 @@ The following mechanisms can be used to modify the plugin's behaviour.
 In your site's `site/config/config.php` the following entries under the key `omz13.xmlsitemap` can be used:
 
 - `disable` : a boolean which, if true, to disable the xmlsitemap functionality (c.f. `xmlsitemap` in _via `site.txt`_).
-- `debugqueryvalue` : a string to be as the value for the query parameter `debug` to return the xml-sitemap with debugging information. The global kirby `debug` configuration must also be true for this to work. The url must be to `/sitemap.xml?debug=debugqueryvalue` and not `/sitemap?debug=_debugqueryvalue_` (i.e. the `.xls` part is important). Be aware that the debugging information will show, if applicable, details of any pages that have been excluded (so if you are using this in production and you don't want things to leak, set `debugqueryvalue` to something random). Furthermore, the site debug flag needs to be set too (i.e. the `debug` flag in `site/config.php`).
+- `debugqueryvalue` : a string to be as the value for the query parameter `debug` to return the xml-sitemap with debugging information (as comment nodes within the xml stream). The global kirby `debug` configuration must also be true for this to work. The url must be to `/sitemap.xml?debug=debugqueryvalue` and not `/sitemap?debug=_debugqueryvalue_` (i.e. the `.xls` part is important). Be aware that the debugging information will show, if applicable, details of any pages that have been excluded (so if you are using this in production and you don't want things to leak, set `debugqueryvalue` to something random). Furthermore, the site debug flag needs to be set too (i.e. the `debug` flag in `site/config.php`).
 - `disableImages` : a boolean which, if true, disables including data for images related to pages included in the xml-sitemap.
 - `includeUnlistedWhenSlugIs` : an array of slugnames whose pages are to be included if their status is unlisted.
 - `excludePageWhenTemplateIs` : an array of templates names whose pages are to be excluded from the xml-sitemap.
@@ -176,7 +178,7 @@ fields:
       - explicitly exclude
 ```
 
-As pages are implicitly included within a sitemap, this mechanism should only be used when you have a reason to explcitly exclude a page  when it is not possible to do otherwise (c.f. excludePageWhenTemplateIs).
+As pages are implicitly included within a sitemap, this mechanism should only be used when you have a reason to explcitly exclude a page when it is not possible to do otherwise (e.g. using `excludePageWhenTemplateIs`).
 
 ## Disclaimer
 

@@ -138,14 +138,14 @@ class XmlSitemap {
 
         // exclude because page content field 'excludefromxmlsitemap':
       if ($p->content()->excludefromxmlsitemap() == "true") {
-          static::addComment($r, "excluding " . $p->url() . " because excludefromxmlsitemap");
+          static::addComment($r, "excluding " . $p->url() . " because excludeFromXMLSitemap");
           continue;
       }
 
         // exclude because, if supported, the page is sunset:
       if ($p->hasMethod("issunset")) {
         if ($p->issunset()) {
-            static::addComment($r, "excluding " . $p->url() . " because issunset");
+            static::addComment($r, "excluding " . $p->url() . " because isSunset");
             continue;
         }
       }
@@ -153,7 +153,7 @@ class XmlSitemap {
         // exclude because, if supported,  the page is under embargo
       if ($p->hasMethod("isunderembargo")) {
         if ($p->isunderembargo()) {
-            static::addComment($r, "excluding " . $p->url() . " because isunderembargo");
+            static::addComment($r, "excluding " . $p->url() . " because isUnderembargo");
             continue;
         }
       }
