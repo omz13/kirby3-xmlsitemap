@@ -63,17 +63,15 @@ For 1.0, the non-binding list of planned features and implementation notes are:
 
 #### via composer
 
-If your kirby3-based site is managed-using-composer, simply invoke `composer require omz13/kirby3-xmlsitemap:'@dev'`, or manually add `omz13/kirby3-xmlsitemap` as an item into the 'require' component of your site's `composer.json`:
+If your kirby3-based site is managed-using-composer, simply invoke `composer require omz13/kirby3-xmlsitemap`, or add `omz13/kirby3-xmlsitemap` to the 'require' component of your site's `composer.json` as necessary, e.g. to be on the bleeding-edge:
 
 ```yaml
 "require": {
   ...
-  "omz13/kirby3-xmlsitemap": "@dev",
+  "omz13/kirby3-xmlsitemap": "dev-master as 1.0.0",
   ...
 }
 ```
-
-Remember to invoke `composer update --no-dev` as applicable.
 
 #### via git
 
