@@ -2,6 +2,22 @@
 VERSION 0  FIXES AND FEATURES
 =============================
 
+   Version 0.3 - Beta release
+      28/08/2018 13:09  0.3.0  initial release
+         748aadd Chore: move toolchain to global space (also Fixes #6) and add sanity check into rmt
+         47c87eb Chore: style
+         9303483 Resolves #2
+         b96846d Docs: typo
+         16ef82d Resolves #6
+         dfda54f Resolves #3
+         91874d8 Resolves #1
+         f8699a7 Chore: keep dist folder but ignore its contents
+         e9b9a4c Docs: add roadmap
+         c20a926 Chore: loc
+         5d50283 Chore: build zip file for distribution
+         dc33af0 Chore: mess checks codesize
+         77519fe Chore: ensure that the rmt prerequisites are run
+
    Version 0.2 - Fixes and Features
       25/08/2018 19:43  0.2.1  Fix: rmt borked the release so refactor and improve
       25/08/2018 13:27  0.2.0  initial release

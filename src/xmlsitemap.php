@@ -2,7 +2,7 @@
 
 namespace omz13;
 
-define('XMLSITEMAP_VERSION', '0.2.1');
+define('XMLSITEMAP_VERSION', '0.3.0');
 
 class XmlSitemap {
   private static $generatedat; // timestamp when sitemap generated

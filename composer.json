@@ -1,6 +1,6 @@
 {
   "name": "omz13/kirby3-xmlsitemap",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "kirby3 plugin to generate an xml-based sitemap",
   "license": "MIT",
   "keywords": [
