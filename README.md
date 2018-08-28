@@ -105,7 +105,7 @@ In your site's `site/config/config.php` the following entries under the key `omz
 - `excludePageWhenSlugIs` : an array of slug names whose pages are to be excluded from the xml-sitemap.
 - `excludeChildrenWhenTemplateIs` : an array of templates names whose children are to be ignored (but pages associated with the template is to be included); this is used for one-pagers (where the principal page will be included and all the 'virtual' children ignored).
 
-For example, for the (Kirby Starter Kit)[https://github.com/k-next/starterkit], the following would be applicable:
+For example, for the [Kirby Starter Kit](https://github.com/k-next/starterkit), the following would be applicable:
 
 ```php
 <?php
