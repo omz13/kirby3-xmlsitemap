@@ -1,11 +1,10 @@
 <?php
-// phpcs:disable Squiz.Classes.ValidClassName.NotCamelCaps
+
 namespace omz13;
 
 define('XMLSITEMAP_VERSION', '0.2.1');
 
-class XMLSitemap {
-
+class XmlSitemap {
   private static $generatedat; // timestamp when sitemap generated
   private static $debug;
   private static $optionNOIMG; // disable including image data

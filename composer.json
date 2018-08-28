@@ -28,59 +28,35 @@
   }],
   "require": {
     "php": ">=7.1",
-    "getkirby/cms": "^3.0.0-beta-5 || dev-master as 3.0.0"
-  },
-  "require-dev": {
-    "composer/installers": "~1.0",
-    "liip/rmt": "^1.3",
-    "squizlabs/php_codesniffer": "^3.3.0",
-    "phpmd/phpmd": "^2.6.0",
-    "phploc/phploc": "^4.0"
+    "getkirby/cms": "dev-master as 3.0.0"
   },
   "scripts": {
-    "style": "./vendor/bin/phpcs --standard=./ruleset.xml ./src/*",
-    "mess" : "./vendor/bin/phpmd ./src text codesize,controversial,design,unusedcode",
+    "style": "phpcs --standard=./ruleset.xml ./src/*",
+    "mess" : "phpmd ./src text codesize,controversial,design,unusedcode",
     "sanity": [
       "@style",
       "@mess"
     ],
-    "fix": "./vendor/bin/phpcbf --standard=./ruleset.xml ./src/*",
+    "fix": "phpcbf --standard=./ruleset.xml ./src/*",
     "build": [
-      "composer update",
       "@sanity",
-      "composer dumpautoload -o"
-    ],
-    "release": [
-      "composer update",
-      "@sanity",
-      "composer update --no-dev",
       "composer dumpautoload -o"
     ],
     "zip": [
       "composer remove getkirby/cms",
       "composer dumpautoload -o",
       "composer archive --format=zip --dir=dist",
-      "composer require getkirby/cms:'^3.0.0-beta-5 || dev-master as 3.0.0'",
-      "@build"
+      "composer require getkirby/cms:'dev-master as 3.0.0'",
+      "composer dumpautoload -o"
     ]
   },
   "archive": {
     "exclude": [
       ".*",
-      "RMT",
       "makefile",
       "*.xml",
       "!/vendor/*",
       "/vendor/*/*/.*",
-      "/vendor/*/*/*.json",
-      "/vendor/*/*/*.txt",
-      "/vendor/*/*/*.md",
-      "/vendor/*/*/*.yml",
-      "/vendor/*/*/*.yaml",
-      "/vendor/*/*/*.xml",
-      "/vendor/*/*/*.dist",
-      "/vendor/*/*/LICENSE",
-      "/vendor/*/*/COPYING",
       "/vendor/*/*/docs/*",
       "/vendor/*/*/example/*",
       "/vendor/*/*/examples/*",
