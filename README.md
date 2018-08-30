@@ -158,7 +158,7 @@ fields:
     label:     XML sitemap
     type:      toggle
     default:   off
-    test:
+    text:
       - disabled
       - enabled
 ```
