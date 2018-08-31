@@ -1,34 +1,69 @@
 <?xml version="1.0"?>
-<ruleset name="MyStandard">
+<ruleset name="omz13 standard">
     <description>
-        PSR2 with changes:
-            * spaces at 2
-            * bracers on end of line instead new line
+        Squiz and PSR2 with changes:
+            * spaces at 4
+            * bracers like Bsd/Allman
             * lines can be as long as they want
+            * less strict commenting rules
     </description>
 
     <!-- tabs -->
-    <arg name="tab-width" value="2"/>
+    <arg name="tab-width" value="4"/>
 
-    <rule ref="PSR2">
-        <!-- bracers -->
+    <rule ref="Squiz">
+        <exclude name="Squiz.Commenting.FileComment.Missing" />
+        <exclude name="Squiz.Commenting.FileComment.WrongStyle" />
+        <exclude name="Squiz.Operators.ComparisonOperatorUsage.NotAllowed" />
+        <exclude name="Squiz.Commenting.InlineComment.NotCapital" />
+        <exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />
+        <exclude name="Squiz.Commenting.InlineComment.SpacingAfter" />
+        <exclude name="Squiz.PHP.CommentedOutCode.Found" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine" />
-        <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine" />
+        <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.Indent" />
+        <exclude name="Squiz.Strings.ConcatenationSpacing.PaddingFound" />
+        <exclude name="Squiz.Classes.ValidClassName.NotCamelCaps" />
+        <exclude name="Squiz.NamingConventions.ValidVariableName.PrivateNoUnderscore" />
+        <!-- Force whitespace before and after concatenation -->
+        <rule ref="Squiz.Strings.ConcatenationSpacing">
+          <properties>
+              <property name="spacing" value="1"/>
+              <property name="ignoreNewlines" value="true"/>
+          </properties>
+        </rule>
+
+        <exclude name="Squiz.Commenting.VariableComment.WrongStyle" />
+        <exclude name="Squiz.Commenting.PostStatementComment.Found" />
+        <exclude name="Squiz.Files.FileExtension.ClassFound" />
+        <exclude name="Squiz.Commenting.ClosingDeclarationComment.Missing" />
+        <exclude name="Squiz.Commenting.ClosingDeclarationComment.Missing" />
+        <exclude name="Squiz.Classes.ClassFileName.NoMatch" />
+        <exclude name="Squiz.Operators.ComparisonOperatorUsage.ImplicitTrue" />
+        <exclude name="Squiz.NamingConventions.ValidFunctionName.PrivateNoUnderscore" />
+        <exclude name="Squiz.PHP.DisallowInlineIf.Found" />
+
     </rule>
 
     <rule ref="Generic.WhiteSpace.ScopeIndent">
         <properties>
-            <property name="indent" value="2"/>
+            <property name="indent" value="4"/>
         </properties>
     </rule>
 
     <!-- bracers -->
-    <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie" />
-    <rule ref="Generic.Classes.OpeningBraceSameLine"/>
+    <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
 
     <!-- line length -->
     <rule ref="Generic.Files.LineLength">
       <exclude name="Generic.Files.LineLength"/>
+    </rule>
+
+    <rule ref="Generic.Commenting.Todo.TaskFound">
+      <exclude name="Generic.Commenting.Todo.TaskFound" />
+    </rule>
+
+    <rule ref="Generic.Commenting.DocComment.MissingShort">
+      <exclude name="Generic.Commenting.DocComment.MissingShort" />
     </rule>
 
 </ruleset>
