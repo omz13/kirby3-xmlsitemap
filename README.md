@@ -10,9 +10,6 @@
 
 For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates an xml-based sitemap at `/sitemap.xml` and provides a prettyfier (`/sitemap.xsl`) for humans.
 
-For a user-oriented html-based sitemp, kindly see [omz13/kirby3-htmlsitemap](https://github.com/omz13/kirby3-htmlsitemap).
-
-#### Overview
 
 - Generates a [sitemap](https://www.sitemaps.org); [valid](https://webmaster.yandex.com/tools/sitemap/) too.
 - For all pages, `<loc>` and `<lastmod>` are given; `<priority>` is not given because "its a bag of noise"; `<changefreq>` is also not given because it does not affect ranking.
@@ -32,6 +29,12 @@ For a user-oriented html-based sitemp, kindly see [omz13/kirby3-htmlsitemap](htt
   - Pages with a method `isunderembargo` that returns `true` are excluded.
   - The children of pages made using certain templates can be excluded; c.f. `excludeChildrenWhenTemplateIs` in _Configuration_.
 - For debugging purposes, the generated sitemap can include additional information as xml comments; c.f. `debugqueryvalue` in _Configuration_.
+
+#### Related plugins
+
+For a user-oriented html-based sitemp, kindly see [omz13/kirby3-htmlsitemap](https://github.com/omz13/kirby3-htmlsitemap).
+
+For a plugin that provides the methods `issunset` and `isunderembargo`, kindly see [omz13/kirby3-suncyclepages](https://github.com/omz13/kirby3-suncyclepages).
 
 #### Caveat
 
