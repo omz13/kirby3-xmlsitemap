@@ -3,6 +3,11 @@ VERSION 0  FIXES AND FEATURES
 =============================
 
    Version 0.3 - Beta release
+      31/08/2018 18:56  0.3.1  beta release
+         ff40d95 Chore: update and apply coding ruleset
+         92d6019 Docs: reference omz13/kirby3-suncyclepages
+         87974e4 Docs: typo
+         ff18d55 Docs: edit
       28/08/2018 13:09  0.3.0  initial release
          748aadd Chore: move toolchain to global space (also Fixes #6) and add sanity check into rmt
          47c87eb Chore: style
