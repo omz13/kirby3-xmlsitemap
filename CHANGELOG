@@ -2,6 +2,10 @@
 VERSION 0  FIXES AND FEATURES
 =============================
 
+   Version 0.4 - beta release
+      01/09/2018 20:02  0.4.0  initial release
+         14ad5af Feat: cache
+
    Version 0.3 - Beta release
       31/08/2018 18:56  0.3.1  beta release
          ff40d95 Chore: update and apply coding ruleset
