@@ -6,17 +6,16 @@
 Kirby::plugin(
     'omz13/xmlsitemap',
     [
-
         'options' => [
-            [
-                'omz13.xmlsitemap' => [
-                    'disable'                       => false,
-                    'debugqueryvalue'               => '42',
-                    'excludePageWhenTemplateIs'     => [],
-                    'excludeChildrenWhenTemplateIs' => [],
-                    'excludePageWhenSlugIs'         => [],
-                ],
-            ],
+            'disable'                       => false,
+            'cache'                         => true, // enable plugin cache facility
+            'debugqueryvalue'               => '42',
+            'cacheTTL'                      => 10,
+            'includeUnlistedWhenSlugIs'     => [],
+            'excludePageWhenTemplateIs'     => [],
+            'excludePageWhenSlugIs'         => [],
+            'excludeChildrenWhenTemplateIs' => [],
+            'disableImages'                 => false,
         ],
 
         'routes'  => [

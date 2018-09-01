@@ -7,17 +7,21 @@
 // phpcs:disable Squiz.Commenting.FunctionComment.MissingReturn
 // phpcs:disable Squiz.PHP.DisallowComparisonAssignment.AssignedBool
 // phpcs:disable Squiz.PHP.DisallowBooleanStatement.Found
+// phpcs:disable Squiz.Commenting.ClassComment.TagNotAllowed
 
 namespace omz13;
 
 define('XMLSITEMAP_VERSION', '0.3.1');
 
+/**
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ */
 class XmlSitemap
 {
 
-    private static $generatedat; // timestamp when sitemap generated
-
     private static $debug;
+
+    private static $optionCACHE = 0;    // cache TTL in *minutes*; if zero or null, no cache
 
     private static $optionNOIMG; // disable including image data
 
@@ -54,19 +58,22 @@ class XmlSitemap
     }
 
 
-    public static function getConfigurationForKey(string $key, $default=null)
+    public static function getConfigurationForKey(string $key)
     {
+        // Try to pick up configuration when provided in an array (vendor.plugin.array(key=>value))
         $o = option('omz13.xmlsitemap');
-
-        if (isset($o)) {
-            if (array_key_exists($key, $o)) {
-                return $o[$key];
-            } else {
-                return $default; // default
-            }
-        } else {
-            return $default;
+        if ($o != null && is_array($o) && array_key_exists($key, $o)) {
+            return $o[$key];
         }
+
+        // try to pick up configuration as a discrete (vendor.plugin.key=>value)
+        $o = option('omz13.xmlsitemap.' . $key);
+        if ($o != null) {
+            return $o;
+        }
+
+        // this should not be reached... because plugin should define defaults for all its options...
+        return null;
 
     }
 
@@ -83,9 +90,54 @@ class XmlSitemap
     }
 
 
+    /**
+     * @SuppressWarnings("Complexity")
+     */
     public static function getSitemap(\Kirby\Cms\Pages $p, bool $debug=false): string
     {
-        return static::generateSitemap($p, $debug);
+        static::$debug       = $debug && kirby()->option('debug') !== null && kirby()->option('debug') == true;
+        static::$optionCACHE = static::getConfigurationForKey('cacheTTL');
+
+        $tbeg = microtime(true);
+
+        // if cacheTTL disabled...
+        if (empty(static::$optionCACHE)) {
+            $r = static::generateSitemap($p, $debug);
+            if (static::$debug == true) {
+                $r .= "<!-- Freshly generated; not cached for reuse -->\n";
+            }
+        } else {
+            // try to read from cache; generate if expired
+            $cacheCache = kirby()->cache('omz13.xmlsitemap');
+
+            $cacheName = XMLSITEMAP_VERSION . '-sitemap-' . static::$optionCACHE;
+            if ($debug) {
+                $cacheName .= '-d';
+            }
+
+            $r = $cacheCache->get($cacheName);
+            if ($r == null) {
+                $r = static::generateSitemap($p, $debug);
+                $cacheCache->set($cacheName, $r, static::$optionCACHE);
+                if (static::$debug == true) {
+                    $r .= '<!-- Freshly generated; cache for ' . static::$optionCACHE ." minute(s) for reuse -->\n";
+                }
+            } else {
+                if (static::$debug == true) {
+                    $expiresAt       = $cacheCache->expires($cacheName);
+                    $secondsToExpire = ($expiresAt - time());
+                    $r              .= '<!-- Retrieved from cache; expires in '. $secondsToExpire ." seconds -->\n";
+                }
+            }
+        }//end if
+
+        $tend = microtime(true);
+        if (static::$debug == true) {
+            $elapsed = ($tend - $tbeg);
+            $r      .= '<!-- That all took ' . (1000 * $elapsed) . " microseconds -->\n";
+        }
+
+        return $r;
 
     }
 
@@ -94,8 +146,7 @@ class XmlSitemap
     {
         $tbeg = microtime(true);
         // set debug if the global kirby option for debug is also set
-        static::$debug       = $debug && kirby()->option('debug') !== null && kirby()->option('debug') == true;
-        static::$optionNOIMG = static::getConfigurationForKey('disableImages', false);
+        static::$optionNOIMG = static::getConfigurationForKey('disableImages');
         static::$optionIUWSI = static::getConfigurationForKey('includeUnlistedWhenSlugIs');
         static::$optionXCWTI = static::getConfigurationForKey('excludeChildrenWhenTemplateIs');
         static::$optionXPWTI = static::getConfigurationForKey('excludePageWhenTemplateIs');
@@ -113,7 +164,7 @@ class XmlSitemap
 
         $r .= ">\n";
 
-        if (static::$debug == true) {
+        if ($debug == true) {
             $r .= '<!--                 disableImages = ' . json_encode(static::$optionNOIMG) . " -->\n";
             $r .= '<!--     includeUnlistedWhenSlugIs = ' . json_encode(static::$optionIUWSI) . " -->\n";
             $r .= '<!-- excludeChildrenWhenTemplateIs = ' . json_encode(static::$optionXCWTI) . " -->\n";
@@ -123,15 +174,14 @@ class XmlSitemap
 
         static::addPagesToSitemap($p, $r);
         $r .= "</urlset>\n";
-        $r .= "<!-- sitemap generated using https://github.com/omz13/kirby3-xmlsitemap -->\n";
+        $r .= "<!-- Sitemap generated using https://github.com/omz13/kirby3-xmlsitemap -->\n";
 
         $tend = microtime(true);
-        if (static::$debug == true) {
-            $elapsed             = ($tend - $tbeg);
-            static::$generatedat = $tend;
-            $r                  .= '<!-- v' . static::$version . " -->\n";
-            $r                  .= '<!-- That took ' . $elapsed . " microseconds -->\n";
-            $r                  .= '<!-- Generated at ' . static::$generatedat . " -->\n";
+        if ($debug == true) {
+            $elapsed = ($tend - $tbeg);
+            $r      .= '<!-- v' . static::$version . " -->\n";
+            $r      .= '<!-- Generation took ' . (1000 * $elapsed) . " microseconds -->\n";
+            $r      .= '<!-- Generated at ' . date(DATE_ATOM, $tend) . " -->\n";
         }
 
         return $r;
