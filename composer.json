@@ -37,7 +37,10 @@
       "@style",
       "@mess"
     ],
-    "fix": "phpcbf --standard=./ruleset.xml ./src/*",
+    "fix": [
+      "phpcbf --standard=./ruleset.xml ./src/*",
+      "phpcs --standard=./ruleset.xml -s ./src/*"
+    ],
     "build": [
       "@sanity",
       "composer dumpautoload -o"
