@@ -43,12 +43,14 @@
     <exclude name="Generic.Files.LineLength"/>
   </rule>
 
+  <!--
   <rule ref="Generic.Files.LineLength">
     <properties>
       <property name="lineLimit" value="200"/>
       <property name="absoluteLineLimit" value="0"/>
     </properties>
   </rule>
+  -->
 
   <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie">
     <properties>
@@ -225,5 +227,15 @@
   <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
 
   <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+
+  <!-- Some slevomat -->
+  <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing">
+    <properties>
+      <property name="spacesCountBeforeColon" value="1"/>
+      </properties>
+  </rule>
+  <!-- <rule ref="SlevomatCodingStandard.TypeHints.TypeHintDeclaration"/> -->
+  <!-- <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly"/> -->
+  <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"/>
 
 </ruleset>

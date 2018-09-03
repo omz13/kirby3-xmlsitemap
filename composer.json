@@ -34,7 +34,7 @@
     "style": "phpcs --standard=./ruleset.xml ./src/*",
     "mess" : "phpmd ./src text codesize,controversial,design,unusedcode",
     "sanity": [
-      "@style",
+      "phpcs --standard=./ruleset.xml -n ./src/*",
       "@mess"
     ],
     "fix": [

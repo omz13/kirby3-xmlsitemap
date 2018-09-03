@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace omz13;
 
@@ -10,7 +10,7 @@ define( 'XMLSITEMAP_VERSION', '0.4.0' );
 class XmlSitemap
 {
   private static $debug;
-  private static $optionCACHE = 0;    // cache TTL in *minutes*; if zero or null, no cache
+  private static $optionCACHE;    // cache TTL in *minutes*; if zero or null, no cache
   private static $optionNOIMG; // disable including image data
   private static $optionIUWSI; // include unlisted when slug is
   private static $optionXCWTI; // exclude children when template is
@@ -18,11 +18,11 @@ class XmlSitemap
   private static $optionXPWSI; // exclude page when slug is
   public static $version = XMLSITEMAP_VERSION;
 
-  public static function ping(): string {
+  public static function ping() : string {
     return static::class . ' pong ' . static::$version;
   }//end ping()
 
-  public static function isEnabled(): bool {
+  public static function isEnabled() : bool {
     if ( self::getConfigurationForKey( 'disable' ) == 'true' ) {
       return false;
     }
@@ -51,7 +51,7 @@ class XmlSitemap
     return null;
   }//end getConfigurationForKey()
 
-  public static function getStylesheet(): string {
+  public static function getStylesheet() : string {
     $f = file_get_contents( __DIR__ . '/../assets/xmlsitemap.xsl' );
     if ( $f == null ) {
       throw new \Exception( 'Failed to read sitemap.xsl', 1 );
@@ -63,7 +63,7 @@ class XmlSitemap
   /**
    * @SuppressWarnings("Complexity")
    */
-  public static function getSitemap( \Kirby\Cms\Pages $p, bool $debug = false ): string {
+  public static function getSitemap( \Kirby\Cms\Pages $p, bool $debug = false ) : string {
     static::$debug       = $debug && kirby()->option( 'debug' ) !== null && kirby()->option( 'debug' ) == true;
     static::$optionCACHE = static::getConfigurationForKey( 'cacheTTL' );
 
@@ -109,7 +109,7 @@ class XmlSitemap
     return $r;
   }//end getSitemap()
 
-  private static function generateSitemap( \Kirby\Cms\Pages $p, bool $debug = false ): string {
+  private static function generateSitemap( \Kirby\Cms\Pages $p, bool $debug = false ) : string {
     $tbeg = microtime( true );
     // set debug if the global kirby option for debug is also set
     static::$optionNOIMG = static::getConfigurationForKey( 'disableImages' );
@@ -156,7 +156,7 @@ class XmlSitemap
   /**
    * @SuppressWarnings("Complexity")
    */
-  private static function addPagesToSitemap( \Kirby\Cms\Pages $pages, string &$r ) {
+  private static function addPagesToSitemap( \Kirby\Cms\Pages $pages, string &$r ) : void {
     $sortedpages = $pages->sortBy( 'url', 'asc' );
     foreach ( $sortedpages as $p ) {
       static::addComment( $r, 'crunching ' . $p->url() . ' [it=' . $p->intendedTemplate() . '] [s=' . $p->status() . '] [d=' . $p->depth() . ']' );
@@ -254,13 +254,13 @@ class XmlSitemap
     }//end foreach
   }//end addPagesToSitemap()
 
-  private static function addComment( string &$r, string $m ): void {
+  private static function addComment( string &$r, string $m ) : void {
     if ( static::$debug == true ) {
       $r .= '<!-- ' . $m . " -->\n";
     }
   }//end addComment()
 
-  private static function addImagesFromPageToSitemap( \Kirby\Cms\Page $page, string &$r ) {
+  private static function addImagesFromPageToSitemap( \Kirby\Cms\Page $page, string &$r ) : void {
     foreach ( $page->images() as $i ) {
       $r .= "  <image:image>\n";
       $r .= '    <image:loc>' . $i->url() . "</image:loc>\n";
@@ -268,14 +268,14 @@ class XmlSitemap
     }
   }//end addImagesFromPageToSitemap()
 
-  private static function addImagesToSitemap( \Kirby\Cms\Pages $pages, string &$r ) {
+  private static function addImagesToSitemap( \Kirby\Cms\Pages $pages, string &$r ) : void {
     foreach ( $pages as $p ) {
       static::addComment( $r, 'imagining ' . $p->url() . ' [it=' . $p->intendedTemplate() . '] [d=' . $p->depth() . ']' );
       static::addImagesFromPageToSitemap( $p, $r );
     }
   }//end addImagesToSitemap()
 
-  public function getNameOfClass() {
+  public function getNameOfClass() : string {
     return static::class;
   }//end getNameOfClass()
 }//end class
