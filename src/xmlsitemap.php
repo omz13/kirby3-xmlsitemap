@@ -2,7 +2,7 @@
 
 namespace omz13;
 
-define( 'XMLSITEMAP_VERSION', '0.4.0' );
+define( 'XMLSITEMAP_VERSION', '0.4.1' );
 
 /**
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)

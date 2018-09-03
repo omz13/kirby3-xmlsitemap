@@ -3,6 +3,11 @@ VERSION 0  FIXES AND FEATURES
 =============================
 
    Version 0.4 - beta release
+      03/09/2018 18:31  0.4.1  Beta release
+         c9c363d Feat: cache bust the cache
+         7b0ec5b Chore: style with a Slevomat rule to do return type declaration sniff
+         ba01973 Chore: name ruleset better
+         74b2c30 Chore: tweak the rules for composer fix
       01/09/2018 20:02  0.4.0  initial release
          14ad5af Feat: cache
 
