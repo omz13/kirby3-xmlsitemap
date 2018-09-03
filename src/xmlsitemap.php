@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php
 
 namespace omz13;
 
@@ -60,12 +60,21 @@ class XmlSitemap
     return $f;
   }//end getStylesheet()
 
+  private static function pickupOptions() : void {
+    static::$optionCACHE = static::getConfigurationForKey( 'cacheTTL' );
+    static::$optionNOIMG = static::getConfigurationForKey( 'disableImages' );
+    static::$optionIUWSI = static::getConfigurationForKey( 'includeUnlistedWhenSlugIs' );
+    static::$optionXCWTI = static::getConfigurationForKey( 'excludeChildrenWhenTemplateIs' );
+    static::$optionXPWTI = static::getConfigurationForKey( 'excludePageWhenTemplateIs' );
+    static::$optionXPWSI = static::getConfigurationForKey( 'excludePageWhenSlugIs' );
+  }//end pickupOptions()
+
   /**
    * @SuppressWarnings("Complexity")
    */
   public static function getSitemap( \Kirby\Cms\Pages $p, bool $debug = false ) : string {
-    static::$debug       = $debug && kirby()->option( 'debug' ) !== null && kirby()->option( 'debug' ) == true;
-    static::$optionCACHE = static::getConfigurationForKey( 'cacheTTL' );
+    static::$debug = $debug && kirby()->option( 'debug' ) !== null && kirby()->option( 'debug' ) == true;
+    static::pickupOptions();
 
     $tbeg = microtime( true );
 
@@ -79,23 +88,29 @@ class XmlSitemap
       // try to read from cache; generate if expired
       $cacheCache = kirby()->cache( 'omz13.xmlsitemap' );
 
-      $cacheName = XMLSITEMAP_VERSION . '-sitemap-' . static::$optionCACHE;
-      if ( $debug ) {
-        $cacheName .= '-d';
-      }
+      // build list of options
+      $ops  = json_encode( static::$optionCACHE );
+      $ops .= '-' . json_encode( static::$optionNOIMG );
+      $ops .= '-' . json_encode( static::$optionIUWSI );
+      $ops .= '-' . json_encode( static::$optionXCWTI );
+      $ops .= '-' . json_encode( static::$optionXPWSI );
+      $ops .= '-' . json_encode( static::$optionXPWTI );
+      $ops .= '-' . json_encode( $debug );
+
+      $cacheName = XMLSITEMAP_VERSION . '-sitemap-' . md5( $ops );
 
       $r = $cacheCache->get( $cacheName );
       if ( $r == null ) {
         $r = static::generateSitemap( $p, $debug );
         $cacheCache->set( $cacheName, $r, static::$optionCACHE );
         if ( static::$debug == true ) {
-          $r .= '<!-- Freshly generated; cache for ' . static::$optionCACHE . " minute(s) for reuse -->\n";
+          $r .= '<!-- Freshly generated; cached into ' . md5( $ops ) . ' for ' . static::$optionCACHE . " minute(s) for reuse -->\n";
         }
       } else {
         if ( static::$debug == true ) {
           $expiresAt       = $cacheCache->expires( $cacheName );
           $secondsToExpire = ( $expiresAt - time() );
-          $r              .= '<!-- Retrieved from cache; expires in ' . $secondsToExpire . " seconds -->\n";
+          $r              .= '<!-- Retrieved as ' . md5( $ops ) . ' from cache ; expires in ' . $secondsToExpire . " seconds -->\n";
         }
       }
     }//end if
@@ -110,15 +125,9 @@ class XmlSitemap
   }//end getSitemap()
 
   private static function generateSitemap( \Kirby\Cms\Pages $p, bool $debug = false ) : string {
+    static::pickupOptions();
     $tbeg = microtime( true );
-    // set debug if the global kirby option for debug is also set
-    static::$optionNOIMG = static::getConfigurationForKey( 'disableImages' );
-    static::$optionIUWSI = static::getConfigurationForKey( 'includeUnlistedWhenSlugIs' );
-    static::$optionXCWTI = static::getConfigurationForKey( 'excludeChildrenWhenTemplateIs' );
-    static::$optionXPWTI = static::getConfigurationForKey( 'excludePageWhenTemplateIs' );
-    static::$optionXPWSI = static::getConfigurationForKey( 'excludePageWhenSlugIs' );
-
-    $r = '';
+    $r    = '';
 
     $r .= "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     $r .= "<?xml-stylesheet type=\"text/xsl\" href=\"/sitemap.xsl\"?>\n";

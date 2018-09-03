@@ -236,6 +236,6 @@
   </rule>
   <!-- <rule ref="SlevomatCodingStandard.TypeHints.TypeHintDeclaration"/> -->
   <!-- <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly"/> -->
-  <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"/>
+  <!-- <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"/> -->
 
 </ruleset>
