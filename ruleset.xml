@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<ruleset name="omz13's coding standard 0.3.0">
+<ruleset name="omz13">
   <description>
-    How I like my code to look.
+    How omz13 likes code to look.
   </description>
 
   <!-- tabs -->
