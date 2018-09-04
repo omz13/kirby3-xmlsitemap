@@ -25,21 +25,31 @@
   "repositories": [{
     "type": "vcs",
     "url": "https://github.com/k-next/kirby"
-  }],
+  },
+  {
+    "type": "path",
+    "url": "../coding-standard"
+  }
+],
   "require": {
     "php": ">=7.1",
     "getkirby/cms": "dev-master as 3.0.0"
   },
+  "require-dev": {
+    "omz13/coding-standard": "@dev"
+  },
   "scripts": {
-    "style": "phpcs --standard=./ruleset.xml ./src/*",
+    "style": "./vendor/bin/phpcs --standard=omz13-k3p ./src/*",
     "mess" : "phpmd ./src text codesize,controversial,design,unusedcode",
+    "stan": "phpstan analyse --level 7 ./src",
     "sanity": [
-      "phpcs --standard=./ruleset.xml -n ./src/*",
+      "make tools",
+      "./vendor/bin/phpcs --standard=omz13-k3p -n ./src/*",
       "@mess"
     ],
     "fix": [
-      "phpcbf --standard=./ruleset.xml ./src/*",
-      "phpcs --standard=./ruleset.xml -s ./src/*"
+      "./vendor/bin/phpcbf --standard=omz13-k3p ./src/*",
+      "./vendor/bin/phpcs --standard=omz13-k3p -s ./src/*"
     ],
     "build": [
       "@sanity",

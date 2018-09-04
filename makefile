@@ -5,6 +5,7 @@ PHPCS := $(shell command -v phpcs 2> /dev/null)
 PHPCBF := $(shell command -v phpcbf 2> /dev/null)
 PHPMESS := $(shell command -v phpmd 2> /dev/null)
 PHPLOC := $(shell command -v phploc 2> /dev/null)
+PHPSTAN := $(shell command -v phpstan 2> /dev/null)
 
 tools:
 ifndef PHPRMT
@@ -25,6 +26,10 @@ endif
 
 ifndef PHPLOC
   $(error "php mess tool (phploc) is not available; try composer global require phploc/phploc")
+endif
+
+ifndef PHPSTAN
+  $(error "php static analysis tool (phpstan) is not available; try composer global require phpstan/phpstan")
 endif
 	@echo Toolchain available
 
