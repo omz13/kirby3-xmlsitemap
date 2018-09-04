@@ -2,6 +2,10 @@
 
 namespace omz13;
 
+use Exception;
+use Kirby\Cms\Page;
+use Kirby\Cms\Pages;
+
 define( 'XMLSITEMAP_VERSION', '0.4.1' );
 
 /**
@@ -54,7 +58,7 @@ class XmlSitemap
   public static function getStylesheet() : string {
     $f = file_get_contents( __DIR__ . '/../assets/xmlsitemap.xsl' );
     if ( $f == null ) {
-      throw new \Exception( 'Failed to read sitemap.xsl', 1 );
+      throw new Exception( 'Failed to read sitemap.xsl', 1 );
     }
 
     return $f;
@@ -72,7 +76,7 @@ class XmlSitemap
   /**
    * @SuppressWarnings("Complexity")
    */
-  public static function getSitemap( \Kirby\Cms\Pages $p, bool $debug = false ) : string {
+  public static function getSitemap( Pages $p, bool $debug = false ) : string {
     static::$debug = $debug && kirby()->option( 'debug' ) !== null && kirby()->option( 'debug' ) == true;
     static::pickupOptions();
 
@@ -110,7 +114,8 @@ class XmlSitemap
         if ( static::$debug == true ) {
           $expiresAt       = $cacheCache->expires( $cacheName );
           $secondsToExpire = ( $expiresAt - time() );
-          $r              .= '<!-- Retrieved as ' . md5( $ops ) . ' from cache ; expires in ' . $secondsToExpire . " seconds -->\n";
+
+          $r .= '<!-- Retrieved as ' . md5( $ops ) . ' from cache ; expires in ' . $secondsToExpire . " seconds -->\n";
         }
       }
     }//end if
@@ -124,11 +129,11 @@ class XmlSitemap
     return $r;
   }//end getSitemap()
 
-  private static function generateSitemap( \Kirby\Cms\Pages $p, bool $debug = false ) : string {
+  private static function generateSitemap( Pages $p, bool $debug = false ) : string {
     static::pickupOptions();
     $tbeg = microtime( true );
-    $r    = '';
 
+    $r  = '';
     $r .= "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     $r .= "<?xml-stylesheet type=\"text/xsl\" href=\"/sitemap.xsl\"?>\n";
     $r .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" ';
@@ -154,9 +159,10 @@ class XmlSitemap
     $tend = microtime( true );
     if ( $debug == true ) {
       $elapsed = ( $tend - $tbeg );
-      $r      .= '<!-- v' . static::$version . " -->\n";
-      $r      .= '<!-- Generation took ' . ( 1000 * $elapsed ) . " microseconds -->\n";
-      $r      .= '<!-- Generated at ' . date( DATE_ATOM, $tend ) . " -->\n";
+
+      $r .= '<!-- v' . static::$version . " -->\n";
+      $r .= '<!-- Generation took ' . ( 1000 * $elapsed ) . " microseconds -->\n";
+      $r .= '<!-- Generated at ' . date( DATE_ATOM, $tend ) . " -->\n";
     }
 
     return $r;
@@ -165,7 +171,7 @@ class XmlSitemap
   /**
    * @SuppressWarnings("Complexity")
    */
-  private static function addPagesToSitemap( \Kirby\Cms\Pages $pages, string &$r ) : void {
+  private static function addPagesToSitemap( Pages $pages, string &$r ) : void {
     $sortedpages = $pages->sortBy( 'url', 'asc' );
     foreach ( $sortedpages as $p ) {
       static::addComment( $r, 'crunching ' . $p->url() . ' [it=' . $p->intendedTemplate() . '] [s=' . $p->status() . '] [d=' . $p->depth() . ']' );
@@ -269,7 +275,7 @@ class XmlSitemap
     }
   }//end addComment()
 
-  private static function addImagesFromPageToSitemap( \Kirby\Cms\Page $page, string &$r ) : void {
+  private static function addImagesFromPageToSitemap( Page $page, string &$r ) : void {
     foreach ( $page->images() as $i ) {
       $r .= "  <image:image>\n";
       $r .= '    <image:loc>' . $i->url() . "</image:loc>\n";
@@ -277,7 +283,7 @@ class XmlSitemap
     }
   }//end addImagesFromPageToSitemap()
 
-  private static function addImagesToSitemap( \Kirby\Cms\Pages $pages, string &$r ) : void {
+  private static function addImagesToSitemap( Pages $pages, string &$r ) : void {
     foreach ( $pages as $p ) {
       static::addComment( $r, 'imagining ' . $p->url() . ' [it=' . $p->intendedTemplate() . '] [d=' . $p->depth() . ']' );
       static::addImagesFromPageToSitemap( $p, $r );
