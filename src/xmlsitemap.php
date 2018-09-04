@@ -2,7 +2,6 @@
 
 namespace omz13;
 
-use Exception;
 use Kirby\Cms\Page;
 use Kirby\Cms\Pages;
 

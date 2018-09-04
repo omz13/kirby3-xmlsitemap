@@ -347,7 +347,12 @@
   <!-- <rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalConstants"/> -->
   <!-- <rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalFunctions"/> -->
   <rule ref="SlevomatCodingStandard.Namespaces.MultipleUsesPerLine"/>
-  <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly"/>
+  <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
+    <properties>
+      <property name="allowFallbackGlobalFunctions" value="1"/>
+      <property name="allowFallbackGlobalConstants" value="1"/>
+    </properties>
+  </rule>
   <!-- <rule ref="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces"/> -->
   <rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash"/>
   <!-- <rule ref="SlevomatCodingStandard.Types.EmptyLinesAroundTypeBraces"/> -->
