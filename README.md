@@ -14,7 +14,7 @@ For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates an x
 - Generates a [sitemap](https://www.sitemaps.org); [valid](https://webmaster.yandex.com/tools/sitemap/) too.
 - The generated page can be cached for a determined amount of time, c.f. `cacheTTL` in _Configuration_. This not only improves the response time if it can be retrieved from the cache.
 - For all pages, `<loc>` and `<lastmod>` are given; `<priority>` is not given because "its a bag of noise"; `<changefreq>` is also not given because it does not affect ranking.
-- `<lastmod`> is calculated using the most recent date from the fields, if present, of `date` or `embargo` in a page.
+- `<lastmod`> is calculated using the most recent date from the fields, if present, of `date` or `updatedat` in a page.
 - When a page is included in the xml-sitemap, information for images (`<image:loc>`) on each page is inclued unless this is disabled; c.f. `disableImages` in _Configuration_.
 - The generated `sitemap.xml` has an accompanying `sitemap.xsl` to produce a prettified page for human consumption.
 - Only pages that have a status of "published" are included (everything else, `drafts` and `unlisted`, are excluded).
