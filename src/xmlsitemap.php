@@ -4,16 +4,38 @@ namespace omz13;
 
 use Kirby\Cms\Page;
 use Kirby\Cms\Pages;
+use Kirby\Exception\LogicException;
+
+use const CONFIGURATION_PREFIX;
+use const DATE_ATOM;
+use const XMLSITEMAP_VERSION;
+
+use function array_key_exists;
+use function date;
+use function define;
+use function file_exists;
+use function file_get_contents;
+use function filemtime;
+use function in_array;
+use function is_array;
+use function json_encode;
+use function kirby;
+use function max;
+use function md5;
+use function microtime;
+use function strtotime;
+use function time;
 
 define( 'XMLSITEMAP_VERSION', '0.4.1' );
+define( 'CONFIGURATION_PREFIX', 'omz13.xmlsitemap' );
 
 /**
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
-class XmlSitemap
+class XMLSitemap
 {
   private static $debug;
-  private static $optionCACHE;    // cache TTL in *minutes*; if zero or null, no cache
+  private static $optionCACHE; // cache TTL in *minutes*; if zero or null, no cache
   private static $optionNOIMG; // disable including image data
   private static $optionIUWSI; // include unlisted when slug is
   private static $optionXCWTI; // exclude children when template is
@@ -30,34 +52,51 @@ class XmlSitemap
       return false;
     }
 
-    if ( kirby()->site()->content()->xmlsitemap() == 'false' ) {
+    if ( kirby()->site()->content()->get( 'xmlsitemap' ) == 'false' ) {
       return false;
     }
 
     return true;
   }//end isEnabled()
 
-  public static function getConfigurationForKey( string $key ) {
+  public static function getArrayConfigurationForKey( string $key ) : ?array {
     // Try to pick up configuration when provided in an array (vendor.plugin.array(key=>value))
-    $o = option( 'omz13.xmlsitemap' );
+    $o = kirby()->option( CONFIGURATION_PREFIX );
     if ( $o != null && is_array( $o ) && array_key_exists( $key, $o ) ) {
       return $o[$key];
     }
 
     // try to pick up configuration as a discrete (vendor.plugin.key=>value)
-    $o = option( 'omz13.xmlsitemap.' . $key );
+    $o = kirby()->option( CONFIGURATION_PREFIX . '.' . $key );
     if ( $o != null ) {
       return $o;
     }
 
     // this should not be reached... because plugin should define defaults for all its options...
     return null;
+  }//end getArrayConfigurationForKey()
+
+  public static function getConfigurationForKey( string $key ) : string {
+    // Try to pick up configuration when provided in an array (vendor.plugin.array(key=>value))
+    $o = kirby()->option( CONFIGURATION_PREFIX );
+    if ( $o != null && is_array( $o ) && array_key_exists( $key, $o ) ) {
+      return $o[$key];
+    }
+
+    // try to pick up configuration as a discrete (vendor.plugin.key=>value)
+    $o = kirby()->option( CONFIGURATION_PREFIX . '.' . $key );
+    if ( $o != null ) {
+      return $o;
+    }
+
+    // this should not be reached... because plugin should define defaults for all its options...
+    return "";
   }//end getConfigurationForKey()
 
   public static function getStylesheet() : string {
     $f = file_get_contents( __DIR__ . '/../assets/xmlsitemap.xsl' );
     if ( $f == null ) {
-      throw new Exception( 'Failed to read sitemap.xsl', 1 );
+      throw new LogicException( 'Failed to read sitemap.xsl' );
     }
 
     return $f;
@@ -66,10 +105,10 @@ class XmlSitemap
   private static function pickupOptions() : void {
     static::$optionCACHE = static::getConfigurationForKey( 'cacheTTL' );
     static::$optionNOIMG = static::getConfigurationForKey( 'disableImages' );
-    static::$optionIUWSI = static::getConfigurationForKey( 'includeUnlistedWhenSlugIs' );
-    static::$optionXCWTI = static::getConfigurationForKey( 'excludeChildrenWhenTemplateIs' );
-    static::$optionXPWTI = static::getConfigurationForKey( 'excludePageWhenTemplateIs' );
-    static::$optionXPWSI = static::getConfigurationForKey( 'excludePageWhenSlugIs' );
+    static::$optionIUWSI = static::getArrayConfigurationForKey( 'includeUnlistedWhenSlugIs' );
+    static::$optionXCWTI = static::getArrayConfigurationForKey( 'excludeChildrenWhenTemplateIs' );
+    static::$optionXPWTI = static::getArrayConfigurationForKey( 'excludePageWhenTemplateIs' );
+    static::$optionXPWSI = static::getArrayConfigurationForKey( 'excludePageWhenSlugIs' );
   }//end pickupOptions()
 
   /**
@@ -161,7 +200,7 @@ class XmlSitemap
 
       $r .= '<!-- v' . static::$version . " -->\n";
       $r .= '<!-- Generation took ' . ( 1000 * $elapsed ) . " microseconds -->\n";
-      $r .= '<!-- Generated at ' . date( DATE_ATOM, $tend ) . " -->\n";
+      $r .= '<!-- Generated at ' . date( DATE_ATOM, (int) $tend ) . " -->\n";
     }
 
     return $r;
@@ -230,12 +269,14 @@ class XmlSitemap
 
       "</loc>\n";
 
-      $timestampC = strtotime( $p->content()->date() );
-      $timestampE = strtotime( $p->content()->embargo() );
+      $timestampC = strtotime( $p->content()->get( 'date' ) );
+      $timestampU = strtotime( $p->content()->get( 'updatedat' ) ?? 0 );
       $timestampM = file_exists( $p->contentFile() ) ? filemtime( $p->contentFile() ) : 0;
 
+      $lastmod = max( $timestampM, $timestampU, $timestampC );
+
       // set modified date to be last date vis-a-vis when file modified /content embargo time / content date
-      $r .= '  <lastmod>' . date( 'c', max( $timestampM, $timestampE, $timestampC ) ) . "</lastmod>\n";
+      $r .= '  <lastmod>' . date( 'c', $lastmod ) . "</lastmod>\n";
 
       /*
           Don't bother with priority - we ignore those. It's essentially a bag of noise" - [ref https://twitter.com/methode/status/846796737750712320]

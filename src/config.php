@@ -20,8 +20,7 @@ Kirby::plugin(
           'pattern' => 'sitemap.xml',
           'action'  => function () {
             if ( omz13\XMLSitemap::isEnabled() ) {
-              $dqv     = omz13\XMLSitemap::getConfigurationForKey( 'debugqueryvalue' );
-              $dodebug = ( isset( $dqv ) && $dqv == get( 'debug' ) );
+              $dodebug = omz13\XMLSitemap::getConfigurationForKey( 'debugqueryvalue' ) == get( 'debug' );
               return new Kirby\Cms\Response( omz13\XMLSitemap::getSitemap( kirby()->site()->pages(), $dodebug ), 'application/xml' );
             } else {
               header( 'HTTP/1.0 404 Not Found' );

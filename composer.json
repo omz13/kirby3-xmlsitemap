@@ -36,15 +36,24 @@
     "getkirby/cms": "dev-master as 3.0.0"
   },
   "require-dev": {
-    "omz13/coding-standard": "@dev"
+    "jakub-onderka/php-parallel-lint": "^1.0",
+    "omz13/coding-standard": "@dev",
+    "phpstan/phpstan": "^0.10.3",
+    "phpmd/phpmd": "^2.6"
+  },
+  "suggest": {
+    "liip/rmt": "For release management"
   },
   "scripts": {
+    "lint": "./vendor/bin/parallel-lint ./src/*",
     "style": "./vendor/bin/phpcs --standard=omz13-k3p ./src/*",
-    "mess" : "phpmd ./src text codesize,controversial,design,unusedcode",
-    "stan": "phpstan analyse --level 7 ./src",
+    "mess" : "./vendor/bin/phpmd ./src text codesize,controversial,design,unusedcode",
+    "stan": "./vendor/bin/phpstan analyse --level 5 ./src",
     "sanity": [
       "make tools",
+      "@lint",
       "./vendor/bin/phpcs --standard=omz13-k3p -n ./src/*",
+      "@stan",
       "@mess"
     ],
     "fix": [
