@@ -3,6 +3,18 @@ VERSION 0  FIXES AND FEATURES
 =============================
 
    Version 0.4 - beta release
+      06/09/2018 20:30  0.4.2  Beta release
+         9a14307 Chore: Because make style is less to type than composer style
+         7735b1e Chore: Provisional support for PHPStorm
+         380d799 Chore: cs ruleset from external repo
+         57faae8 Docs: detail the development-oriented scripts
+         82c6d52 Refactor: update for cs
+         bb82a34 Chore: configuration for stan
+         50cdde7 Docs: lastmod can use updatedat
+         84440fb Chore: move phpcs stuff into separate package and provisional phpstan support
+         e221819 Chore: ruleset
+         66b2674 Chore: more mucking about with the menagerie that is the ruleset
+         1c0ae97 Chore: more Slevomat
       03/09/2018 18:31  0.4.1  Beta release
          c9c363d Feat: cache bust the cache
          7b0ec5b Chore: style with a Slevomat rule to do return type declaration sniff
