@@ -203,6 +203,24 @@ fields:
 
 As pages are implicitly included within a sitemap, this mechanism should only be used when you have a reason to explcitly exclude a page when it is not possible to do otherwise (e.g. using `excludePageWhenTemplateIs`).
 
+## --dev
+
+To develop on this plugin, `composer update --dev` will pull in the necessary packages and whatnots.
+
+The `composer` package include scripts that are useful during development:
+
+- `compsoer lint` to lint the source (using [parallel-lint](https://packagist.org/packages/jakub-onderka/php-parallel-lint))
+- `composer style` to check style issues (using  `phpcs` from [PHP_CodeSniffer](https://packagist.org/packages/squizlabs/php_codesniffer)) against coding standard `omz13-k3p` in omz13/coding-standard).
+- `composer fix` to fix code style issues (using `phpcbf` from [PHP_CodeSniffer](https://packagist.org/packages/squizlabs/php_codesniffer))
+- `composer mess` to check for potential messes (using `phpmd` from the [PHP Mess Detector](https://packagist.org/packages/phpmd/phpmd))
+- `composer stan` to do static analysis of the source (using `phpstan` from the [PHP Static Analysis Tool](https://packagist.org/packages/phpstan/phpstan))
+- `composer sanity` to run all the above in sequence. If no errors are shown, this is good.
+
+A `makefile` is provided because:
+
+- `make sanity` to check the validity of the composer file and run the sanity script (and its less keys than typing `composer sanity`, and also because I keep mistyping it as `compsoer sanity`).
+- `make release` to relase an updated version using [liip/rmt](https://packagist.org/packages/liip/rmt).
+
 ## Disclaimer
 
 This plugin is provided "as is" with no guarantee. Use it at your own risk and always test it yourself before using it in a production environment. If you find any issues, please [create a new issue](https://github.com/omz13/kirby3-xmlsitemap/issues/new).
