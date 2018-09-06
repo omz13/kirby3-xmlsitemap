@@ -25,10 +25,6 @@
   "repositories": [{
     "type": "vcs",
     "url": "https://github.com/k-next/kirby"
-  },
-  {
-    "type": "path",
-    "url": "../coding-standard"
   }
 ],
   "require": {
@@ -37,7 +33,7 @@
   },
   "require-dev": {
     "jakub-onderka/php-parallel-lint": "^1.0",
-    "omz13/coding-standard": "@dev",
+    "omz13/omz13-coding-standard": "@dev",
     "phpstan/phpstan": "^0.10.3",
     "phpmd/phpmd": "^2.6"
   },
