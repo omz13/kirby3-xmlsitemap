@@ -33,6 +33,12 @@ build: tools
 	composer validate
 	composer run-script build
 
+style: tools
+	composer style
+
+fix: tools
+	composer fix
+
 sanity: tools
 	composer validate
 	composer run-script sanity
@@ -41,8 +47,8 @@ zip: tools
 	composer run-script zip
 
 release: tools
-	ifndef PHPRMT
+ifndef PHPRMT
 	  $(error "php release management tool (rmt) is not available; try composer global require liip/rmt")
-	endif
+endif
 	./RMT release
 	composer run-script zip
