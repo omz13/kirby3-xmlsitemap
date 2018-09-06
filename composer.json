@@ -33,9 +33,9 @@
   },
   "require-dev": {
     "jakub-onderka/php-parallel-lint": "^1.0",
-    "omz13/omz13-coding-standard": "@dev",
     "phpstan/phpstan": "^0.10.3",
-    "phpmd/phpmd": "^2.6"
+    "phpmd/phpmd": "^2.6",
+    "omz13/omz13-coding-standard": "@dev"
   },
   "suggest": {
     "liip/rmt": "For release management"
@@ -61,10 +61,12 @@
       "composer dumpautoload -o"
     ],
     "zip": [
+      "composer remove --dev omz13/omz13-coding-standard",
       "composer remove getkirby/cms",
       "composer dumpautoload -o",
       "composer archive --format=zip --dir=dist",
       "composer require getkirby/cms:'dev-master as 3.0.0'",
+      "composer require --dev omz13/omz13-coding-standard:@dev",
       "composer dumpautoload -o"
     ]
   },
