@@ -7,6 +7,11 @@ PHPCBF := $(shell command -v ./vendor/bin/phpcbf 2> /dev/null)
 PHPMESS := $(shell command -v phpmd 2> /dev/null)
 PHPSTAN := $(shell command -v phpstan 2> /dev/null)
 
+default: tools
+	composer lint
+	composer style
+	composer mess
+
 tools:
 ifndef PHPLINT
 	$(error "pho parallel lint (parallel-lint) is not available; try composer global require jakub-onderka/php-parallel-lint")
