@@ -20,7 +20,6 @@ use function in_array;
 use function is_array;
 use function json_encode;
 use function kirby;
-use function max;
 use function md5;
 use function microtime;
 use function strtotime;
@@ -207,7 +206,9 @@ class XMLSitemap
   }//end generateSitemap()
 
   /**
-   * @SuppressWarnings("Complexity")
+  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+  * @SuppressWarnings(PHPMD.NPathComplexity)
+  * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
    */
   private static function addPagesToSitemap( Pages $pages, string &$r ) : void {
     $sortedpages = $pages->sortBy( 'url', 'asc' );
@@ -269,11 +270,29 @@ class XMLSitemap
 
       "</loc>\n";
 
-      $timestampC = strtotime( $p->content()->get( 'date' ) );
-      $timestampU = strtotime( $p->content()->get( 'updatedat' ) ?? 0 );
-      $timestampM = file_exists( $p->contentFile() ) ? filemtime( $p->contentFile() ) : 0;
+      // priority for determining the last modified date: updatedat, then date, then filestamp
+      $lastmod = 0; // default to unix epoch (jan-1-1970)
+      if ( $p->content()->has( 'updatedat' ) ) {
+        $t       = $p->content()->get( 'updatedat' );
+        $lastmod = strtotime( $t );
+      } else {
+        if ( $p->content()->has( 'date' ) ) {
+          $t       = $p->content()->get( 'date' );
+          $lastmod = strtotime( $t );
+        } else {
+          if ( file_exists( $p->contentFile() ) ) {
+            $lastmod = filemtime( $p->contentFile() );
+          }
+        }
+      }//end if
 
-      $lastmod = max( $timestampM, $timestampU, $timestampC );
+
+      // phpstan picked up that Parameter #2 $timestamp of function date expects int, int|false given.
+      // this might happen if strtotime or filemtime above fails.
+      // so a big thumbs-up to phpstan.
+      if ( $lastmod == false ) {
+        $lastmod = 0;
+      }
 
       // set modified date to be last date vis-a-vis when file modified /content embargo time / content date
       $r .= '  <lastmod>' . date( 'c', $lastmod ) . "</lastmod>\n";

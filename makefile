@@ -12,6 +12,7 @@ default: tools
 	composer lint
 	composer style
 	composer mess
+	composer stan
 
 tools:
 ifndef PHPLINT

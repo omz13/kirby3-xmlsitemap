@@ -7,3 +7,4 @@ parameters:
 	universalObjectCratesClasses: []
 	ignoreErrors: []
 	tmpDir: %rootDir%/tmp
+	level: 5

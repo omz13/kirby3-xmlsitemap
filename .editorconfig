@@ -20,3 +20,11 @@ indent_size = 2
 [package.json,.{babelrc,editorconfig,eslintrc,lintstagedrc,stylelintrc}]
 indent_style = space
 indent_size = 2
+
+[*.neon]
+indent_style = tab
+indent_size = 4
+
+[*.xml]
+indent_style = tab
+indent_size = 2
