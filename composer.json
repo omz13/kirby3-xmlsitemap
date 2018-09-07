@@ -8,14 +8,6 @@
     "plugin",
     "sitemap"
   ],
-  "autoload": {
-    "files": [
-      "src/config.php"
-    ],
-    "psr-4": {
-      "omz13\\": "src/"
-    }
-  },
   "authors": [{
     "name": "David Somers",
     "email": "dsomers@omz13.com",
@@ -25,48 +17,59 @@
   "repositories": [{
     "type": "vcs",
     "url": "https://github.com/k-next/kirby"
-  }
-],
+  }],
   "require": {
     "php": ">=7.1",
     "getkirby/cms": "dev-master as 3.0.0"
   },
   "require-dev": {
     "jakub-onderka/php-parallel-lint": "^1.0",
-    "phpstan/phpstan": "^0.10.3",
     "phpmd/phpmd": "^2.6",
-    "omz13/omz13-coding-standard": "@dev"
+    "phpstan/phpstan": "^0.10.3",
+    "slevomat/coding-standard": "^4.7",
+    "squizlabs/php_codesniffer": "^3.3"
   },
   "suggest": {
     "liip/rmt": "For release management"
   },
+  "autoload": {
+    "files": [
+      "src/config.php"
+    ],
+    "psr-4": {
+      "omz13\\": "src/"
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
   "scripts": {
     "lint": "./vendor/bin/parallel-lint ./src/*",
-    "style": "./vendor/bin/phpcs --standard=omz13-k3p ./src/*",
-    "mess" : "./vendor/bin/phpmd ./src text codesize,controversial,design,unusedcode",
-    "stan": "./vendor/bin/phpstan analyse --level 5 ./src",
+    "style": "./vendor/bin/phpcs ./src/*",
+    "mess": "./vendor/bin/phpmd ./src text codesize,controversial,design,unusedcode",
+    "stan": "./vendor/bin/phpstan analyse --level 7 ./src",
     "sanity": [
       "make tools",
       "@lint",
-      "./vendor/bin/phpcs --standard=omz13-k3p -n ./src/*",
+      "./vendor/bin/phpcs -n ./src/*",
       "@stan",
       "@mess"
     ],
     "fix": [
-      "./vendor/bin/phpcbf --standard=omz13-k3p ./src/*",
-      "./vendor/bin/phpcs --standard=omz13-k3p -s ./src/*"
+      "./vendor/bin/phpcbf ./src/*",
+      "./vendor/bin/phpcs -s ./src/*"
     ],
     "build": [
       "@sanity",
       "composer dumpautoload -o"
     ],
     "zip": [
-      "composer remove --dev omz13/omz13-coding-standard",
       "composer remove getkirby/cms",
+      "composer install --no-dev",
       "composer dumpautoload -o",
       "composer archive --format=zip --dir=dist",
       "composer require getkirby/cms:'dev-master as 3.0.0'",
-      "composer require --dev omz13/omz13-coding-standard:@dev",
       "composer dumpautoload -o"
     ]
   },
@@ -83,7 +86,7 @@
       "/vendor/*/*/test/*",
       "/vendor/*/*/tests/*",
       "/vendor/*/*/php4/*"
-  ]
+    ]
   },
   "minimum-stability": "beta"
 }
