@@ -6,7 +6,6 @@ PHPCS := $(shell command -v ./vendor/bin/phpcs 2> /dev/null)
 PHPCBF := $(shell command -v ./vendor/bin/phpcbf 2> /dev/null)
 PHPMESS := $(shell command -v ./vendor/bin/phpmd 2> /dev/null)
 PHPSTAN := $(shell command -v ./vendor/bin/phpstan 2> /dev/null)
-HAZ-CS-SLEVO := $(shell $(PHPCS) -i | grep SlevomatCodingStandardz)
 
 default: tools
 	composer lint
@@ -37,6 +36,9 @@ ifndef PHPSTAN
   $(error "php static analysis tool (phpstan/phpstan) is not available; try composer install")
 endif
 	@echo Toolchain available
+
+lint: tools
+	composer run-script lint
 
 build: tools
 	composer validate
