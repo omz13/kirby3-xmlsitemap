@@ -3,6 +3,15 @@ VERSION 0  FIXES AND FEATURES
 =============================
 
    Version 0.4 - beta release
+      08/09/2018 19:28  0.4.4  Beta release
+         e487079 Chore: coding standard goes external, fix #9
+         4ca859e Chore: fix makefile cruft
+         b65c4ac Docs: bring package into —no-dev
+         b813281 Chore: no multiple empty lines
+         cc90e34 Docs: clarification on lastmod; todo update
+         5ab86b9 Refactor: better lastmod calculation, and, bonus, now passes phpstan analyse --level 7
+         7a18226 Chore: bring coding style back into the package
+         2d853c0 Chore: made default to do lint-style-mess
       06/09/2018 20:58  0.4.3  beta release
          88e9025 Chore: Remove also omz13-cs
       06/09/2018 20:30  0.4.2  Beta release
