@@ -10,11 +10,10 @@
 
 For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates an xml-based sitemap at `/sitemap.xml` and provides a prettyfier (`/sitemap.xsl`) for humans.
 
-
 - Generates a [sitemap](https://www.sitemaps.org); [valid](https://webmaster.yandex.com/tools/sitemap/) too.
 - The generated page can be cached for a determined amount of time, c.f. `cacheTTL` in _Configuration_. This not only improves the response time if it can be retrieved from the cache.
 - For all pages, `<loc>` and `<lastmod>` are given; `<priority>` is not given because "its a bag of noise"; `<changefreq>` is also not given because it does not affect ranking.
-- `<lastmod`> is calculated using the most recent date from the fields, if present, of `date` or `updatedat` in a page.
+- `<lastmod`> is calculated using the date in a page's field called `updatedat`, or if not present then from the field `date`; if neither were found, it is based on the modification time for the page's content file.
 - When a page is included in the xml-sitemap, information for images (`<image:loc>`) on each page is inclued unless this is disabled; c.f. `disableImages` in _Configuration_.
 - The generated `sitemap.xml` has an accompanying `sitemap.xsl` to produce a prettified page for human consumption.
 - Only pages that have a status of "published" are included (everything else, `drafts` and `unlisted`, are excluded).
@@ -59,8 +58,10 @@ For 1.0, the non-binding list of planned features and implementation notes are:
 - [x] Exclude image sitemap; c.f. `disableImages` **done 0.3**
 - [x] Exclusion of individual pages – **done 0.2** c.f. `excludePageWhenSlugIs`
 - [x] Exclusion of pages by template – **done 0.1** c.f. `excludePageWhenTemplateIs`
-- [ ] Better heuristics for `<lastmod>` (e.g. `modifiedat` field?)
+- [x] Better heuristics for `<lastmod>` (e.g. `modifiedat` field?)
 - [ ] ~~Overriding of stylesheet~~
+- [ ] Disable stylesheet
+- [ ] Remove credits
 - [ ] robots.txt
 - [x] Cache **done 0.4** c.f. `cacheTTL`
 - [ ] Automate GitHub release – [gothub](https://github.com/itchio/gothub)? [github-release-notes](https://github.com/github-tools/github-release-notes)?
@@ -79,7 +80,7 @@ If your kirby3-based site is managed using-composer, simply invoke `composer req
 ```yaml
 "require": {
   ...
-  "omz13/kirby3-xmlsitemap": "dev-master as 1.0.0",
+  "omz13/kirby3-xmlsitemap": "@dev",
   ...
 }
 ```
