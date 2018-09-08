@@ -286,7 +286,6 @@ class XMLSitemap
         }
       }//end if
 
-
       // phpstan picked up that Parameter #2 $timestamp of function date expects int, int|false given.
       // this might happen if strtotime or filemtime above fails.
       // so a big thumbs-up to phpstan.
