@@ -26,14 +26,15 @@ ifndef PHPCBF
   $(error "php code beautifier and fixer (phpcbf - squizlabs/php_codesniffer) is not available; try composer install")
 endif
 
-	$(if $(shell $(PHPCS) -i | grep SlevomatCodingStandard; if [ $$? -eq 1 ] ; then exit 1 ; fi), , $(error slevomat/coding-standard not available; try composer install))
+	$(if $(shell $(PHPCS) -i | grep omz13-k3p; if [ $$? -eq 1 ] ; then exit 1 ; fi), , $(error cs omz13-k3p not available; try composer install))
+	$(if $(shell $(PHPCS) -i | grep SlevomatCodingStandard; if [ $$? -eq 1 ] ; then exit 1 ; fi), , $(error cs slevomat not available; try composer install))
 
 ifndef PHPMESS
-  $(error "php mess tool (phpmd/phpmd) is not available; try composer install")
+	$(error "php mess tool (phpmd/phpmd) is not available; try composer install")
 endif
 
 ifndef PHPSTAN
-  $(error "php static analysis tool (phpstan/phpstan) is not available; try composer install")
+	$(error "php static analysis tool (phpstan/phpstan) is not available; try composer install")
 endif
 	@echo Toolchain available
 
