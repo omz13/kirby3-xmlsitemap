@@ -23,11 +23,12 @@
     "getkirby/cms": "dev-master as 3.0.0"
   },
   "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
     "jakub-onderka/php-parallel-lint": "^1.0",
+    "omz13/omz13-coding-standard": "dev-master",
     "phpmd/phpmd": "^2.6",
     "phpstan/phpstan": "^0.10.3",
-    "slevomat/coding-standard": "^4.7",
-    "squizlabs/php_codesniffer": "^3.3"
+    "roave/security-advisories": "dev-master"
   },
   "suggest": {
     "liip/rmt": "For release management"
