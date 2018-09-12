@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a39989cea7db1ac1d67a9c7de85aeb5",
+    "content-hash": "57250ad59ffeabc7f4213187b5b7f47c",
     "packages": [
         {
             "name": "claviska/simpleimage",
@@ -143,16 +143,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.2.0",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "181c4502d8f34db7aed7bfe88d4f87875b8e947a"
+                "reference": "e79cd403fb77fc8963a99ecc30e80ddd885b3311"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/181c4502d8f34db7aed7bfe88d4f87875b8e947a",
-                "reference": "181c4502d8f34db7aed7bfe88d4f87875b8e947a",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/e79cd403fb77fc8963a99ecc30e80ddd885b3311",
+                "reference": "e79cd403fb77fc8963a99ecc30e80ddd885b3311",
                 "shasum": ""
             },
             "require": {
@@ -171,7 +171,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
             "autoload": {
@@ -200,7 +200,7 @@
                 "throwable",
                 "whoops"
             ],
-            "time": "2018-03-03T17:56:25+00:00"
+            "time": "2018-06-30T13:14:06+00:00"
         },
         {
             "name": "getkirby/cms",
@@ -1458,12 +1458,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/omz13/omz13-coding-standard.git",
-                "reference": "889730b332adaffbe6e814573c677f08203d0b30"
+                "reference": "fd20229e5f8d4c911ccb9098cccb33ee4d502806"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omz13/omz13-coding-standard/zipball/889730b332adaffbe6e814573c677f08203d0b30",
-                "reference": "889730b332adaffbe6e814573c677f08203d0b30",
+                "url": "https://api.github.com/repos/omz13/omz13-coding-standard/zipball/fd20229e5f8d4c911ccb9098cccb33ee4d502806",
+                "reference": "fd20229e5f8d4c911ccb9098cccb33ee4d502806",
                 "shasum": ""
             },
             "require": {
@@ -1503,7 +1503,7 @@
                 "standard",
                 "style"
             ],
-            "time": "2018-09-08T17:15:19+00:00"
+            "time": "2018-09-12T06:09:49+00:00"
         },
         {
             "name": "pdepend/pdepend",

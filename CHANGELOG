@@ -3,6 +3,10 @@ VERSION 0  FIXES AND FEATURES
 =============================
 
    Version 0.4 - beta release
+      12/09/2018 18:03  0.4.5  beta release
+         4864aa4 Fix: Explicitly set plugin root
+         dc040ff Chore: style
+         c0819ed Chore: update guard for cs
       08/09/2018 19:28  0.4.4  Beta release
          e487079 Chore: coding standard goes external, fix #9
          4ca859e Chore: fix makefile cruft
