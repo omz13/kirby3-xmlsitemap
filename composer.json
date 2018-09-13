@@ -23,15 +23,15 @@
     "getkirby/cms": "dev-master as 3.0.0"
   },
   "require-dev": {
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
     "jakub-onderka/php-parallel-lint": "^1.0",
+    "liip/rmt": "^1.4",
+    "localheinz/composer-normalize": "^0.8.0",
     "omz13/omz13-coding-standard": "dev-master",
+    "phpcompatibility/php-compatibility": "^8.2",
     "phpmd/phpmd": "^2.6",
     "phpstan/phpstan": "^0.10.3",
+    "phpstan/phpstan-strict-rules": "^0.10.1",
     "roave/security-advisories": "dev-master"
-  },
-  "suggest": {
-    "liip/rmt": "For release management"
   },
   "autoload": {
     "files": [
