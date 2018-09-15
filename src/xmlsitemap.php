@@ -6,8 +6,8 @@ use Kirby\Cms\Page;
 use Kirby\Cms\Pages;
 use Kirby\Exception\LogicException;
 
-use const CONFIGURATION_PREFIX;
 use const DATE_ATOM;
+use const XMLSITEMAP_CONFIGURATION_PREFIX;
 use const XMLSITEMAP_VERSION;
 
 use function array_key_exists;
@@ -26,7 +26,7 @@ use function strtotime;
 use function time;
 
 define( 'XMLSITEMAP_VERSION', '0.4.5' );
-define( 'CONFIGURATION_PREFIX', 'omz13.xmlsitemap' );
+define( 'XMLSITEMAP_CONFIGURATION_PREFIX', 'omz13.xmlsitemap' );
 
 /**
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
@@ -60,13 +60,13 @@ class XMLSitemap
 
   public static function getArrayConfigurationForKey( string $key ) : ?array {
     // Try to pick up configuration when provided in an array (vendor.plugin.array(key=>value))
-    $o = kirby()->option( CONFIGURATION_PREFIX );
+    $o = kirby()->option( XMLSITEMAP_CONFIGURATION_PREFIX );
     if ( $o != null && is_array( $o ) && array_key_exists( $key, $o ) ) {
       return $o[$key];
     }
 
     // try to pick up configuration as a discrete (vendor.plugin.key=>value)
-    $o = kirby()->option( CONFIGURATION_PREFIX . '.' . $key );
+    $o = kirby()->option( XMLSITEMAP_CONFIGURATION_PREFIX . '.' . $key );
     if ( $o != null ) {
       return $o;
     }
@@ -77,13 +77,13 @@ class XMLSitemap
 
   public static function getConfigurationForKey( string $key ) : string {
     // Try to pick up configuration when provided in an array (vendor.plugin.array(key=>value))
-    $o = kirby()->option( CONFIGURATION_PREFIX );
+    $o = kirby()->option( XMLSITEMAP_CONFIGURATION_PREFIX );
     if ( $o != null && is_array( $o ) && array_key_exists( $key, $o ) ) {
       return $o[$key];
     }
 
     // try to pick up configuration as a discrete (vendor.plugin.key=>value)
-    $o = kirby()->option( CONFIGURATION_PREFIX . '.' . $key );
+    $o = kirby()->option( XMLSITEMAP_CONFIGURATION_PREFIX . '.' . $key );
     if ( $o != null ) {
       return $o;
     }
@@ -127,7 +127,7 @@ class XMLSitemap
       }
     } else {
       // try to read from cache; generate if expired
-      $cacheCache = kirby()->cache( 'omz13.xmlsitemap' );
+      $cacheCache = kirby()->cache( XMLSITEMAP_CONFIGURATION_PREFIX );
 
       // build list of options
       $ops  = json_encode( static::$optionCACHE );
