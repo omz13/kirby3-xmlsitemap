@@ -3,7 +3,7 @@
 Kirby::plugin(
     'omz13/xmlsitemap',
     [
-      'root' => dirname( __FILE__, 2 ),
+      'root'    => dirname( __FILE__, 2 ),
       'options' => [
         'disable'                       => false,
         'cache'                         => true, // enable plugin cache facility
