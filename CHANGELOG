@@ -3,6 +3,14 @@ VERSION 0  FIXES AND FEATURES
 =============================
 
    Version 0.4 - beta release
+      23/09/2018 15:19  0.4.6  beta release
+         8871fde Chore: normalize
+         77c07ef Chore: lock
+         a04090d Refactor: stan
+         a9ebe22 Chore: tweak zip generation
+         7120476 Chore: style
+         68fb3c9 Refactor: make prefix unique
+         100786e Chore: stan goes strict and tweak release process
       12/09/2018 18:03  0.4.5  beta release
          4864aa4 Fix: Explicitly set plugin root
          dc040ff Chore: style
