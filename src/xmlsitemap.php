@@ -120,7 +120,7 @@ class XMLSitemap
     $tbeg = microtime( true );
 
     // if cacheTTL disabled...
-    if ( empty( static::$optionCACHE ) ) {
+    if ( static::$optionCACHE == null || static::$optionCACHE == "" ) {
       $r = static::generateSitemap( $p, $debug );
       if ( static::$debug == true ) {
         $r .= "<!-- Freshly generated; not cached for reuse -->\n";
@@ -221,7 +221,7 @@ class XMLSitemap
       }
 
       if ( $p->status() == 'unlisted' && ! $p->isHomePage() ) {
-        if ( isset( static::$optionIUWSI ) && in_array( $p->slug(), static::$optionIUWSI ) ) {
+        if ( isset( static::$optionIUWSI ) && in_array( $p->slug(), static::$optionIUWSI, false ) ) {
           static::addComment( $r, 'including ' . $p->url() . ' because unlisted but in includeUnlistedWhenSlugIs' );
         } else {
           static::addComment( $r, 'excluding ' . $p->url() . ' because unlisted' );
@@ -230,13 +230,13 @@ class XMLSitemap
       }
 
       // exclude because template used is in the exclusion list:
-      if ( isset( static::$optionXPWTI ) && in_array( $p->intendedTemplate(), static::$optionXPWTI ) ) {
+      if ( isset( static::$optionXPWTI ) && in_array( $p->intendedTemplate(), static::$optionXPWTI, false ) ) {
         static::addComment( $r, 'excluding ' . $p->url() . ' because excludePageWhenTemplateIs (' . $p->intendedTemplate() . ')' );
         continue;
       }
 
       // exclude because slug is in the exclusion list:
-      if ( isset( static::$optionXPWSI ) && in_array( $p->slug(), static::$optionXPWSI ) ) {
+      if ( isset( static::$optionXPWSI ) && in_array( $p->slug(), static::$optionXPWSI, false ) ) {
         static::addComment( $r, 'excluding ' . $p->url() . ' because excludePageWhenSlugIs (' . $p->slug() . ')' );
         continue;
       }
@@ -310,7 +310,7 @@ class XMLSitemap
 
       if ( $p->children() !== null ) {
         // jump into the children, unless the current page's template is in the exclude-its-children set
-        if ( isset( static::$optionXCWTI ) && in_array( $p->intendedTemplate(), static::$optionXCWTI ) ) {
+        if ( isset( static::$optionXCWTI ) && in_array( $p->intendedTemplate(), static::$optionXCWTI, false ) ) {
           static::addComment( $r, 'ignoring children of ' . $p->url() . ' because excludeChildrenWhenTemplateIs (' . $p->intendedTemplate() . ')' );
           if ( static::$optionNOIMG != true ) {
             static::addImagesToSitemap( $p->children(), $r );

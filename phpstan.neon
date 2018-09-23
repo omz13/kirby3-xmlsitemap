@@ -5,7 +5,9 @@ parameters:
 	polluteScopeWithLoopInitialAssignments: true
 	earlyTerminatingMethodCalls: []
 	universalObjectCratesClasses: []
-	ignoreErrors: []
+	ignoreErrors:
+		- '#Call to function in_array\(\) requires parameter \#[\d]+ to be true.#'
+		- '#Property [a-z0-9]+\\[a-zA-Z]+::\$[a-zA-Z]+ has no typehint specified.#'
 	tmpDir: %rootDir%/tmp
 	level: 5
 includes:
