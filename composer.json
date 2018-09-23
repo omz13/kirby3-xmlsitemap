@@ -1,23 +1,21 @@
 {
   "name": "omz13/kirby3-xmlsitemap",
-  "version": "0.4.5",
   "description": "kirby3 plugin to generate an xml-based sitemap",
-  "license": "MIT",
   "keywords": [
     "kirby3",
     "plugin",
     "sitemap"
   ],
-  "authors": [{
-    "name": "David Somers",
-    "email": "dsomers@omz13.com",
-    "homepage": "https://meldingstuff.com",
-    "role": "Developer"
-  }],
-  "repositories": [{
-    "type": "vcs",
-    "url": "https://github.com/k-next/kirby"
-  }],
+  "version": "0.4.5",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "David Somers",
+      "email": "dsomers@omz13.com",
+      "homepage": "https://meldingstuff.com",
+      "role": "Developer"
+    }
+  ],
   "require": {
     "php": ">=7.1",
     "getkirby/cms": "dev-master as 3.0.0"
@@ -33,45 +31,16 @@
     "phpstan/phpstan-strict-rules": "^0.10.1",
     "roave/security-advisories": "dev-master"
   },
-  "autoload": {
-    "files": [
-      "src/config.php"
-    ],
-    "psr-4": {
-      "omz13\\": "src/"
-    }
-  },
   "config": {
     "optimize-autoloader": true,
     "sort-packages": true
   },
-  "scripts": {
-    "lint": "./vendor/bin/parallel-lint ./src/*",
-    "style": "./vendor/bin/phpcs ./src/*",
-    "mess": "./vendor/bin/phpmd ./src text codesize,controversial,design,unusedcode",
-    "stan": "./vendor/bin/phpstan analyse --level 7 ./src",
-    "sanity": [
-      "make tools",
-      "@lint",
-      "./vendor/bin/phpcs -n ./src/*",
-      "@stan",
-      "@mess"
-    ],
-    "fix": [
-      "./vendor/bin/phpcbf ./src/*",
-      "./vendor/bin/phpcs -s ./src/*"
-    ],
-    "build": [
-      "@sanity",
-      "composer dumpautoload -o"
-    ],
-    "zip": [
-      "composer install --no-dev",
-      "composer remove getkirby/cms",
-      "composer dumpautoload -o",
-      "composer archive --format=zip --dir=dist",
-      "composer require getkirby/cms:'dev-master as 3.0.0'",
-      "composer dumpautoload -o"
+  "autoload": {
+    "psr-4": {
+      "omz13\\": "src/"
+    },
+    "files": [
+      "src/config.php"
     ]
   },
   "archive": {
@@ -89,5 +58,40 @@
       "/vendor/*/*/php4/*"
     ]
   },
-  "minimum-stability": "beta"
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/k-next/kirby"
+    }
+  ],
+  "minimum-stability": "beta",
+  "scripts": {
+    "build": [
+      "@sanity",
+      "composer dumpautoload -o"
+    ],
+    "fix": [
+      "./vendor/bin/phpcbf ./src/*",
+      "./vendor/bin/phpcs -s ./src/*"
+    ],
+    "lint": "./vendor/bin/parallel-lint ./src/*",
+    "mess": "./vendor/bin/phpmd ./src text codesize,controversial,design,unusedcode",
+    "sanity": [
+      "make tools",
+      "@lint",
+      "./vendor/bin/phpcs -n ./src/*",
+      "@stan",
+      "@mess"
+    ],
+    "stan": "./vendor/bin/phpstan analyse --level 7 ./src",
+    "style": "./vendor/bin/phpcs ./src/*",
+    "zip": [
+      "composer install --no-dev",
+      "composer remove getkirby/cms",
+      "composer dumpautoload -o",
+      "composer archive --format=zip --dir=dist",
+      "composer require getkirby/cms:'dev-master as 3.0.0'",
+      "composer dumpautoload -o"
+    ]
+  }
 }
