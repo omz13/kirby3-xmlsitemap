@@ -66,8 +66,8 @@
       "composer dumpautoload -o"
     ],
     "zip": [
-      "composer remove getkirby/cms",
       "composer install --no-dev",
+      "composer remove getkirby/cms",
       "composer dumpautoload -o",
       "composer archive --format=zip --dir=dist",
       "composer require getkirby/cms:'dev-master as 3.0.0'",
