@@ -210,7 +210,7 @@ To develop on this plugin, `composer update --dev` will pull in the necessary pa
 
 The `composer` package include scripts that are useful during development:
 
-- `compsoer lint` to lint the source (using [parallel-lint](https://packagist.org/packages/jakub-onderka/php-parallel-lint))
+- `composer lint` to lint the source (using [parallel-lint](https://packagist.org/packages/jakub-onderka/php-parallel-lint))
 - `composer style` to check style issues (using  `phpcs` from [PHP_CodeSniffer](https://packagist.org/packages/squizlabs/php_codesniffer)) against coding standard `omz13-k3p` in omz13/coding-standard).
 - `composer fix` to fix code style issues (using `phpcbf` from [PHP_CodeSniffer](https://packagist.org/packages/squizlabs/php_codesniffer))
 - `composer mess` to check for potential messes (using `phpmd` from the [PHP Mess Detector](https://packagist.org/packages/phpmd/phpmd))
