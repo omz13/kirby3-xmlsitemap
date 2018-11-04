@@ -27,7 +27,7 @@ For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates an x
   - Pages with a content field `excludefromxmlsitemap` that is `true` are excluded.
   - Pages with a method `issunset` that returns `true` are excluded.
   - Pages with a method `isunderembargo` that returns `true` are excluded.
-  - The children of pages made using certain templates can be excluded; c.f. `excludeChildrenWhenTemplateIs` in _Configuration_.
+  - For use with "one-pagers", children of pages made using certain templates can be excluded as sub-ordinate links (c.f. `excludeChildrenWhenTemplateIs` in _Configuration_) but any _images_ in those children *will* be included and listed as normal (which is how one-pagers are expected to work).
 - For debugging purposes, the generated sitemap can include additional information as xml comments; c.f. `debugqueryvalue` in _Configuration_.
 
 #### Related plugins
