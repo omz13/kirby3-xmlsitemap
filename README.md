@@ -1,8 +1,8 @@
 # Kirby3 xmlsitemap
 
- ![License](https://img.shields.io/github/license/mashape/apistatus.svg) ![Kirby Version](https://img.shields.io/badge/Kirby-3%2B-black.svg) [![Issues](https://img.shields.io/github/issues/omz13/kirby3-xmlsitemap.svg)](https://github.com/omz13/kirby3-xmlsitemap/issues)
+ ![Kirby Version](https://img.shields.io/badge/Kirby-3black.svg) [![Issues](https://img.shields.io/github/issues/omz13/kirby3-xmlsitemap.svg)](https://github.com/omz13/kirby3-xmlsitemap/issues)
 
-**Requirement:** Kirby 3
+**Requirement:** Kirby 3.0.0-beta-6.14 or better
 
 ## Documentation
 
@@ -11,6 +11,10 @@
 For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates an xml-based sitemap at `/sitemap.xml` and provides a prettyfier (`/sitemap.xsl`) for humans.
 
 - Generates a [sitemap](https://www.sitemaps.org); [valid](https://webmaster.yandex.com/tools/sitemap/) too.
+- Works with both single language and multilanguage sites.
+- For multilingual sites, a `<url>` is generated for each language, and each `<loc>` will also include:
+  - Bidirectional [hreflang](https://support.google.com/webmasters/answer/189077) links
+  - An [x-default](https://webmasters.googleblog.com/2013/04/x-default-hreflang-for-international-pages.html) link per the site's default language.
 - The generated page can be cached for a determined amount of time, c.f. `cacheTTL` in _Configuration_. This not only improves the response time if it can be retrieved from the cache.
 - For all pages, `<loc>` and `<lastmod>` are given; `<priority>` is not given because "its a bag of noise"; `<changefreq>` is also not given because it does not affect ranking.
 - `<lastmod`> is calculated using the date in a page's field called `updatedat`, or if not present then from the field `date`; if neither were found, it is based on the modification time for the page's content file.
@@ -70,6 +74,8 @@ For 1.0, the non-binding list of planned features and implementation notes are:
 - [ ] Guard 50MB limit
 - [ ] [Sitemap Index files](https://www.sitemaps.org/protocol.html#index)
 - [ ] [Video sitemap](https://support.google.com/webmasters/answer/80471?hl=en&ref_topic=4581190) `<video:video>`
+- [x] Support Multilingual sites - **done 0.5**
+- [x] `x-default` in ML sitemap **done 0.5**
 
 ### Installation
 

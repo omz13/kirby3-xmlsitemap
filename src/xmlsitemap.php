@@ -1,5 +1,7 @@
 <?php
 
+//phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
+
 namespace omz13;
 
 use Kirby\Cms\Page;
@@ -11,6 +13,7 @@ use const XMLSITEMAP_CONFIGURATION_PREFIX;
 use const XMLSITEMAP_VERSION;
 
 use function array_key_exists;
+use function array_push;
 use function date;
 use function define;
 use function file_exists;
@@ -176,7 +179,7 @@ class XMLSitemap
     $r .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" ';
 
     if ( static::$optionNOIMG != true ) {
-      $r .= ' xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"';
+      $r .= 'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"';
     }
 
     $r .= ">\n";
@@ -189,7 +192,46 @@ class XMLSitemap
       $r .= '<!--         excludePageWhenSlugIs = ' . json_encode( static::$optionXPWSI ) . " -->\n";
     }
 
-    static::addPagesToSitemap( $p, $r );
+    if ( kirby()->languages()->count() > 1 ) {
+      $langs = [];
+
+      static::addComment( $r, 'Processing as ML' );
+      foreach ( kirby()->languages() as $lang ) {
+        array_push( $langs, $lang->code() );
+      }
+
+      static::addComment( $r, 'ML languages are ' . json_encode( $langs ) );
+      static::addComment( $r, 'ML default is ' . kirby()->language()->code() );
+
+      // add explicit entry for homepage to point to l10n homepages
+      static::addComment( $r, 'ML confabulating a HOMEPAGE' );
+
+      $homepage = kirby()->site()->homePage();
+
+      $r .= '<url>' . "\n";
+      $r .= '  <loc>' . kirby()->url( 'index' ) . '</loc>' . "\n";
+      $r .= '  <xhtml:link rel="alternate" hreflang="x-default" href="' . $homepage->urlForLanguage( kirby()->language()->code() ) . '" />' . "\n";
+      foreach ( $langs as $lang ) {
+        $r .= '  <xhtml:link rel="alternate" hreflang="' . $lang . '" href="' . $homepage->urlForLanguage( $lang ) . '" />' . "\n";
+      }
+      $r .= '</url>' . "\n";
+
+      // Add sitemap for each language
+      foreach ( $langs as $lang ) {
+        static::addComment( $r, 'ML for ' . $lang );
+        if ( $lang == kirby()->language()->code() ) {
+          static::addComment( $r, 'ML ' . $lang . ' is primary' );
+          static::addPagesToSitemap( $p, $r, "--" );
+        } else {
+          static::addComment( $r, 'ML ' . $lang . ' is secondary' );
+          static::addPagesToSitemap( $p, $r, $lang );
+        }
+      }
+    } else {
+      static::addComment( $r, 'Processing as SL' );
+      static::addPagesToSitemap( $p, $r, null );
+    }//end if
+
     $r .= "</urlset>\n";
     $r .= "<!-- Sitemap generated using https://github.com/omz13/kirby3-xmlsitemap -->\n";
 
@@ -210,21 +252,32 @@ class XMLSitemap
   * @SuppressWarnings(PHPMD.NPathComplexity)
   * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
    */
-  private static function addPagesToSitemap( Pages $pages, string &$r ) : void {
+  private static function addPagesToSitemap( Pages $pages, string &$r, ?string $langcode = null ) : void {
     $sortedpages = $pages->sortBy( 'url', 'asc' );
     foreach ( $sortedpages as $p ) {
-      static::addComment( $r, 'crunching ' . $p->url() . ' [it=' . $p->intendedTemplate() . '] [s=' . $p->status() . '] [d=' . $p->depth() . ']' );
+      static::addComment( $r, 'crunching ' . $p->parent() . '/' . $p->uid() . ' [it=' . $p->intendedTemplate() . '] [s=' . $p->status() . '] [d=' . $p->depth() . ']' . ( $p->isHomePage() ? " HOMEPAGE" : "" ) );
+
+      if ( $langcode == null ) {
+        static::addComment( $r, '(  ) "' . $p->title() . '"' );
+      } else {
+        if ( $langcode == '--' ) {
+          static::addComment( $r, '(--) "' . $p->title() . '"' );
+        } else {
+          static::addComment( $r, '(' . $langcode . ') "' . $p->translationData( $langcode )['title'] . '"' );
+        }
+      }
 
       // don't include the error page
       if ( $p->isErrorPage() ) {
+        static::addComment( $r, 'excluding because ERRORPAGE' );
         continue;
       }
 
       if ( $p->status() == 'unlisted' && ! $p->isHomePage() ) {
         if ( isset( static::$optionIUWSI ) && in_array( $p->slug(), static::$optionIUWSI, false ) ) {
-          static::addComment( $r, 'including ' . $p->url() . ' because unlisted but in includeUnlistedWhenSlugIs' );
+          static::addComment( $r, 'including because unlisted but in includeUnlistedWhenSlugIs' );
         } else {
-          static::addComment( $r, 'excluding ' . $p->url() . ' because unlisted' );
+          static::addComment( $r, 'excluding because unlisted' );
           continue;
         }
       }
@@ -237,20 +290,20 @@ class XMLSitemap
 
       // exclude because slug is in the exclusion list:
       if ( isset( static::$optionXPWSI ) && in_array( $p->slug(), static::$optionXPWSI, false ) ) {
-        static::addComment( $r, 'excluding ' . $p->url() . ' because excludePageWhenSlugIs (' . $p->slug() . ')' );
+        static::addComment( $r, 'excluding because excludePageWhenSlugIs (' . $p->slug() . ')' );
         continue;
       }
 
       // exclude because page content field 'excludefromxmlsitemap':
       if ( $p->content()->excludefromxmlsitemap() == 'true' ) {
-        static::addComment( $r, 'excluding ' . $p->url() . ' because excludeFromXMLSitemap' );
+        static::addComment( $r, 'excluding because excludeFromXMLSitemap' );
         continue;
       }
 
       // exclude because, if supported, the page is sunset:
       if ( $p->hasMethod( 'issunset' ) ) {
         if ( $p->issunset() ) {
-          static::addComment( $r, 'excluding ' . $p->url() . ' because isSunset' );
+          static::addComment( $r, 'excluding because isSunset' );
           continue;
         }
       }
@@ -258,7 +311,7 @@ class XMLSitemap
       // exclude because, if supported,  the page is under embargo
       if ( $p->hasMethod( 'isunderembargo' ) ) {
         if ( $p->isunderembargo() ) {
-          static::addComment( $r, 'excluding ' . $p->url() . ' because isUnderembargo' );
+          static::addComment( $r, 'excluding because isUnderembargo' );
           continue;
         }
       }
@@ -266,32 +319,26 @@ class XMLSitemap
       // <loc>https://www.example.com/slug</loc>
 
       $r .= "<url>\n";
-      $r .= '  <loc>' . $p->url() . // ($p->isHomePage() ? "/" : "") .
-
-      "</loc>\n";
-
-      // priority for determining the last modified date: updatedat, then date, then filestamp
-      $lastmod = 0; // default to unix epoch (jan-1-1970)
-      if ( $p->content()->has( 'updatedat' ) ) {
-        $t       = $p->content()->get( 'updatedat' );
-        $lastmod = strtotime( $t );
+      if ( $langcode == null ) { // single-language
+        $r .= '  <loc>' . $p->url() . '</loc>' . "\n";
       } else {
-        if ( $p->content()->has( 'date' ) ) {
-          $t       = $p->content()->get( 'date' );
-          $lastmod = strtotime( $t );
+        // Do NOT do urlForLanguage for the default language - bad things will happen - see k-next/kirby#1169
+        if ( $langcode == "--" ) { // ml - default language
+           $r .= '  <loc>' . $p->url() . '</loc>' . "\n";
         } else {
-          if ( file_exists( $p->contentFile() ) ) {
-            $lastmod = filemtime( $p->contentFile() );
-          }
+          $r .= '  <loc>' . $p->urlForLanguage( $langcode ) . '</loc>' . "\n";
+        }
+        // default language: <xhtml:link rel="alternate" hreflang="x-default" href="http://www.example.com/"/>
+        $r .= '  <xhtml:link rel="alternate" hreflang="x-default" href="' . $p->urlForLanguage( kirby()->language()->code() ) . '" />' . "\n";
+        // localized languages: <xhtml:link rel="alternate" hreflang="en" href="http://www.example.com/"/>
+        foreach ( $p->translations() as $tr ) {
+          $r .= '  <xhtml:link rel="alternate" hreflang="' . $tr->code() . '" href="' . $p->urlForLanguage( $tr->code() ) . '" />' . "\n";
         }
       }//end if
 
-      // phpstan picked up that Parameter #2 $timestamp of function date expects int, int|false given.
-      // this might happen if strtotime or filemtime above fails.
-      // so a big thumbs-up to phpstan.
-      if ( $lastmod == false ) {
-        $lastmod = 0;
-      }
+      // priority for determining the last modified date: updatedat, then date, then filestamp
+      // default to unix epoch (jan-1-1970) if not found
+      $lastmod = static::getLastmod( $p, $langcode );
 
       // set modified date to be last date vis-a-vis when file modified /content embargo time / content date
       $r .= '  <lastmod>' . date( 'c', $lastmod ) . "</lastmod>\n";
@@ -311,7 +358,7 @@ class XMLSitemap
       if ( $p->children() !== null ) {
         // jump into the children, unless the current page's template is in the exclude-its-children set
         if ( isset( static::$optionXCWTI ) && in_array( $p->intendedTemplate(), static::$optionXCWTI, false ) ) {
-          static::addComment( $r, 'ignoring children of ' . $p->url() . ' because excludeChildrenWhenTemplateIs (' . $p->intendedTemplate() . ')' );
+          static::addComment( $r, 'ignoring child pages but not child images because excludeChildrenWhenTemplateIs (' . $p->intendedTemplate() . ')' );
           if ( static::$optionNOIMG != true ) {
             static::addImagesToSitemap( $p->children(), $r );
           }
@@ -319,13 +366,44 @@ class XMLSitemap
           $r .= "</url>\n";
         } else {
           $r .= "</url>\n";
-          static::addPagesToSitemap( $p->children(), $r );
+          static::addPagesToSitemap( $p->children(), $r, $langcode );
         }
       } else {
         $r .= "</url>\n";
       }//end if
     }//end foreach
   }//end addPagesToSitemap()
+
+  private static function getLastmod( Page $p, ?string $langcode = null ) : int {
+    $lc = $langcode;
+    if ( $lc == '--' ) {
+      $lc = null;
+    }
+
+    $lastmod = 0; // default to unix epoch (jan-1-1970)
+    if ( $p->content( $lc )->has( 'updatedat' ) ) {
+      $t       = $p->content( $lc )->get( 'updatedat' );
+      $lastmod = strtotime( $t );
+    } else {
+      if ( $p->content( $lc )->has( 'date' ) ) {
+        $t       = $p->content( $lc )->get( 'date' );
+        $lastmod = strtotime( $t );
+      } else {
+        if ( file_exists( $p->contentFile( $lc ) ) ) {
+          $lastmod = filemtime( $p->contentFile( $lc ) );
+        }
+      }
+    }
+
+    if ( $lastmod == false ) {
+      return 0;
+    } else {
+      if ( $lastmod == 0 && $langcode != null && $langcode != '--' ) {
+        return static::getLastmod( $p, '--' );
+      }
+      return $lastmod;
+    }
+  }//end getLastmod()
 
   private static function addComment( string &$r, string $m ) : void {
     if ( static::$debug == true ) {
