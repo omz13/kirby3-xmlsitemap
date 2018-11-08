@@ -1,6 +1,7 @@
 <?php
 
 //phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
+//phpcs:disable Generic.PHP.NoSilencedErrors.Discouraged
 
 namespace omz13;
 
@@ -43,6 +44,7 @@ class XMLSitemap
   private static $optionXCWTI; // exclude children when template is
   private static $optionXPWTI; // exclude page when template is
   private static $optionXPWSI; // exclude page when slug is
+  private static $optionShimH;
   public static $version = XMLSITEMAP_VERSION;
 
   public static function ping() : string {
@@ -96,11 +98,16 @@ class XMLSitemap
   }//end getConfigurationForKey()
 
   public static function getStylesheet() : string {
-    $f = file_get_contents( __DIR__ . '/../assets/xmlsitemap.xsl' );
-    if ( $f == null ) {
-      throw new LogicException( 'Failed to read sitemap.xsl' );
+    $f = null;
+    if ( static::getConfigurationForKey( 'x-shimAssets' ) == true ) {
+      $f = @file_get_contents( kirby()->root( 'assets' ) . '/xmlsitemap/xmlsitemap.xsl' );
     }
-
+    if ( $f == null ) {
+      $f = file_get_contents( __DIR__ . '/../assets/xmlsitemap.xsl' );
+      if ( $f == null ) {
+        throw new LogicException( 'Failed to read embedded sitemap.xsl' );
+      }
+    }
     return $f;
   }//end getStylesheet()
 
@@ -111,6 +118,7 @@ class XMLSitemap
     static::$optionXCWTI = static::getArrayConfigurationForKey( 'excludeChildrenWhenTemplateIs' );
     static::$optionXPWTI = static::getArrayConfigurationForKey( 'excludePageWhenTemplateIs' );
     static::$optionXPWSI = static::getArrayConfigurationForKey( 'excludePageWhenSlugIs' );
+    static::$optionShimH = static::getConfigurationForKey( 'x-shimHomepage' );
   }//end pickupOptions()
 
   /**
@@ -139,6 +147,7 @@ class XMLSitemap
       $ops .= '-' . json_encode( static::$optionXCWTI );
       $ops .= '-' . json_encode( static::$optionXPWSI );
       $ops .= '-' . json_encode( static::$optionXPWTI );
+      $ops .= '-' . json_encode( static::$optionShimH );
       $ops .= '-' . json_encode( $debug );
 
       $cacheName = XMLSITEMAP_VERSION . '-sitemap-' . md5( $ops );
@@ -190,6 +199,7 @@ class XMLSitemap
       $r .= '<!-- excludeChildrenWhenTemplateIs = ' . json_encode( static::$optionXCWTI ) . " -->\n";
       $r .= '<!--     excludePageWhenTemplateIs = ' . json_encode( static::$optionXPWTI ) . " -->\n";
       $r .= '<!--         excludePageWhenSlugIs = ' . json_encode( static::$optionXPWSI ) . " -->\n";
+      $r .= '<!--                x-shimHomepage = ' . json_encode( static::$optionShimH ) . " -->\n";
     }
 
     if ( kirby()->languages()->count() > 1 ) {
@@ -203,18 +213,20 @@ class XMLSitemap
       static::addComment( $r, 'ML languages are ' . json_encode( $langs ) );
       static::addComment( $r, 'ML default is ' . kirby()->language()->code() );
 
-      // add explicit entry for homepage to point to l10n homepages
-      static::addComment( $r, 'ML confabulating a HOMEPAGE' );
+      if ( static::$optionShimH == true ) {
+        // add explicit entry for homepage to point to l10n homepages
+        static::addComment( $r, 'ML confabulating a HOMEPAGE' );
 
-      $homepage = kirby()->site()->homePage();
+        $homepage = kirby()->site()->homePage();
 
-      $r .= '<url>' . "\n";
-      $r .= '  <loc>' . kirby()->url( 'index' ) . '</loc>' . "\n";
-      $r .= '  <xhtml:link rel="alternate" hreflang="x-default" href="' . $homepage->urlForLanguage( kirby()->language()->code() ) . '" />' . "\n";
-      foreach ( $langs as $lang ) {
-        $r .= '  <xhtml:link rel="alternate" hreflang="' . $lang . '" href="' . $homepage->urlForLanguage( $lang ) . '" />' . "\n";
+        $r .= '<url>' . "\n";
+        $r .= '  <loc>' . kirby()->url( 'index' ) . '</loc>' . "\n";
+        $r .= '  <xhtml:link rel="alternate" hreflang="x-default" href="' . $homepage->urlForLanguage( kirby()->language()->code() ) . '" />' . "\n";
+        foreach ( $langs as $lang ) {
+          $r .= '  <xhtml:link rel="alternate" hreflang="' . $lang . '" href="' . $homepage->urlForLanguage( $lang ) . '" />' . "\n";
+        }
+        $r .= '</url>' . "\n";
       }
-      $r .= '</url>' . "\n";
 
       // Add sitemap for each language
       foreach ( $langs as $lang ) {

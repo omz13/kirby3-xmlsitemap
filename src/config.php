@@ -14,6 +14,7 @@ Kirby::plugin(
         'excludePageWhenSlugIs'         => [],
         'excludeChildrenWhenTemplateIs' => [],
         'disableImages'                 => false,
+        'x-shimHomepage'                => false,
       ],
 
       'routes'  => [
