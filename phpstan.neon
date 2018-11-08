@@ -8,6 +8,8 @@ parameters:
 	ignoreErrors:
 		- '#Call to function in_array\(\) requires parameter \#[\d]+ to be true.#'
 		- '#Property [a-z0-9]+\\[a-zA-Z]+::\$[a-zA-Z]+ has no typehint specified.#'
+		- '#Parameter \#1 $time of function strtotime expects string, array|Kirby\\Cms\\Field given.#'
+		- '#Cannot call method code\(\) on Kirby\\Cms\\Language|null.#'
 	tmpDir: %rootDir%/tmp
 	level: 5
 includes:
