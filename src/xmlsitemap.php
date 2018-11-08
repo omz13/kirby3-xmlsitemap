@@ -395,14 +395,15 @@ class XMLSitemap
       }
     }
 
+    // ML: Failsafe fallback to default language if not already there
     if ( $lastmod == false ) {
-      return 0;
-    } else {
-      if ( $lastmod == 0 && $langcode != null && $langcode != '--' ) {
+      if ( $langcode != null && $langcode != '--' ) {
         return static::getLastmod( $p, '--' );
+      } else {
+        return 0;
       }
-      return $lastmod;
     }
+    return $lastmod;
   }//end getLastmod()
 
   private static function addComment( string &$r, string $m ) : void {
