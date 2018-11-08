@@ -2,7 +2,7 @@
 
  ![Kirby Version](https://img.shields.io/badge/Kirby-3black.svg) [![Issues](https://img.shields.io/github/issues/omz13/kirby3-xmlsitemap.svg)](https://github.com/omz13/kirby3-xmlsitemap/issues)
 
-**Requirement:** Kirby 3.0.0-beta-6.14 or better
+**Requirement:** Kirby 3.0.0-beta-6.15 or better
 
 ## Documentation
 
@@ -74,7 +74,7 @@ For 1.0, the non-binding list of planned features and implementation notes are:
 - [ ] Guard 50MB limit
 - [ ] [Sitemap Index files](https://www.sitemaps.org/protocol.html#index)
 - [ ] [Video sitemap](https://support.google.com/webmasters/answer/80471?hl=en&ref_topic=4581190) `<video:video>`
-- [x] Support Multilingual sites - **done 0.5**
+- [x] Support Multilingual sites - **done 0.5** **REQUIRES kirby 3.0.0-beta-6.15 or better**
 - [x] `x-default` in ML sitemap **done 0.5**
 
 ### Installation
