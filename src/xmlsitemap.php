@@ -30,7 +30,7 @@ use function microtime;
 use function strtotime;
 use function time;
 
-define( 'XMLSITEMAP_VERSION', '0.4.6' );
+define( 'XMLSITEMAP_VERSION', '0.5.0' );
 define( 'XMLSITEMAP_CONFIGURATION_PREFIX', 'omz13.xmlsitemap' );
 
 /**

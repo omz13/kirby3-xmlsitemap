@@ -2,6 +2,21 @@
 VERSION 0  FIXES AND FEATURES
 =============================
 
+   Version 0.5 - beta release
+      09/11/2018 20:10  0.5.0  initial release
+         8c8b983 Chore: mess (what a surprise, adding logic makes it complex)
+         66ce3a2 Docs: edit stupid mistakes
+         9d28b43 Docs: beta-6.15 was broken for multi-language sites so must use beta-6.16 (or better)
+         2e4dca6 Fix: guard against translation data corruption
+         84872b4 Refactor: shim
+         69c74f2 Chore: composer update
+         7996605 Docs: update requirements vis-à-vis multilingual support
+         235cbf1 Fix: failsafe fallback under ML for getLastmod
+         7acf9fc Chore: stan
+         f26f470 Feature: Support multilingual sites. Closes #10.
+         52be763 Docs: clarify use of excludeChildrenWhenTemplateIs for one-pagers. Closes #11.
+         d6681ee Docs: fix typo
+
    Version 0.4 - beta release
       23/09/2018 15:19  0.4.6  beta release
          8871fde Chore: normalize

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2428982ead92502f49eff15512464be8",
+    "content-hash": "c468036980004499b5b7046835751168",
     "packages": [
         {
             "name": "claviska/simpleimage",
@@ -208,12 +208,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/k-next/kirby.git",
-                "reference": "a709a5728671c0b85a1f37db1d6b2a028151f013"
+                "reference": "6221a6b5b8d42aa4c04e6b01c642b8d52be64e36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/k-next/kirby/zipball/a709a5728671c0b85a1f37db1d6b2a028151f013",
-                "reference": "a709a5728671c0b85a1f37db1d6b2a028151f013",
+                "url": "https://api.github.com/repos/k-next/kirby/zipball/6221a6b5b8d42aa4c04e6b01c642b8d52be64e36",
+                "reference": "6221a6b5b8d42aa4c04e6b01c642b8d52be64e36",
                 "shasum": ""
             },
             "archive": {
@@ -310,7 +310,7 @@
                 "forum": "https://forum.getkirby.com",
                 "source": "https://github.com/getkirby/kirby"
             },
-            "time": "2018-11-08T14:39:27+00:00"
+            "time": "2018-11-09T16:49:19+00:00"
         },
         {
             "name": "league/color-extractor",
