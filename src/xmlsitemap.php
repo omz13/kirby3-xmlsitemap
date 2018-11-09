@@ -15,6 +15,7 @@ use const XMLSITEMAP_VERSION;
 
 use function array_key_exists;
 use function array_push;
+use function assert;
 use function date;
 use function define;
 use function file_exists;
@@ -202,16 +203,17 @@ class XMLSitemap
       $r .= '<!--                x-shimHomepage = ' . json_encode( static::$optionShimH ) . " -->\n";
     }
 
-    if ( kirby()->languages()->count() > 1 ) {
+    if ( kirby()->multilang() == true ) {
       $langs = [];
 
-      static::addComment( $r, 'Processing as ML' );
+      static::addComment( $r, 'Processing as ML; number of languages = ' . kirby()->languages()->count() );
+      assert( kirby()->languages()->count() > 0 );
       foreach ( kirby()->languages() as $lang ) {
         array_push( $langs, $lang->code() );
       }
 
       static::addComment( $r, 'ML languages are ' . json_encode( $langs ) );
-      static::addComment( $r, 'ML default is ' . kirby()->language()->code() );
+      static::addComment( $r, 'ML default is "' . json_encode( kirby()->language()->code() ) );
 
       if ( static::$optionShimH == true ) {
         // add explicit entry for homepage to point to l10n homepages
@@ -275,7 +277,12 @@ class XMLSitemap
         if ( $langcode == '--' ) {
           static::addComment( $r, '(--) "' . $p->title() . '"' );
         } else {
-          static::addComment( $r, '(' . $langcode . ') "' . $p->translationData( $langcode )['title'] . '"' );
+          // Guard just-in-case the translation data is corrupted and do fallback
+          if ( array_key_exists( "title", $p->translationData( $langcode ) ) == true ) {
+            static::addComment( $r, '(' . $langcode . ') "' . $p->translationData( $langcode )['title'] . '"' );
+          } else {
+            static::addComment( $r, '(' . $langcode . ') "' . $p->title() . '" (translationData FUBAR)' );
+          }
         }
       }
 
