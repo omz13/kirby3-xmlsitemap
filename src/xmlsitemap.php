@@ -179,6 +179,9 @@ class XMLSitemap
     return $r;
   }//end getSitemap()
 
+  /**
+  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+   */
   private static function generateSitemap( Pages $p, bool $debug = false ) : string {
     static::pickupOptions();
     $tbeg = microtime( true );
