@@ -8,17 +8,17 @@
 
 ### Purpose
 
-For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates an xml-based sitemap at `/sitemap.xml` and provides a prettyfier (`/sitemap.xsl`) for humans.
+For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates an xml-based sitemap at `/sitemap.xml` and provides a prettifier (`/sitemap.xsl`) for humans.
 
 - Generates a [sitemap](https://www.sitemaps.org); [valid](https://webmaster.yandex.com/tools/sitemap/) too.
-- Works with both single language and multilanguage sites.
+- Works with both single-language and multi-language sites.
 - For multilingual sites, a `<url>` is generated for each language, and each `<loc>` will also include:
   - Bidirectional [hreflang](https://support.google.com/webmasters/answer/189077) links
   - An [x-default](https://webmasters.googleblog.com/2013/04/x-default-hreflang-for-international-pages.html) link per the site's default language.
 - The generated page can be cached for a determined amount of time, c.f. `cacheTTL` in _Configuration_. This not only improves the response time if it can be retrieved from the cache.
 - For all pages, `<loc>` and `<lastmod>` are given; `<priority>` is not given because "its a bag of noise"; `<changefreq>` is also not given because it does not affect ranking.
 - `<lastmod`> is calculated using the date in a page's field called `updatedat`, or if not present then from the field `date`; if neither were found, it is based on the modification time for the page's content file.
-- When a page is included in the xml-sitemap, information for images (`<image:loc>`) on each page is inclued unless this is disabled; c.f. `disableImages` in _Configuration_.
+- When a page is included in the xml-sitemap, information for images (`<image:loc>`) on each page is included unless this is disabled; c.f. `disableImages` in _Configuration_.
 - The generated `sitemap.xml` has an accompanying `sitemap.xsl` to produce a prettified page for human consumption.
 - Only pages that have a status of "published" are included (everything else, `drafts` and `unlisted`, are excluded).
 - Pages or their children can be excluded based on the following criteria, and in the following order:
@@ -208,7 +208,7 @@ fields:
       - explicitly exclude
 ```
 
-As pages are implicitly included within a sitemap, this mechanism should only be used when you have a reason to explcitly exclude a page when it is not possible to do otherwise (e.g. using `excludePageWhenTemplateIs`).
+As pages are implicitly included within a sitemap, this mechanism should only be used when you have a reason to explicitly exclude a page when it is not possible to do otherwise (e.g. using `excludePageWhenTemplateIs`).
 
 ## --dev
 
@@ -226,7 +226,7 @@ The `composer` package include scripts that are useful during development:
 A `makefile` is provided because:
 
 - `make sanity` to check the validity of the composer file and run the sanity script (and its less keys than typing `composer sanity`, and also because I keep mistyping it as `compsoer sanity`).
-- `make release` to relase an updated version using [liip/rmt](https://packagist.org/packages/liip/rmt).
+- `make release` to release an updated version using [liip/rmt](https://packagist.org/packages/liip/rmt).
 
 ## Disclaimer
 
