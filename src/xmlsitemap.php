@@ -27,6 +27,8 @@ use function json_encode;
 use function kirby;
 use function md5;
 use function microtime;
+use function str_replace;
+use function strtolower;
 use function strtotime;
 use function time;
 
@@ -212,11 +214,12 @@ class XMLSitemap
       static::addComment( $r, 'Processing as ML; number of languages = ' . kirby()->languages()->count() );
       assert( kirby()->languages()->count() > 0 );
       foreach ( kirby()->languages() as $lang ) {
+        static::addComment( $r, 'ML ' . $lang->code() . " = " . $lang->locale() . " = " . $lang->name() );
         array_push( $langs, $lang->code() );
       }
 
-      static::addComment( $r, 'ML languages are ' . json_encode( $langs ) );
-      static::addComment( $r, 'ML default is "' . json_encode( kirby()->language()->code() ) );
+      static::addComment( $r, 'ML language codes are ' . json_encode( $langs ) );
+      static::addComment( $r, 'ML default is "' . kirby()->language()->code() . '" ' . kirby()->language()->name() );
 
       if ( static::$optionShimH == true ) {
         // add explicit entry for homepage to point to l10n homepages
@@ -228,7 +231,7 @@ class XMLSitemap
         $r .= '  <loc>' . kirby()->url( 'index' ) . '</loc>' . "\n";
         $r .= '  <xhtml:link rel="alternate" hreflang="x-default" href="' . $homepage->urlForLanguage( kirby()->language()->code() ) . '" />' . "\n";
         foreach ( $langs as $lang ) {
-          $r .= '  <xhtml:link rel="alternate" hreflang="' . $lang . '" href="' . $homepage->urlForLanguage( $lang ) . '" />' . "\n";
+          $r .= '  <xhtml:link rel="alternate" hreflang="' . strtolower( str_replace( '_', '-', $lang ) ) . '" href="' . $homepage->urlForLanguage( $lang ) . '" />' . "\n";
         }
         $r .= '</url>' . "\n";
       }
@@ -353,8 +356,9 @@ class XMLSitemap
         // default language: <xhtml:link rel="alternate" hreflang="x-default" href="http://www.example.com/"/>
         $r .= '  <xhtml:link rel="alternate" hreflang="x-default" href="' . $p->urlForLanguage( kirby()->language()->code() ) . '" />' . "\n";
         // localized languages: <xhtml:link rel="alternate" hreflang="en" href="http://www.example.com/"/>
-        foreach ( $p->translations() as $tr ) {
-          $r .= '  <xhtml:link rel="alternate" hreflang="' . $tr->code() . '" href="' . $p->urlForLanguage( $tr->code() ) . '" />' . "\n";
+        foreach ( kirby()->languages() as $l ) {
+          // Note: Contort PHP locale to hreflang-required form
+          $r .= '  <xhtml:link rel="alternate" hreflang="' . strtolower( str_replace( '_', '-', $l->locale() ) ) . '" href="' . $p->urlForLanguage( $l->code() ) . '" />' . "\n";
         }
       }//end if
 
