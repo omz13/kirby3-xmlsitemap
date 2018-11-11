@@ -14,7 +14,6 @@ use const XMLSITEMAP_CONFIGURATION_PREFIX;
 use const XMLSITEMAP_VERSION;
 
 use function array_key_exists;
-use function array_push;
 use function assert;
 use function date;
 use function define;
@@ -209,17 +208,11 @@ class XMLSitemap
     }
 
     if ( kirby()->multilang() == true ) {
-      $langs = [];
-
       static::addComment( $r, 'Processing as ML; number of languages = ' . kirby()->languages()->count() );
       assert( kirby()->languages()->count() > 0 );
       foreach ( kirby()->languages() as $lang ) {
-        static::addComment( $r, 'ML ' . $lang->code() . " = " . $lang->locale() . " = " . $lang->name() );
-        array_push( $langs, $lang->code() );
+        static::addComment( $r, 'ML code ' . $lang->code() . ' ' . $lang->locale() . ' ' . $lang->name() );
       }
-
-      static::addComment( $r, 'ML language codes are ' . json_encode( $langs ) );
-      static::addComment( $r, 'ML default is "' . kirby()->language()->code() . '" ' . kirby()->language()->name() );
 
       if ( static::$optionShimH == true ) {
         // add explicit entry for homepage to point to l10n homepages
@@ -230,21 +223,20 @@ class XMLSitemap
         $r .= '<url>' . "\n";
         $r .= '  <loc>' . kirby()->url( 'index' ) . '</loc>' . "\n";
         $r .= '  <xhtml:link rel="alternate" hreflang="x-default" href="' . $homepage->urlForLanguage( kirby()->language()->code() ) . '" />' . "\n";
-        foreach ( $langs as $lang ) {
-          $r .= '  <xhtml:link rel="alternate" hreflang="' . strtolower( str_replace( '_', '-', $lang ) ) . '" href="' . $homepage->urlForLanguage( $lang ) . '" />' . "\n";
+        foreach ( kirby()->languages() as $lang ) {
+          $r .= '  <xhtml:link rel="alternate" hreflang="' . static::getHreflangFromLocale( $lang->locale() ) . '" href="' . $homepage->urlForLanguage( $lang->code() ) . '" />' . "\n";
         }
         $r .= '</url>' . "\n";
       }
 
-      // Add sitemap for each language
-      foreach ( $langs as $lang ) {
-        static::addComment( $r, 'ML for ' . $lang );
-        if ( $lang == kirby()->language()->code() ) {
-          static::addComment( $r, 'ML ' . $lang . ' is primary' );
-          static::addPagesToSitemap( $p, $r, "--" );
-        } else {
-          static::addComment( $r, 'ML ' . $lang . ' is secondary' );
-          static::addPagesToSitemap( $p, $r, $lang );
+      // First, add sitemap default language
+      static::addComment( $r, 'ML default is "' . kirby()->language()->code() . '" ' . kirby()->language()->name() );
+      static::addPagesToSitemap( $p, $r, "--" );
+      // Then add sitemap for all other languages
+      foreach ( kirby()->languages() as $lang ) {
+        if ( $lang != kirby()->language()->code() ) {
+          static::addComment( $r, 'ML secondary is ' . $lang->code() . ' ' . $lang->name() );
+          static::addPagesToSitemap( $p, $r, $lang->code() );
         }
       }
     } else {
@@ -358,7 +350,7 @@ class XMLSitemap
         // localized languages: <xhtml:link rel="alternate" hreflang="en" href="http://www.example.com/"/>
         foreach ( kirby()->languages() as $l ) {
           // Note: Contort PHP locale to hreflang-required form
-          $r .= '  <xhtml:link rel="alternate" hreflang="' . strtolower( str_replace( '_', '-', $l->locale() ) ) . '" href="' . $p->urlForLanguage( $l->code() ) . '" />' . "\n";
+          $r .= '  <xhtml:link rel="alternate" hreflang="' . static::getHreflangFromLocale( $l->locale() ) . '" href="' . $p->urlForLanguage( $l->code() ) . '" />' . "\n";
         }
       }//end if
 
@@ -431,6 +423,10 @@ class XMLSitemap
     }
     return $lastmod;
   }//end getLastmod()
+
+  private static function getHreflangFromLocale( string $locale ) : string {
+    return strtolower( str_replace( '_', '-', $locale ) );
+  }//end getHreflangFromLocale()
 
   private static function addComment( string &$r, string $m ) : void {
     if ( static::$debug == true ) {
