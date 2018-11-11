@@ -12,9 +12,7 @@ For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates an x
 
 - Generates a [sitemap](https://www.sitemaps.org); [valid](https://webmaster.yandex.com/tools/sitemap/) too.
 - Works with both single-language and multi-language sites.
-- For multilingual sites, a `<url>` is generated for each language, and each `<loc>` will also include:
-  - Bidirectional [hreflang](https://support.google.com/webmasters/answer/189077) links
-  - An [x-default](https://webmasters.googleblog.com/2013/04/x-default-hreflang-for-international-pages.html) link per the site's default language.
+- For multilingual sites an entry (`<url>`) is generated for each language, and within each `<loc>` there are appropriate `<xhtml:link>` members, one for each language with [hreflang](https://support.google.com/webmasters/answer/189077) computed from the language's configured `locale`), and an additional pseudo-language of [x-default](https://webmasters.googleblog.com/2013/04/x-default-hreflang-for-international-pages.html) per the site's default language.
 - The generated page can be cached for a determined amount of time, c.f. `cacheTTL` in _Configuration_. This not only improves the response time if it can be retrieved from the cache.
 - For all pages, `<loc>` and `<lastmod>` are given; `<priority>` is not given because "its a bag of noise"; `<changefreq>` is also not given because it does not affect ranking.
 - `<lastmod`> is calculated using the date in a page's field called `updatedat`, or if not present then from the field `date`; if neither were found, it is based on the modification time for the page's content file.
