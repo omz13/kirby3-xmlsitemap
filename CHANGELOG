@@ -3,6 +3,10 @@ VERSION 0  FIXES AND FEATURES
 =============================
 
    Version 0.5 - beta release
+      11/11/2018 17:02  0.5.2  beta release
+         fba6931 Refactor: for ML, generate default before others
+         29a4034 Docs: clarify hreflang is computed from locale
+         1f75550 Fix: spaces not tabs
       10/11/2018 10:45  0.5.1  beta release
          6d7e1c0 Fix: compute hreflang from locale
       09/11/2018 20:10  0.5.0  initial release
