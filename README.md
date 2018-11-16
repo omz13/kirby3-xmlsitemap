@@ -175,9 +175,9 @@ return [
 ];
 ```
 
-#### via `site.txt`
+#### via `content/site.txt`
 
-The plugin can be explicitly disabled in `content\site.txt` by having an entry for `xmlsitemap` and setting this to `false`. This could be achieved through the panel by adding the following into `site/blueprints/site.yml`:
+The plugin can be explicitly disabled in `content/site.txt` by having an entry for `xmlsitemap` and setting this to `false`. This could be achieved through the panel by adding the following into `site/blueprints/site.yml`:
 
 ```yaml
 type:          fields
@@ -190,6 +190,7 @@ fields:
       - disabled
       - enabled
 ```
+
 #### via content fields
 
 If a page's content has a field called `excludefromxmlsitemap` and this is set to `true`, then that page (and any children, if present) will be excluded. Similarly to `site.txt`, this can be easily achieved in a blueprint.
