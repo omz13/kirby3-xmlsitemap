@@ -3,6 +3,12 @@ VERSION 0  FIXES AND FEATURES
 =============================
 
    Version 0.5 - beta release
+      21/11/2018 17:08  0.5.3  beta release
+         809f818 Chore: update lock
+         c7e6fd1 Chore: sanity cleanup
+         fdd1c5c Chore: Tweak PhpStorm config
+         acc226d Fix #12
+         bbbdf18 Docs: fat fingers
       11/11/2018 17:02  0.5.2  beta release
          fba6931 Refactor: for ML, generate default before others
          29a4034 Docs: clarify hreflang is computed from locale
