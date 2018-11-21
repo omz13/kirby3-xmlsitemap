@@ -190,10 +190,14 @@ class XMLSitemap
     $r  = '';
     $r .= "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     $r .= "<?xml-stylesheet type=\"text/xsl\" href=\"/sitemap.xsl\"?>\n";
-    $r .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" ';
+    $r .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"';
 
     if ( static::$optionNOIMG != true ) {
-      $r .= 'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"';
+      $r .= ' xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"';
+    }
+
+    if ( kirby()->multilang() == true ) {
+      $r .= ' xmlns:xhtml="http://www.w3.org/1999/xhtml"';
     }
 
     $r .= ">\n";
