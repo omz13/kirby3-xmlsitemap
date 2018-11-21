@@ -102,11 +102,13 @@ class XMLSitemap
   public static function getStylesheet() : string {
     $f = null;
     if ( static::getConfigurationForKey( 'x-shimAssets' ) == true ) {
+      /** @noinspection PhpUsageOfSilenceOperatorInspection */
       $f = @file_get_contents( kirby()->root( 'assets' ) . '/xmlsitemap/xmlsitemap.xsl' );
     }
     if ( $f == null ) {
       $f = file_get_contents( __DIR__ . '/../assets/xmlsitemap.xsl' );
       if ( $f == null ) {
+        /** @noinspection PhpUnhandledExceptionInspection */
         throw new LogicException( 'Failed to read embedded sitemap.xsl' );
       }
     }
@@ -124,7 +126,7 @@ class XMLSitemap
   }//end pickupOptions()
 
   /**
-   * @SuppressWarnings("Complexity")
+   * @SuppressWarnings(PHPMD.CyclomaticComplexity)
    */
   public static function getSitemap( Pages $p, bool $debug = false ) : string {
     static::$debug = $debug && kirby()->option( 'debug' ) !== null && kirby()->option( 'debug' ) == true;
@@ -140,6 +142,7 @@ class XMLSitemap
       }
     } else {
       // try to read from cache; generate if expired
+      /** @noinspection PhpUnhandledExceptionInspection */
       $cacheCache = kirby()->cache( XMLSITEMAP_CONFIGURATION_PREFIX );
 
       // build list of options
@@ -181,7 +184,8 @@ class XMLSitemap
   }//end getSitemap()
 
   /**
-  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+   * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+   * @SuppressWarnings(PHPMD.NPathComplexity)
    */
   private static function generateSitemap( Pages $p, bool $debug = false ) : string {
     static::pickupOptions();
