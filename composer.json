@@ -18,7 +18,7 @@
   ],
   "require": {
     "php": ">=7.1",
-    "getkirby/cms": "dev-master as 3.0.0"
+    "getkirby/cms": "^3.0.0-RC-3.0"
   },
   "require-dev": {
     "jakub-onderka/php-parallel-lint": "^1.0",
@@ -46,6 +46,7 @@
   "archive": {
     "exclude": [
       ".*",
+      "kirby",
       "makefile",
       "*.xml",
       "!/vendor/*",
@@ -90,7 +91,7 @@
       "composer remove getkirby/cms",
       "composer dumpautoload -o",
       "composer archive --format=zip --dir=dist",
-      "composer require getkirby/cms:'dev-master as 3.0.0'",
+      "composer require getkirby/cms:'^3.0.0-RC-3.0'",
       "composer dumpautoload -o"
     ]
   }

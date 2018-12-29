@@ -1,4 +1,5 @@
 .DS_Store
+kirby
 vendor
 *.zip
 .idea/**/workspace.xml
