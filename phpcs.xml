@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <ruleset name="kirby3-plugin">
-
-  <!-- look here -->
+  <!-- where to look for rules -->
+  <config name="installed_paths" value="../../omz13/omz13-coding-standard/lib,../../phpcompatibility/php-compatibility,../../slevomat/coding-standard"/>
+  <!-- what files to process -->
   <file>src</file>
-
   <!-- check using this meta-cs -->
   <rule ref="omz13-k3p"/>
 </ruleset>

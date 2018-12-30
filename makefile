@@ -34,10 +34,6 @@ endif
 ifndef PHPCBF
   $(error "php code beautifier and fixer (squizlabs/php_codesniffer phpcbf) is not available; try make install_tools")
 endif
-	@# check coding standards available
-	$(if $(shell $(PHPCS) -i | grep omz13-k3p; if [ $$? -eq 1 ] ; then exit 1 ; fi), , $(error cs omz13-k3p not available; try composer install --dev))
-	$(if $(shell $(PHPCS) -i | grep PHPCompatibility; if [ $$? -eq 1 ] ; then exit 1 ; fi), , $(error cs PHPCompatibility not available; composer install --dev))
-	$(if $(shell $(PHPCS) -i | grep SlevomatCodingStandard; if [ $$? -eq 1 ] ; then exit 1 ; fi), , $(error cs slevomat not available; try composer install --dev))
 
 ifndef PHPMESS
 	$(error "php mess tool (phpmd/phpmd) is not available; try composer install --dev")
