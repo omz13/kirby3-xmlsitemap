@@ -2,7 +2,14 @@
 
  ![Kirby Version](https://img.shields.io/badge/Kirby-3black.svg) [![Issues](https://img.shields.io/github/issues/omz13/kirby3-xmlsitemap.svg)](https://github.com/omz13/kirby3-xmlsitemap/issues)
 
-**Requirement:** Kirby 3.0.0-beta-6.16 or better
+**Requirement:** Kirby 3.0.0-RC3 or better
+
+## Coffee, Beer, etc.
+
+This plugin is free but if you use it in a commercial project to show your support you are welcome to:
+- [make a donation 🍻](https://www.paypal.me/omz13/10) or
+- [buy me ☕☕](https://buymeacoff.ee/omz13) or
+- [buy a Kirby license using this affiliate link](https://a.paddle.com/v2/click/1129/36191?link=1170)
 
 ## Documentation
 
@@ -236,12 +243,3 @@ This plugin is provided "as is" with no guarantee. Use it at your own risk and a
 [MIT](https://opensource.org/licenses/MIT)
 
 You are prohibited from using this plugin in any project that promotes racism, sexism, homophobia, animal abuse, violence or any other form of hate speech.
-
-### Buy Me A Coffee
-
-To show your support for this project you are welcome to [buy me a coffee](https://buymeacoff.ee/omz13).
-
-<!-- If you are using this plugin on a kirby3 site that has a Personal licence, to show your support for this project you are welcome to [buy me a coffee](https://buymeacoff.ee/omz13).
-
-If you are using this plugin with a kirby3 site that has a Pro licence, to show your support for this project you are greatly encouraged to [buy me a coffee](https://buymeacoff.ee/omz13).
--->
