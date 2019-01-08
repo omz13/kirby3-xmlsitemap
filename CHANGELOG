@@ -2,6 +2,16 @@
 VERSION 0  FIXES AND FEATURES
 =============================
 
+   Version 0.6 - beta
+      08/01/2019 12:47  0.6.0  initial release
+         b82b7e7 Chore: revert stan fudge now fixed upstream
+         4e33378 Chore: composer update
+         b326b29 Chore: RC2 or better (for @bnomei)
+         765c689 Docs: Coffee, Beer, etc.
+         bf703da Chore: fudge stan by ignoring unknown class on cache
+         da3b733 Fix: phpcs now works (set installed_path in phpcs.xml)
+         3d79351 Chore: use kirby-rc3
+
    Version 0.5 - beta release
       21/11/2018 17:08  0.5.3  beta release
          809f818 Chore: update lock
