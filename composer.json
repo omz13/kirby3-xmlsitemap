@@ -6,7 +6,7 @@
     "plugin",
     "sitemap"
   ],
-  "version": "0.5.3",
+  "version": "0.5.4",
   "license": "MIT",
   "authors": [
     {
@@ -18,7 +18,7 @@
   ],
   "require": {
     "php": ">=7.1",
-    "getkirby/cms": "dev-master as 3.0.0"
+    "getkirby/cms": "^3.0.0-RC-2.0"
   },
   "require-dev": {
     "jakub-onderka/php-parallel-lint": "^1.0",
@@ -30,6 +30,9 @@
     "phpstan/phpstan": "^0.10.3",
     "phpstan/phpstan-strict-rules": "^0.10.1",
     "roave/security-advisories": "dev-master"
+  },
+  "conflict": {
+    "getkirby/kirby": "<3.0"
   },
   "config": {
     "optimize-autoloader": true,
@@ -64,7 +67,6 @@
       "url": "https://github.com/k-next/kirby"
     }
   ],
-  "minimum-stability": "beta",
   "scripts": {
     "build": [
       "@sanity",
@@ -90,7 +92,7 @@
       "composer remove getkirby/cms",
       "composer dumpautoload -o",
       "composer archive --format=zip --dir=dist",
-      "composer require getkirby/cms:'dev-master as 3.0.0'",
+      "composer require getkirby/cms:'^3.0.0-RC-2.0'",
       "composer dumpautoload -o"
     ]
   }
