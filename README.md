@@ -2,11 +2,13 @@
 
  ![Kirby Version](https://img.shields.io/badge/Kirby-3black.svg) [![Issues](https://img.shields.io/github/issues/omz13/kirby3-xmlsitemap.svg)](https://github.com/omz13/kirby3-xmlsitemap/issues)
 
-**Requirement:** Kirby 3.0.0-RC3 or better
+**Requirement:** Kirby 3.0
 
 ## Coffee, Beer, etc.
 
-This plugin is free but if you use it in a commercial project to show your support you are welcome to:
+A humungous amount of work went into creating this plugin. Who knew that traversing through all the pages in a kirby 3 site and spitting out the right xml elements could be so much fun. If you run a multi-language site you should be jumping up and down with joy because it gets the sitemaps right.
+
+This plugin is free but if you use it in a commercial project to show your support you are welcome (greatly encouraged) to:
 - [make a donation 🍻](https://www.paypal.me/omz13/10) or
 - [buy me ☕☕](https://buymeacoff.ee/omz13) or
 - [buy a Kirby license using this affiliate link](https://a.paddle.com/v2/click/1129/36191?link=1170)
@@ -20,7 +22,7 @@ For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates an x
 - Generates a [sitemap](https://www.sitemaps.org); [valid](https://webmaster.yandex.com/tools/sitemap/) too.
 - Works with both single-language and multi-language sites.
 - For multilingual sites an entry (`<url>`) is generated for each language, and within each `<loc>` there are appropriate `<xhtml:link>` members, one for each language with [hreflang](https://support.google.com/webmasters/answer/189077) computed from the language's configured `locale`), and an additional pseudo-language of [x-default](https://webmasters.googleblog.com/2013/04/x-default-hreflang-for-international-pages.html) per the site's default language.
-- The generated page can be cached for a determined amount of time, c.f. `cacheTTL` in _Configuration_. This not only improves the response time if it can be retrieved from the cache.
+- The generated page can be cached for a determined amount of time, c.f. `cacheTTL` in _Configuration_. This not only improves the response time if it can be retrieved from the cache, but also reduces load on your server's cpu (because it takes effort to generate).
 - For all pages, `<loc>` and `<lastmod>` are given; `<priority>` is not given because "its a bag of noise"; `<changefreq>` is also not given because it does not affect ranking.
 - `<lastmod`> is calculated using the date in a page's field called `updatedat`, or if not present then from the field `date`; if neither were found, it is based on the modification time for the page's content file.
 - When a page is included in the xml-sitemap, information for images (`<image:loc>`) on each page is included unless this is disabled; c.f. `disableImages` in _Configuration_.
@@ -45,10 +47,6 @@ For a user-oriented html-based sitemp, kindly see [omz13/kirby3-htmlsitemap](htt
 
 For a plugin that provides the methods `issunset` and `isunderembargo`, kindly see [omz13/kirby3-suncyclepages](https://github.com/omz13/kirby3-suncyclepages).
 
-#### Caveat
-
-Kirby3 is under beta, therefore this plugin, and indeed kirby3 itself, may or may not play nicely with each other, or indeed work at all: use it for testing purposes only; if you use it in production then you should be aware of the risks and know what you are doing.
-
 #### Roadmap
 
 For 1.0, the non-binding list of planned features and implementation notes are:
@@ -71,7 +69,7 @@ For 1.0, the non-binding list of planned features and implementation notes are:
 - [ ] ~~Overriding of stylesheet~~
 - [ ] Disable stylesheet
 - [ ] Remove credits
-- [ ] robots.txt
+- [x] robots.txt - works with [omz13/kirby3-wellknown](https://github.com/omz13/kirby3-wellknown)
 - [x] Cache **done 0.4** c.f. `cacheTTL`
 - [ ] Automate GitHub release – [gothub](https://github.com/itchio/gothub)? [github-release-notes](https://github.com/github-tools/github-release-notes)?
 - [ ] Inform search engine crawlers when map changes
@@ -81,6 +79,7 @@ For 1.0, the non-binding list of planned features and implementation notes are:
 - [ ] [Video sitemap](https://support.google.com/webmasters/answer/80471?hl=en&ref_topic=4581190) `<video:video>`
 - [x] Support Multilingual sites - **done 0.5** **REQUIRES kirby 3.0.0-beta-6.16 or better**
 - [x] `x-default` in ML sitemap **done 0.5**
+- [ ] Headers to stop sitemap.xml being cached?
 
 ### Installation
 
