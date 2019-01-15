@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e12ab77e067382be08a5a0aee90527ac",
+    "content-hash": "62003d0358d66194a71e5d244273b376",
     "packages": [
         {
             "name": "claviska/simpleimage",
@@ -108,71 +108,37 @@
         },
         {
             "name": "getkirby/cms",
-            "version": "3.0.0-RC-4.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/k-next/kirby.git",
-                "reference": "4fef488a4a1b9644f8b89df227829fc1b6f9d108"
+                "url": "https://github.com/getkirby/kirby.git",
+                "reference": "72f01eac0a7db59360894e0cfb44680276260174"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/k-next/kirby/zipball/4fef488a4a1b9644f8b89df227829fc1b6f9d108",
-                "reference": "4fef488a4a1b9644f8b89df227829fc1b6f9d108",
+                "url": "https://api.github.com/repos/getkirby/kirby/zipball/72f01eac0a7db59360894e0cfb44680276260174",
+                "reference": "72f01eac0a7db59360894e0cfb44680276260174",
                 "shasum": ""
             },
-            "archive": {
-                "exclude": [
-                    ".*",
-                    "/*.dist",
-                    "/*.md",
-                    "test.php",
-                    "/scripts",
-                    "/panel/*",
-                    "!/panel/dist/*",
-                    "/panel/dist/index.html",
-                    "/tests/*",
-                    "!/vendor/*",
-                    "/vendor/*/*/.*",
-                    "/vendor/*/*/*.json",
-                    "/vendor/*/*/*.txt",
-                    "/vendor/*/*/*.md",
-                    "/vendor/*/*/*.yml",
-                    "/vendor/*/*/*.yaml",
-                    "/vendor/*/*/*.xml",
-                    "/vendor/*/*/*.dist",
-                    "/vendor/*/*/LICENSE",
-                    "/vendor/*/*/COPYING",
-                    "/vendor/*/*/docs/*",
-                    "/vendor/*/*/example/*",
-                    "/vendor/*/*/examples/*",
-                    "/vendor/*/*/test/*",
-                    "/vendor/*/*/tests/*",
-                    "/vendor/*/*/php4/*"
-                ]
-            },
             "require": {
-                "claviska/simpleimage": "3.3.*",
+                "claviska/simpleimage": "3.3.3",
                 "ext-ctype": "*",
                 "ext-mbstring": "*",
-                "filp/whoops": "2.3.*",
+                "filp/whoops": "2.3.1",
                 "getkirby/composer-installer": "*",
-                "michelf/php-smartypants": "1.8.*",
-                "mustangostang/spyc": "0.6.*",
+                "michelf/php-smartypants": "1.8.1",
+                "mustangostang/spyc": "0.6.2",
                 "php": ">=7.1.0",
-                "phpmailer/phpmailer": "6.0.*",
-                "true/punycode": "2.1.*",
-                "zendframework/zend-escaper": "2.6.*"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.11.1",
-                "phpstan/phpstan": "^0.10.7",
-                "phpunit/phpunit": "^6.0"
+                "phpmailer/phpmailer": "6.0.6",
+                "true/punycode": "2.1.1",
+                "zendframework/zend-escaper": "2.6.0"
             },
             "type": "kirby-cms",
             "autoload": {
                 "files": [
                     "config/helpers.php",
-                    "config/aliases.php"
+                    "config/aliases.php",
+                    "config/tests.php"
                 ],
                 "classmap": [
                     "dependencies/"
@@ -181,28 +147,10 @@
                     "Kirby\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Kirby\\": "tests/"
-                }
-            },
-            "scripts": {
-                "analyze": [
-                    "./vendor/bin/phpstan analyse src"
-                ],
-                "test": [
-                    "./vendor/bin/phpunit --stderr --coverage-html=tests/coverage"
-                ],
-                "zip": [
-                    "composer archive --format=zip --file=dist"
-                ],
-                "build": [
-                    "./scripts/build"
-                ],
-                "fix": [
-                    "./vendor/bin/php-cs-fixer fix ."
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
             "authors": [
                 {
                     "name": "Kirby Team",
@@ -210,19 +158,14 @@
                     "homepage": "https://getkirby.com"
                 }
             ],
-            "description": "Kirby CMS",
+            "description": "The Kirby 3 core",
             "homepage": "https://getkirby.com",
             "keywords": [
                 "cms",
+                "core",
                 "kirby"
             ],
-            "support": {
-                "email": "support@getkirby.com",
-                "issues": "https://github.com/getkirby/kirby/issues",
-                "forum": "https://forum.getkirby.com",
-                "source": "https://github.com/getkirby/kirby"
-            },
-            "time": "2019-01-07T16:07:18+00:00"
+            "time": "2019-01-15T08:15:26+00:00"
         },
         {
             "name": "getkirby/composer-installer",
@@ -882,23 +825,23 @@
         },
         {
             "name": "justinrainbow/json-schema",
-            "version": "5.2.7",
+            "version": "5.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/justinrainbow/json-schema.git",
-                "reference": "8560d4314577199ba51bf2032f02cd1315587c23"
+                "reference": "dcb6e1006bb5fd1e392b4daa68932880f37550d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/8560d4314577199ba51bf2032f02cd1315587c23",
-                "reference": "8560d4314577199ba51bf2032f02cd1315587c23",
+                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/dcb6e1006bb5fd1e392b4daa68932880f37550d4",
+                "reference": "dcb6e1006bb5fd1e392b4daa68932880f37550d4",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.1",
+                "friendsofphp/php-cs-fixer": "~2.2.20",
                 "json-schema/json-schema-test-suite": "1.2.0",
                 "phpunit/phpunit": "^4.8.35"
             },
@@ -944,7 +887,7 @@
                 "json",
                 "schema"
             ],
-            "time": "2018-02-14T22:26:30+00:00"
+            "time": "2019-01-14T23:55:14+00:00"
         },
         {
             "name": "liip/rmt",
@@ -1014,36 +957,96 @@
             "time": "2019-01-02T21:16:18+00:00"
         },
         {
-            "name": "localheinz/composer-normalize",
-            "version": "0.8.0",
+            "name": "localheinz/composer-json-normalizer",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/localheinz/composer-normalize.git",
-                "reference": "5dd2a43de32fa45d982326d271a12b0b1ea5e6be"
+                "url": "https://github.com/localheinz/composer-json-normalizer.git",
+                "reference": "bc9f574026fe86828df6ab32a4c8a3118cbd9ac2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/localheinz/composer-normalize/zipball/5dd2a43de32fa45d982326d271a12b0b1ea5e6be",
-                "reference": "5dd2a43de32fa45d982326d271a12b0b1ea5e6be",
+                "url": "https://api.github.com/repos/localheinz/composer-json-normalizer/zipball/bc9f574026fe86828df6ab32a4c8a3118cbd9ac2",
+                "reference": "bc9f574026fe86828df6ab32a4c8a3118cbd9ac2",
+                "shasum": ""
+            },
+            "require": {
+                "localheinz/json-normalizer": "~0.9.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "infection/infection": "~0.11.4",
+                "localheinz/php-cs-fixer-config": "~1.19.0",
+                "localheinz/phpstan-rules": "~0.5.0",
+                "localheinz/test-util": "~0.7.0",
+                "phpstan/phpstan": "~0.10.7",
+                "phpstan/phpstan-deprecation-rules": "~0.10.2",
+                "phpstan/phpstan-strict-rules": "~0.10.1",
+                "phpunit/phpunit": "^7.5.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Localheinz\\Composer\\Json\\Normalizer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andreas Möller",
+                    "email": "am@localheinz.com"
+                }
+            ],
+            "description": "Provides normalizers for normalizing composer.json.",
+            "homepage": "https://github.com/localheinz/composer-json-normalizer",
+            "keywords": [
+                "composer",
+                "json",
+                "normalizer"
+            ],
+            "time": "2019-01-09T14:43:16+00:00"
+        },
+        {
+            "name": "localheinz/composer-normalize",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/localheinz/composer-normalize.git",
+                "reference": "b8d15ae4146258fa93f8f591290dd5698325b8da"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/localheinz/composer-normalize/zipball/b8d15ae4146258fa93f8f591290dd5698325b8da",
+                "reference": "b8d15ae4146258fa93f8f591290dd5698325b8da",
                 "shasum": ""
             },
             "require": {
                 "composer-plugin-api": "^1.1.0",
-                "localheinz/json-normalizer": "0.6.0",
+                "localheinz/composer-json-normalizer": "^1.0.2",
+                "localheinz/json-normalizer": "~0.9.0",
                 "php": "^7.1",
                 "sebastian/diff": "^2.0.1 || ^3.0.0"
             },
             "require-dev": {
-                "composer/composer": "^1.1.0",
-                "infection/infection": "^0.8.1",
-                "localheinz/php-cs-fixer-config": "~1.13.1",
+                "composer/composer": "^1.7.0",
+                "jangregor/phpstan-prophecy": "~0.2.0",
+                "localheinz/php-cs-fixer-config": "~1.19.0",
+                "localheinz/phpstan-rules": "~0.5.0",
                 "localheinz/test-util": "0.6.1",
-                "mikey179/vfsstream": "^1.6.5",
-                "phpstan/phpstan": "~0.9.2",
-                "phpunit/phpunit": "^7.1.1"
+                "phpstan/phpstan": "~0.10.7",
+                "phpstan/phpstan-deprecation-rules": "~0.10.2",
+                "phpstan/phpstan-strict-rules": "~0.10.1",
+                "phpunit/phpunit": "^6.5.13 || ^7.5.0",
+                "symfony/filesystem": "^4.2.1"
             },
             "type": "composer-plugin",
             "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                },
                 "class": "Localheinz\\Composer\\Normalize\\NormalizePlugin"
             },
             "autoload": {
@@ -1069,34 +1072,35 @@
                 "normalizer",
                 "plugin"
             ],
-            "time": "2018-04-24T13:26:04+00:00"
+            "time": "2019-01-09T15:27:51+00:00"
         },
         {
             "name": "localheinz/json-normalizer",
-            "version": "0.6.0",
+            "version": "0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/localheinz/json-normalizer.git",
-                "reference": "f280f0b8125c7c26b2f8047fa84bfe14de785d84"
+                "reference": "28eeda6f1f0daa3c9c28ad0651d95478fe1a5059"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/localheinz/json-normalizer/zipball/f280f0b8125c7c26b2f8047fa84bfe14de785d84",
-                "reference": "f280f0b8125c7c26b2f8047fa84bfe14de785d84",
+                "url": "https://api.github.com/repos/localheinz/json-normalizer/zipball/28eeda6f1f0daa3c9c28ad0651d95478fe1a5059",
+                "reference": "28eeda6f1f0daa3c9c28ad0651d95478fe1a5059",
                 "shasum": ""
             },
             "require": {
+                "ext-json": "*",
                 "justinrainbow/json-schema": "^4.0.0 || ^5.0.0",
-                "localheinz/json-printer": "^2.0.0",
+                "localheinz/json-printer": "^2.0.1",
                 "php": "^7.1"
             },
             "require-dev": {
-                "infection/infection": "~0.8.1",
-                "localheinz/php-cs-fixer-config": "~1.13.1",
-                "localheinz/test-util": "0.6.1",
+                "infection/infection": "~0.10.5",
+                "localheinz/php-cs-fixer-config": "~1.15.0",
+                "localheinz/test-util": "~0.7.0",
                 "phpbench/phpbench": "~0.14.0",
-                "phpspec/prophecy": "^1.7.1",
-                "phpunit/phpunit": "^7.1.1"
+                "phpstan/phpstan": "~0.10.3",
+                "phpunit/phpunit": "^7.4.0"
             },
             "type": "library",
             "autoload": {
@@ -1120,7 +1124,7 @@
                 "json",
                 "normalizer"
             ],
-            "time": "2018-04-07T08:03:24+00:00"
+            "time": "2018-10-07T17:36:39+00:00"
         },
         {
             "name": "localheinz/json-printer",
@@ -1650,16 +1654,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.1.1",
+            "version": "v4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "8aae5b59b83bb4d0dbf07b0a835f2680a658f610"
+                "reference": "594bcae1fc0bccd3993d2f0d61a018e26ac2865a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/8aae5b59b83bb4d0dbf07b0a835f2680a658f610",
-                "reference": "8aae5b59b83bb4d0dbf07b0a835f2680a658f610",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/594bcae1fc0bccd3993d2f0d61a018e26ac2865a",
+                "reference": "594bcae1fc0bccd3993d2f0d61a018e26ac2865a",
                 "shasum": ""
             },
             "require": {
@@ -1675,7 +1679,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "4.2-dev"
                 }
             },
             "autoload": {
@@ -1697,7 +1701,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2018-12-26T11:32:39+00:00"
+            "time": "2019-01-12T16:31:37+00:00"
         },
         {
             "name": "ocramius/package-versions",
@@ -1962,16 +1966,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "0.3",
+            "version": "0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "ed3223362174b8067729930439e139794e9e514a"
+                "reference": "2cc49f47c69b023eaf05b48e6529389893b13d74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/ed3223362174b8067729930439e139794e9e514a",
-                "reference": "ed3223362174b8067729930439e139794e9e514a",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/2cc49f47c69b023eaf05b48e6529389893b13d74",
+                "reference": "2cc49f47c69b023eaf05b48e6529389893b13d74",
                 "shasum": ""
             },
             "require": {
@@ -1981,7 +1985,7 @@
                 "consistence/coding-standard": "^2.0.0",
                 "jakub-onderka/php-parallel-lint": "^0.9.2",
                 "phing/phing": "^2.16.0",
-                "phpstan/phpstan": "^0.10@dev",
+                "phpstan/phpstan": "^0.10",
                 "phpunit/phpunit": "^6.3",
                 "slevomat/coding-standard": "^3.3.0",
                 "symfony/process": "^3.4 || ^4.0"
@@ -2004,7 +2008,7 @@
                 "MIT"
             ],
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
-            "time": "2018-06-20T17:48:01+00:00"
+            "time": "2019-01-14T12:26:23+00:00"
         },
         {
             "name": "phpstan/phpstan",
@@ -2180,12 +2184,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "7989c51d910c456aa07e8e149a98afac5de69e7a"
+                "reference": "d155baccb43ba2542941fbcba258b85ce7786419"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/7989c51d910c456aa07e8e149a98afac5de69e7a",
-                "reference": "7989c51d910c456aa07e8e149a98afac5de69e7a",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/d155baccb43ba2542941fbcba258b85ce7786419",
+                "reference": "d155baccb43ba2542941fbcba258b85ce7786419",
                 "shasum": ""
             },
             "conflict": {
@@ -2194,6 +2198,7 @@
                 "alterphp/easyadmin-extension-bundle": ">=1.2,<1.2.11|>=1.3,<1.3.1",
                 "amphp/artax": "<1.0.6|>=2,<2.0.6",
                 "amphp/http": "<1.0.1",
+                "api-platform/core": ">=2.2,<2.2.10|>=2.3,<2.3.6",
                 "asymmetricrypt/asymmetricrypt": ">=0,<9.9.99",
                 "aws/aws-sdk-php": ">=3,<3.2.1",
                 "brightlocal/phpwhois": "<=4.2.5",
@@ -2222,7 +2227,6 @@
                 "drupal/core": ">=7,<7.60|>=8,<8.5.8|>=8.6,<8.6.2",
                 "drupal/drupal": ">=7,<7.60|>=8,<8.5.8|>=8.6,<8.6.2",
                 "erusev/parsedown": "<1.7",
-                "ezsystems/ezplatform": "<1.7.8.1|>=1.8,<1.13.4.1|>=2,<2.2.3.1|>=2.3,<2.3.2.1",
                 "ezsystems/ezpublish-kernel": ">=5.3,<5.3.12.1|>=5.4,<5.4.13.1|>=6,<6.7.9.1|>=6.8,<6.13.5.1|>=7,<7.2.4.1|>=7.3,<7.3.2.1",
                 "ezsystems/ezpublish-legacy": ">=5.3,<5.3.12.6|>=5.4,<5.4.12.3|>=2011,<2017.12.4.3|>=2018.6,<2018.6.1.4|>=2018.9,<2018.9.1.3",
                 "ezsystems/repository-forms": ">=2.3,<2.3.2.1",
@@ -2263,6 +2267,7 @@
                 "pagarme/pagarme-php": ">=0,<3",
                 "paragonie/random_compat": "<2",
                 "paypal/merchant-sdk-php": "<3.12",
+                "pear/archive_tar": "<1.4.4",
                 "phpmailer/phpmailer": ">=5,<5.2.27|>=6,<6.0.6",
                 "phpoffice/phpexcel": "<=1.8.1",
                 "phpoffice/phpspreadsheet": "<=1.5",
@@ -2317,7 +2322,7 @@
                 "symfony/yaml": ">=2,<2.0.22|>=2.1,<2.1.7",
                 "tecnickcom/tcpdf": "<6.2.22",
                 "thelia/backoffice-default-template": ">=2.1,<2.1.2",
-                "thelia/thelia": ">=2.1,<2.1.2|>=2.1.0-beta1,<2.1.3",
+                "thelia/thelia": ">=2.1.0-beta1,<2.1.3|>=2.1,<2.1.2",
                 "theonedemon/phpwhois": "<=4.2.5",
                 "titon/framework": ">=0,<9.9.99",
                 "truckersmp/phpwhois": "<=4.3.1",
@@ -2375,7 +2380,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2019-01-08T04:52:50+00:00"
+            "time": "2019-01-15T19:39:37+00:00"
         },
         {
             "name": "sebastian/diff",
