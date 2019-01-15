@@ -1,4 +1,13 @@
 
+VERSION 1  RELEASE
+==================
+
+   Version 1.0 - Release
+      15/01/2019 23:42  1.0.0  initial release
+         c5b9024 Feat: includeUnlistedWhenTemplateIs
+         bea341b Chore: composer update
+         8ccb943 Chore: Kirby 3.0
+
 VERSION 0  FIXES AND FEATURES
 =============================
 
