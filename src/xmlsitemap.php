@@ -43,6 +43,7 @@ class XMLSitemap
   private static $optionCACHE; // cache TTL in *minutes*; if zero or null, no cache
   private static $optionNOIMG; // disable including image data
   private static $optionIUWSI; // include unlisted when slug is
+  private static $optionIUWTI; // include unlisted when template is
   private static $optionXCWTI; // exclude children when template is
   private static $optionXPWTI; // exclude page when template is
   private static $optionXPWSI; // exclude page when slug is
@@ -119,6 +120,7 @@ class XMLSitemap
     static::$optionCACHE = static::getConfigurationForKey( 'cacheTTL' );
     static::$optionNOIMG = static::getConfigurationForKey( 'disableImages' );
     static::$optionIUWSI = static::getArrayConfigurationForKey( 'includeUnlistedWhenSlugIs' );
+    static::$optionIUWTI = static::getArrayConfigurationForKey( 'includeUnlistedWhenTemplateIs' );
     static::$optionXCWTI = static::getArrayConfigurationForKey( 'excludeChildrenWhenTemplateIs' );
     static::$optionXPWTI = static::getArrayConfigurationForKey( 'excludePageWhenTemplateIs' );
     static::$optionXPWSI = static::getArrayConfigurationForKey( 'excludePageWhenSlugIs' );
@@ -149,6 +151,7 @@ class XMLSitemap
       $ops  = json_encode( static::$optionCACHE );
       $ops .= '-' . json_encode( static::$optionNOIMG );
       $ops .= '-' . json_encode( static::$optionIUWSI );
+      $ops .= '-' . json_encode( static::$optionIUWTI );
       $ops .= '-' . json_encode( static::$optionXCWTI );
       $ops .= '-' . json_encode( static::$optionXPWSI );
       $ops .= '-' . json_encode( static::$optionXPWTI );
@@ -209,6 +212,7 @@ class XMLSitemap
     if ( $debug == true ) {
       $r .= '<!--                 disableImages = ' . json_encode( static::$optionNOIMG ) . " -->\n";
       $r .= '<!--     includeUnlistedWhenSlugIs = ' . json_encode( static::$optionIUWSI ) . " -->\n";
+      $r .= '<!-- includeUnlistedWhenTemplateIs = ' . json_encode( static::$optionIUWTI ) . " -->\n";
       $r .= '<!-- excludeChildrenWhenTemplateIs = ' . json_encode( static::$optionXCWTI ) . " -->\n";
       $r .= '<!--     excludePageWhenTemplateIs = ' . json_encode( static::$optionXPWTI ) . " -->\n";
       $r .= '<!--         excludePageWhenSlugIs = ' . json_encode( static::$optionXPWSI ) . " -->\n";
@@ -302,8 +306,12 @@ class XMLSitemap
         if ( isset( static::$optionIUWSI ) && in_array( $p->slug(), static::$optionIUWSI, false ) ) {
           static::addComment( $r, 'including because unlisted but in includeUnlistedWhenSlugIs' );
         } else {
-          static::addComment( $r, 'excluding because unlisted' );
-          continue;
+          if ( isset( static::$optionIUWTI ) && in_array( $p->slug(), static::$optionIUWTI, false ) ) {
+            static::addComment( $r, 'including because unlisted but in includeUnlistedWhenTemplateIs' );
+          } else {
+            static::addComment( $r, 'excluding because unlisted' );
+            continue;
+          }
         }
       }
 

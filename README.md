@@ -6,7 +6,7 @@
 
 ## Coffee, Beer, etc.
 
-A humungous amount of work went into creating this plugin. Who knew that traversing through all the pages in a kirby 3 site and spitting out the right xml elements could be so much fun. If you run a multi-language site you should be jumping up and down with joy because it gets the sitemaps right.
+A humungous amount of work went into creating this plugin. Who knew that traversing through all the pages in a kirby 3 site and spitting out the right xml elements could be so much fun. If you run a multi-language site you should be jumping up and down with joy because it gets the sitemaps right. For kicks, and to stop your processor getting hammered because generating process is a bit intense, the result is cached, and writing that cache code involved a lot of coffee. I also get a dopamine hit if you start this repo. So go star it. Pretty please!
 
 This plugin is free but if you use it in a commercial project to show your support you are welcome (greatly encouraged) to:
 - [make a donation 🍻](https://www.paypal.me/omz13/10) or
@@ -33,6 +33,7 @@ For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates an x
   - The error page is always excluded.
   - Only pages that have a status of "published" are included, i.e. those with "draft" or "unpublished" are excluded.
   - Unpublished pages can be explicitly included based on their slugname; c.f. `includeUnlistedWhenSlugIs` in _Configuration_.
+  - Unpublished pages can be explicitly included based on their template; c.f. `includeUnlistedWhenTemplateIs` in _Configuration_.
   - Pages made using certain templates can be excluded; c.f. `excludePageWhenTemplateIs` in _Configuration_.
   - Pages with certain slugnames can be excluded; c.f. `excludePageWhenSlugIs` in _Configuration_.
   - Pages with a content field `excludefromxmlsitemap` that is `true` are excluded.
@@ -47,9 +48,11 @@ For a user-oriented html-based sitemp, kindly see [omz13/kirby3-htmlsitemap](htt
 
 For a plugin that provides the methods `issunset` and `isunderembargo`, kindly see [omz13/kirby3-suncyclepages](https://github.com/omz13/kirby3-suncyclepages).
 
+For a plugin to generate `robots.txt` and that magically integrates with this one, kindly see [omz13/kirby3-wellknown](https://github.com/omz13/kirby3-wellknown).
+
 #### Roadmap
 
-For 1.0, the non-binding list of planned features and implementation notes are:
+The non-binding list of planned features and implementation notes are:
 
 - [x] MVP (`loc` and `lastmod`) **done 0.1**
 - [ ] ~~`<priority>`~~
@@ -122,13 +125,14 @@ In your site's `site/config/config.php` the following entries prefixed with `omz
 - `disable` : a boolean which, if true, to disable the xmlsitemap functionality (c.f. `xmlsitemap` in _via `site.txt`_).
 - `cacheTTL` : the number of minutes that the xml-sitemap should be cached before being regenerated; if explicitly set to zero, the cache is disabled. If not specified a default of 10 minutes is assumed.
 - `debugqueryvalue` : a string to be as the value for the query parameter `debug` to return the xml-sitemap with debugging information (as comment nodes within the xml stream). The global kirby `debug` configuration must also be true for this to work. The url must be to `/sitemap.xml?debug=debugqueryvalue` and not `/sitemap?debug=_debugqueryvalue_` (i.e. the `.xls` part is important). Be aware that the debugging information will show, if applicable, details of any pages that have been excluded (so if you are using this in production and you don't want things to leak, set `debugqueryvalue` to something random). Furthermore, the site debug flag needs to be set too (i.e. the `debug` flag in `site/config.php`).
-- `includeUnlistedWhenSlugIs` : an array of slugnames whose pages are to be included if their status is unlisted.
+- `includeUnlistedWhenSlugIs` : an array of slug names whose pages are to be included if their status is unlisted.
+- `includeUnlistedWhenTemplateIs` : an array of template names whose pages are to be included if their status is unlisted.
 - `excludePageWhenTemplateIs` : an array of templates names whose pages are to be excluded from the xml-sitemap.
 - `excludePageWhenSlugIs` : an array of slug names whose pages are to be excluded from the xml-sitemap.
 - `excludeChildrenWhenTemplateIs` : an array of templates names whose children are to be ignored (but pages associated with the template is to be included); this is used for one-pagers (where the principal page will be included and all the 'virtual' children ignored).
 - `disableImages` : a boolean which, if true, disables including data for images related to pages included in the xml-sitemap.
 
-For example, for the [Kirby Starter Kit](https://github.com/k-next/starterkit), the following would be applicable:
+For example, for the [Kirby Starter Kit](https://github.com/getkirby/starterkit), the following would be applicable:
 
 ```php
 <?php
@@ -136,6 +140,7 @@ For example, for the [Kirby Starter Kit](https://github.com/k-next/starterkit), 
 return [
   'omz13.xmlsitemap.cacheTTL' => 60,
   'omz13.xmlsitemap.includeUnlistedWhenSlugIs' => [ ],
+  'omz13.xmlsitemap.includeUnlistedWhenTemplateIs' => [ ],
   'omz13.xmlsitemap.excludePageWhenTemplateIs' => [ 'contact','sandbox' ],
   'omz13.xmlsitemap.excludePageWhenSlugIs' => [ 'form' ],
   'omz13.xmlsitemap.excludeChildrenWhenTemplateIs' => [ 'events','one-pager','shop','team','testimonials' ],
@@ -152,6 +157,7 @@ return [
   'omz13.xmlsitemap' => [
     'cacheTTL' => 60,
     'includeUnlistedWhenSlugIs' => [ 'about' ],
+    'includeUnlistedWhenTemplateIs' => [ ],
     'excludePageWhenTemplateIs' => ['contact','sandbox'],
     'excludePageWhenSlugIs' => [ 'form' ],
     'excludeChildrenWhenTemplateIs' => [ 'events','one-pager','shop','team','testimonials' ],
@@ -160,8 +166,7 @@ return [
 ];
 ```
 
-See Kirby3's [issue #761](https://github.com/k-next/kirby/issues/761) for more about namespaced options.
-
+See Kirby3's [ideas issue #32](https://github.com/getkirby/ideas/issues/32) for more about namespaced options.
 
 And to have a debugged sitemap returned  at `/sitemap.xml?debug=wombat`, it would be:
 

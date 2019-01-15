@@ -10,6 +10,7 @@ Kirby::plugin(
         'debugqueryvalue'               => '42',
         'cacheTTL'                      => 10,
         'includeUnlistedWhenSlugIs'     => [],
+        'includeUnlistedWhenTemplateIs' => [],
         'excludePageWhenTemplateIs'     => [],
         'excludePageWhenSlugIs'         => [],
         'excludeChildrenWhenTemplateIs' => [],
