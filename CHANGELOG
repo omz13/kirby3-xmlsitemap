@@ -3,6 +3,8 @@ VERSION 1  RELEASE
 ==================
 
    Version 1.1 - Install by Zip or Submodule
+      13/02/2019 22:48  1.1.1  Install by Zip and Submodule
+         c775127 Chore: tweak RMT
       13/02/2019 22:41  1.1.0  initial release
          2cf4e69 Feat: install by zip or submodule;  Fix #14; Fix #15
 
