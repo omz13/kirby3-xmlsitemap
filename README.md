@@ -6,7 +6,7 @@
 
 ## Coffee, Beer, etc.
 
-A humungous amount of work went into creating this plugin. Who knew that traversing through all the pages in a kirby 3 site and spitting out the right xml elements could be so much fun. If you run a multi-language site you should be jumping up and down with joy because it gets the sitemaps right. For kicks, and to stop your processor getting hammered because generating process is a bit intense, the result is cached, and writing that cache code involved a lot of coffee. I also get a dopamine hit if you start this repo. So go star it. Pretty please!
+A humungous amount of work went into creating this plugin. Seriously it did. Just look at the source code if you dare, because there is a lot going on in there to make _your_ life easier (even if it means that _I_ have to spend days hunched over a keyboard doing this so you don't have to!). Who knew that traversing through all the pages in a kirby 3 site and spitting out the right xml elements could be so much fun (and I use the word fun there in its alternative-reality meaning). If you run a multi-language site you should be jumping up and down with joy because it gets the sitemaps right, and trust me when I say this is not as easy to do as you might think it is. For kicks, and to stop your processor getting hammered because generating process is a bit intense, the result is cached, and writing that cache code involved a lot of coffee. I also get a dopamine hit if you start this repo. So go star it. Pretty please!
 
 This plugin is free but if you use it in a commercial project to show your support you are welcome (greatly encouraged) to:
 - [make a donation 🍻](https://www.paypal.me/omz13/10) or
@@ -50,6 +50,8 @@ For a plugin that provides the methods `issunset` and `isunderembargo`, kindly s
 
 For a plugin to generate `robots.txt` and that magically integrates with this one, kindly see [omz13/kirby3-wellknown](https://github.com/omz13/kirby3-wellknown).
 
+Other plugins that I have developed for kirby 3 are to be found in my [github repos](https://github.com/omz13?utf8=✓&tab=repositories&q=kirby3-&type=&language=). Go take a look; you might find some useful. Apparently my README files are highly entertaining. YMMV.
+
 #### Roadmap
 
 The non-binding list of planned features and implementation notes are:
@@ -84,39 +86,21 @@ The non-binding list of planned features and implementation notes are:
 - [x] `x-default` in ML sitemap **done 0.5**
 - [ ] Headers to stop sitemap.xml being cached?
 
+If you want these features, or other ones, implemented, feed me coffee (or EUR or USD).
+
 ### Installation
 
-#### via composer
+Pick one of the following per your epistemological model:
 
-If your kirby3-based site is managed using-composer, simply invoke `composer require --no-dev omz13/kirby3-xmlsitemap`, or add `omz13/kirby3-xmlsitemap` to the "require" component of your site's `composer.json` as necessary, e.g. to be on the bleeding-edge:
+- `composer require --no-dev omz13/kirby3-xmlsitemap`; the plugin will magically appear in `site/plugins`
+- unzip [master.zip](https://github.com/omz13/kirby3-xmlsitemap/archive/master.zip) as folder `site/plugins/kirby3-xmlsitemap`.
+- `git submodule add https://github.com/omz13/kirby3-xmlsitemap.git site/plugins/kirby3-xmlsitemap`.
 
-```yaml
-"require": {
-  ...
-  "omz13/kirby3-xmlsitemap": "@dev",
-  ...
-}
-```
-
-#### via git
-
-Clone github.com/omz13/kirby3-xmlsitemap into your `site/plugins` and then in `site/plugins/kirby3-xmlsitemap` invoke ``composer update --no-dev`` to generate the `vendor` folder and the magic within.
-
-```sh
-$ git clone github.com/omz13/kirby3-xmlsitemap site/plugins/kirby3-xmlsitemap
-$ cd site/plugins/kirby3-xmlsitemap
-$ composer update --no-dev
-```
-
-If your project itself is under git, then you need to add the plugin as a submodule and possibly automate the composer update; it is assumed if you are doing this that you know what to do.
-
-#### via zip
-
-So you want everything in a zip file you can simply expand into `site/plugins/kirby3-xmlsitemap`? Not yet. Sorry.
+For the record: installation by composer is cool; supporting installation by zip and submodule was an absolute pain, especially as I am an installation by composer person, so do feel guilted into getting me Coffee, Beer, etc., because this is for _your_ benefit and _not mine_ (and yes, I would have have preferred to spend my time somewhere warm and sunny instead of being hunched over a keyboard while the snow falls outside and the thermometer shows no inclination to get above 0C).
 
 ### Configuration
 
-The following mechanisms can be used to modify the plugin's behaviour.
+The following mechanisms can be used to modify the plugin's behavior.
 
 #### via `config.php`
 

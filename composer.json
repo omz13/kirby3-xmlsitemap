@@ -1,5 +1,6 @@
 {
   "name": "omz13/kirby3-xmlsitemap",
+  "type": "kirby-plugin",
   "description": "kirby3 plugin to generate an xml-based sitemap",
   "keywords": [
     "kirby3",
@@ -18,9 +19,10 @@
   ],
   "require": {
     "php": ">=7.1",
-    "getkirby/cms": "^3.0.0-RC-2.0"
+    "getkirby/composer-installer": "^1.1"
   },
   "require-dev": {
+    "getkirby/cms": "^3.0.1",
     "jakub-onderka/php-parallel-lint": "^1.0",
     "liip/rmt": "^1.4",
     "localheinz/composer-normalize": "^1.0.0",
@@ -38,26 +40,7 @@
   "autoload": {
     "psr-4": {
       "omz13\\": "src/"
-    },
-    "files": [
-      "src/config.php"
-    ]
-  },
-  "archive": {
-    "exclude": [
-      ".*",
-      "kirby",
-      "makefile",
-      "*.xml",
-      "!/vendor/*",
-      "/vendor/*/*/.*",
-      "/vendor/*/*/docs/*",
-      "/vendor/*/*/example/*",
-      "/vendor/*/*/examples/*",
-      "/vendor/*/*/test/*",
-      "/vendor/*/*/tests/*",
-      "/vendor/*/*/php4/*"
-    ]
+    }
   },
   "minimum-stability": "beta",
   "scripts": {
@@ -79,14 +62,6 @@
       "@mess"
     ],
     "stan": "./vendor/bin/phpstan analyse --level 7 ./src",
-    "style": "./vendor/bin/phpcs ./src/*",
-    "zip": [
-      "composer install --no-dev",
-      "composer remove getkirby/cms",
-      "composer dumpautoload -o",
-      "composer archive --format=zip --dir=dist",
-      "composer require getkirby/cms:'^3.0.0-RC-2.0'",
-      "composer dumpautoload -o"
-    ]
+    "style": "./vendor/bin/phpcs ./src/*"
   }
 }

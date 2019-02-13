@@ -11,7 +11,7 @@ _default:
     #   - relative/path/to/your-own-sript.php
     prerequisites:
       - command:
-          cmd: composer sanity
+          cmd: make prerelease
           live_output: false
       - working-copy-check
       - display-last-changes
@@ -44,5 +44,5 @@ master:
             dump-commits: true
             exclude-merge-commits: true
         command:                  # because version number updated in composer.json, force update so composer.lock also updated
-            cmd: composer update
+            cmd: composer install --no-dev
         vcs-commit: ~              # Commit the changes

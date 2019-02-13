@@ -1,0 +1,11 @@
+/.idea export-ignore
+/dist export-ignore
+.editorconfig export-ignore
+.gitattributes export-ignore
+.gitignore export-ignore
+.rmt.yml export-ignore
+.sgc export-ignore
+makefile export-ignore
+phpcs.xml export-ignore
+phpstan.neon export-ignore
+RMT export-ignore

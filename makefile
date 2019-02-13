@@ -1,6 +1,6 @@
 .PHONY: tools build sanity zip release
 
-PHPRMT := $(shell command -v ./vendor/bin/RMT 2> /dev/null)
+PHPRMT := $(shell command -v ${HOME}/.composer/vendor/bin/RMT 2> /dev/null)
 PHPLINT := $(shell command -v ./vendor/bin/parallel-lint 2> /dev/null)
 PHPCS := $(shell command -v ./vendor/bin/phpcs 2> /dev/null)
 PHPCBF := $(shell command -v ./vendor/bin/phpcbf 2> /dev/null)
@@ -20,15 +20,15 @@ default: tools
 tools:
 	@echo Checking toolchain
 ifndef PHPRMT
-	$(error "php release management tool (rmt) is not available; try composer install --dev")
+	$(error "php release management tool (rmt) is not available; try composer global require liip/rmt")
 endif
 
 ifndef PHPLINT
-	$(error "php parallel lint (jakub-onderka/php-parallel-lint) is not available; try composer install --dev")
+	$(error "php parallel lint (jakub-onderka/php-parallel-lint) is not available; try composer install")
 endif
 
 ifndef PHPCS
-  $(error "php code sniffer (squizlabs/php_codesniffer phpcs) is not available; try composer install --dev")
+  $(error "php code sniffer (squizlabs/php_codesniffer phpcs) is not available; try composer install")
 endif
 
 ifndef PHPCBF
@@ -36,11 +36,11 @@ ifndef PHPCBF
 endif
 
 ifndef PHPMESS
-	$(error "php mess tool (phpmd/phpmd) is not available; try composer install --dev")
+	$(error "php mess tool (phpmd/phpmd) is not available; try composer install")
 endif
 
 ifndef PHPSTAN
-	$(error "php static analysis tool (phpstan/phpstan) is not available; try composer install --dev")
+	$(error "php static analysis tool (phpstan/phpstan) is not available; try composer install")
 endif
 
 	@echo Toolchain is available
@@ -65,10 +65,15 @@ sanity: tools
 	composer validate
 	composer run-script sanity
 
-zip: tools
-	composer run-script zip
+prerelease: tools
+	composer install
+	composer normalize
+	composer run-script sanity
+	composer install --no-dev
+	composer dumpautoload -o
 
 release: tools
-	composer normalize
 	./RMT release
-	composer run-script zip
+
+postelease: tools
+	composer install
