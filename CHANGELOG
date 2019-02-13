@@ -2,6 +2,10 @@
 VERSION 1  RELEASE
 ==================
 
+   Version 1.1 - Install by Zip or Submodule
+      13/02/2019 22:41  1.1.0  initial release
+         2cf4e69 Feat: install by zip or submodule;  Fix #14; Fix #15
+
    Version 1.0 - Release
       15/01/2019 23:42  1.0.0  initial release
          c5b9024 Feat: includeUnlistedWhenTemplateIs
