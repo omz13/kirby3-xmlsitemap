@@ -44,5 +44,5 @@ master:
             dump-commits: true
             exclude-merge-commits: true
         command:                  # because version number updated in composer.json, force update so composer.lock also updated
-            cmd: composer install --no-dev
+            cmd: composer update --no-dev
         vcs-commit: ~              # Commit the changes
