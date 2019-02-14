@@ -3,6 +3,10 @@ VERSION 1  RELEASE
 ==================
 
    Version 1.1 - Install by Zip or Submodule
+      14/02/2019 21:40  1.1.2  Release
+         c4af12a Refactor: makefile
+         0238a1d Chore: composer update
+         a3d55b5 Fix: more robust lastmod calculation; fix #16
       13/02/2019 22:48  1.1.1  Install by Zip and Submodule
          c775127 Chore: tweak RMT
       13/02/2019 22:41  1.1.0  initial release
