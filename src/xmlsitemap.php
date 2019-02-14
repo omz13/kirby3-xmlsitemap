@@ -19,11 +19,13 @@ use function date;
 use function define;
 use function file_exists;
 use function file_get_contents;
+use function filectime;
 use function filemtime;
 use function in_array;
 use function is_array;
 use function json_encode;
 use function kirby;
+use function max;
 use function md5;
 use function microtime;
 use function str_replace;
@@ -424,10 +426,12 @@ class XMLSitemap
         $lastmod = strtotime( $t );
       } else {
         if ( file_exists( $p->contentFile( $lc ) ) ) {
-          $lastmod = filemtime( $p->contentFile( $lc ) );
+          $mtime   = filemtime( $p->contentFile( $lc ) );
+          $ctime   = filectime( $p->contentFile( $lc ) );
+          $lastmod = max( $mtime, $ctime );
         }
       }
-    }
+    }//end if
 
     // ML: Failsafe fallback to default language if not already there
     if ( $lastmod == false ) {
