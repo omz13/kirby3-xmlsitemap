@@ -92,8 +92,8 @@ If you want these features, or other ones, implemented, feed me coffee (or EUR o
 
 Pick one of the following per your epistemological model:
 
-- `composer require --no-dev omz13/kirby3-xmlsitemap`; the plugin will magically appear in `site/plugins`
-- unzip [master.zip](https://github.com/omz13/kirby3-xmlsitemap/archive/master.zip) as folder `site/plugins/kirby3-xmlsitemap`.
+- `composer require --no-dev omz13/kirby3-xmlsitemap`; the plugin will automagically appear in `site/plugins`.
+- Download a zip of the latest release - [master.zip](https://github.com/omz13/kirby3-xmlsitemap/archive/master.zip) - and copy the contents to your `site/plugins/kirby3-xmlsitemap`.
 - `git submodule add https://github.com/omz13/kirby3-xmlsitemap.git site/plugins/kirby3-xmlsitemap`.
 
 For the record: installation by composer is cool; supporting installation by zip and submodule was an absolute pain, especially as I am an installation by composer person, so do feel guilted into getting me Coffee, Beer, etc., because this is for _your_ benefit and _not mine_ (and yes, I would have have preferred to spend my time somewhere warm and sunny instead of being hunched over a keyboard while the snow falls outside and the thermometer shows no inclination to get above 0C).
