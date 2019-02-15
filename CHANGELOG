@@ -3,6 +3,10 @@ VERSION 1  RELEASE
 ==================
 
    Version 1.1 - Install by Zip or Submodule
+      15/02/2019 20:18  1.1.3  Release
+         004e54f Chore: composer update
+         244418c Docs: edit the installation method
+         5a0ec86 Feat: guard configuration to allow single entry as string instead of as string in an arrray
       14/02/2019 21:40  1.1.2  Release
          c4af12a Refactor: makefile
          0238a1d Chore: composer update
