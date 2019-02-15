@@ -23,6 +23,7 @@ use function filectime;
 use function filemtime;
 use function in_array;
 use function is_array;
+use function is_string;
 use function json_encode;
 use function kirby;
 use function max;
@@ -78,7 +79,13 @@ class XMLSitemap
     // try to pick up configuration as a discrete (vendor.plugin.key=>value)
     $o = kirby()->option( XMLSITEMAP_CONFIGURATION_PREFIX . '.' . $key );
     if ( $o != null ) {
-      return $o;
+      // Guard: somebody provided a single entry as string instead of as string in an arrray
+      if ( is_string( $o ) ) {
+        return [ $o ];
+      }
+      if ( is_array( $o ) ) {
+        return $o;
+      }
     }
 
     // this should not be reached... because plugin should define defaults for all its options...
