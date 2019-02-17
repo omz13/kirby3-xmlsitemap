@@ -24,7 +24,6 @@
   "require-dev": {
     "getkirby/cms": "^3.0.1",
     "jakub-onderka/php-parallel-lint": "^1.0",
-    "liip/rmt": "^1.4",
     "localheinz/composer-normalize": "^1.0.0",
     "omz13/omz13-coding-standard": "dev-master",
     "phpcompatibility/php-compatibility": "^8.2",
