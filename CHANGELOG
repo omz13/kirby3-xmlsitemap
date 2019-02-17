@@ -3,6 +3,9 @@ VERSION 1  RELEASE
 ==================
 
    Version 1.1 - Install by Zip or Submodule
+      17/02/2019 17:15  1.1.4  Release
+         526c69a Chore: composer update
+         00bd73e Fix: liip/rmt in global not local
       15/02/2019 20:18  1.1.3  Release
          004e54f Chore: composer update
          244418c Docs: edit the installation method
