@@ -14,6 +14,7 @@ use const XMLSITEMAP_CONFIGURATION_PREFIX;
 use const XMLSITEMAP_VERSION;
 
 use function array_key_exists;
+use function array_push;
 use function assert;
 use function date;
 use function define;
@@ -236,7 +237,7 @@ class XMLSitemap
       static::addComment( $r, 'Processing as ML; number of languages = ' . kirby()->languages()->count() );
       assert( kirby()->languages()->count() > 0 );
       foreach ( kirby()->languages() as $lang ) {
-        static::addComment( $r, 'ML code ' . $lang->code() . ' ' . $lang->locale() . ' ' . $lang->name() );
+        static::addComment( $r, 'ML code=' . $lang->code() . ' locale=' . $lang->locale() . ' name=' . $lang->name() );
       }
 
       if ( static::$optionShimH == true ) {
@@ -254,14 +255,28 @@ class XMLSitemap
         $r .= '</url>' . "\n";
       }
 
-      // First, add sitemap default language
-      static::addComment( $r, 'ML default is "' . kirby()->language()->code() . '" ' . kirby()->language()->name() );
-      static::addPagesToSitemap( $p, $r, "--" );
-      // Then add sitemap for all other languages
+      // Build array of language codes.
+      // First, add default language
+      $lolc = [ kirby()->language()->code() ];
+      // Then the other languages
       foreach ( kirby()->languages() as $lang ) {
-        if ( $lang != kirby()->language()->code() ) {
-          static::addComment( $r, 'ML secondary is ' . $lang->code() . ' ' . $lang->name() );
-          static::addPagesToSitemap( $p, $r, $lang->code() );
+        if ( $lang->code() !== kirby()->language()->code() ) {
+          array_push( $lolc, $lang->code() );
+        }
+      }
+
+      static::addComment( $r, "ML loop count is " . kirby()->languages()->count() );
+      // Generate default language
+      static::addComment( $r, 'ML loop #0 ' . kirby()->languages()->default()->code() . ' default' );
+      static::addPagesToSitemap( $p, $r, '--' );
+      // Then generate all other languages
+      $j = 0;
+      foreach ( $lolc as $langcode ) {
+        if ( $langcode !== kirby()->language()->code() ) {
+          static::addComment( $r, 'ML loop #' . ++$j . ' add secondary ' . $langcode );
+          static::addPagesToSitemap( $p, $r, $langcode );
+        } else {
+          static::addComment( $r, 'ML loop #' . ++$j . ' skip default ' . $langcode );
         }
       }
     } else {
