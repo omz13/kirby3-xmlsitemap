@@ -139,17 +139,21 @@ class XMLSitemap
   /**
    * @SuppressWarnings(PHPMD.CyclomaticComplexity)
    */
-  public static function getSitemap( Pages $p, bool $debug = false ) : string {
+  public static function getSitemap( Pages $p, bool $debug = false, ?bool $nocache = false ) : string {
     static::$debug = $debug && kirby()->option( 'debug' ) !== null && kirby()->option( 'debug' ) == true;
     static::pickupOptions();
 
     $tbeg = microtime( true );
 
-    // if cacheTTL disabled...
-    if ( static::$optionCACHE == null || static::$optionCACHE == "" ) {
+    // if cacheTTL disabled or nocache set
+    if ( static::$optionCACHE == null || static::$optionCACHE == "" || ( $nocache != false && $debug == true ) ) {
       $r = static::generateSitemap( $p, $debug );
       if ( static::$debug == true ) {
-        $r .= "<!-- Freshly generated; not cached for reuse -->\n";
+        if ( $nocache != false ) {
+          $r .= "<!-- Freshly generated; explicit nocache -->\n";
+        } else {
+          $r .= "<!-- Freshly generated; not cached for reuse -->\n";
+        }
       }
     } else {
       // try to read from cache; generate if expired

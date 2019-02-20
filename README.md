@@ -41,6 +41,7 @@ For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates an x
   - Pages with a method `isunderembargo` that returns `true` are excluded.
   - For use with "one-pagers", children of pages made using certain templates can be excluded as sub-ordinate links (c.f. `excludeChildrenWhenTemplateIs` in _Configuration_) but any _images_ in those children *will* be included and listed as normal (which is how one-pagers are expected to work).
 - For debugging purposes, the generated sitemap can include additional information as xml comments; c.f. `debugqueryvalue` in _Configuration_.
+- For debugging purposes, the cache can be bypassed and an explicitly regenerated sitemap returned; c.f. _nocache_ in _Use_
 
 #### Related plugins
 
@@ -85,6 +86,7 @@ The non-binding list of planned features and implementation notes are:
 - [x] Support Multilingual sites - **done 0.5** **REQUIRES kirby 3.0.0-beta-6.16 or better**
 - [x] `x-default` in ML sitemap **done 0.5**
 - [ ] Headers to stop sitemap.xml being cached?
+- [x] Bypass cache and return freshly-generated sitemap, c.f. _nocache_ in Use.
 
 If you want these features, or other ones, implemented, feed me coffee (or EUR or USD).
 
@@ -203,6 +205,30 @@ fields:
 ```
 
 As pages are implicitly included within a sitemap, this mechanism should only be used when you have a reason to explicitly exclude a page when it is not possible to do otherwise (e.g. using `excludePageWhenTemplateIs`).
+
+## Use
+
+The plugin makes a sitemap available at `/sitemap.xml`, and an associated stylesheet '/sitemap.xls'.
+
+The sitemap can therefore be retrieved by a simple get to these endpoints:
+
+```sh
+curl -H host:whatever.test -k https://whatever.test/sitemap.xml
+```
+
+### Getting a debugged repsonse
+
+If the site is in debug mode, the `/sitemap.xml` will return a verbose debug-filled response if a `debug` parameter is set and this matches the value in the configuration's `debugqueryvalue`, e.g.:
+
+```sh
+curl -H host:whatever.test -k https://whatever.test/sitemap.xml?debug=42
+```
+
+In debug mode, the endpoint will take an additional _optional_ parameter, `nocache`, which if true, will bypass and cached response and explicitly return a freshly generated response, e.g.:
+
+```sh
+curl -H host:whatever.test -k https://whatever.test/sitemap.xml?debug=42&nocache=1
+```
 
 ## --dev
 
