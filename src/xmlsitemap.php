@@ -296,12 +296,7 @@ class XMLSitemap
         if ( $langcode == '--' ) {
           static::addComment( $r, '(--) "' . $p->title() . '"' );
         } else {
-          // Guard just-in-case the translation data is corrupted and do fallback
-          if ( array_key_exists( "title", $p->translationData( $langcode ) ) == true ) {
-            static::addComment( $r, '(' . $langcode . ') "' . $p->translationData( $langcode )['title'] . '"' );
-          } else {
-            static::addComment( $r, '(' . $langcode . ') "' . $p->title() . '" (translationData FUBAR)' );
-          }
+          static::addComment( $r, '(' . $langcode . ') "' . $p->content( $langcode )-> title() . '"' );
         }
       }
 
