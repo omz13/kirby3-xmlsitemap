@@ -35,7 +35,7 @@ use function strtolower;
 use function strtotime;
 use function time;
 
-define( 'XMLSITEMAP_VERSION', '1.1.4' );
+define( 'XMLSITEMAP_VERSION', '1.1.5' );
 define( 'XMLSITEMAP_CONFIGURATION_PREFIX', 'omz13.xmlsitemap' );
 
 /**

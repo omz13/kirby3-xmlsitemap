@@ -3,6 +3,11 @@ VERSION 1  RELEASE
 ==================
 
    Version 1.1 - Install by Zip or Submodule
+      20/02/2019 21:20  1.1.5  Release
+         363ceff Chore: composer update
+         96314e8 Fix: languages iterator hiccup; fix #18.
+         b5d9d79 Feat: nocache url parameter
+         af0e3d8 Fix: get title’s translation in a better manner
       17/02/2019 17:15  1.1.4  Release
          526c69a Chore: composer update
          00bd73e Fix: liip/rmt in global not local
