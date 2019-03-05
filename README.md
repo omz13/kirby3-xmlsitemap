@@ -94,7 +94,7 @@ If you want these features, or other ones, implemented, feed me coffee (or EUR o
 
 Pick one of the following per your epistemological model:
 
-- `composer require --no-dev omz13/kirby3-xmlsitemap`; the plugin will automagically appear in `site/plugins`.
+- `composer require omz13/kirby3-xmlsitemap`; the plugin will automagically appear in `site/plugins`.
 - Download a zip of the latest release - [master.zip](https://github.com/omz13/kirby3-xmlsitemap/archive/master.zip) - and copy the contents to your `site/plugins/kirby3-xmlsitemap`.
 - `git submodule add https://github.com/omz13/kirby3-xmlsitemap.git site/plugins/kirby3-xmlsitemap`.
 
