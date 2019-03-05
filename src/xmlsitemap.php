@@ -250,7 +250,7 @@ class XMLSitemap
         $r .= '  <loc>' . kirby()->url( 'index' ) . '</loc>' . "\n";
         $r .= '  <xhtml:link rel="alternate" hreflang="x-default" href="' . $homepage->urlForLanguage( kirby()->language()->code() ) . '" />' . "\n";
         foreach ( kirby()->languages() as $lang ) {
-          $r .= '  <xhtml:link rel="alternate" hreflang="' . static::getHreflangFromLocale( $lang->locale() ) . '" href="' . $homepage->urlForLanguage( $lang->code() ) . '" />' . "\n";
+          $r .= '  <xhtml:link rel="alternate" hreflang="' . static::getHreflangFromLocale( $lang->code() ) . '" href="' . $homepage->urlForLanguage( $lang->code() ) . '" />' . "\n";
         }
         $r .= '</url>' . "\n";
       }
@@ -389,7 +389,7 @@ class XMLSitemap
         // localized languages: <xhtml:link rel="alternate" hreflang="en" href="http://www.example.com/"/>
         foreach ( kirby()->languages() as $l ) {
           // Note: Contort PHP locale to hreflang-required form
-          $r .= '  <xhtml:link rel="alternate" hreflang="' . static::getHreflangFromLocale( $l->locale() ) . '" href="' . $p->urlForLanguage( $l->code() ) . '" />' . "\n";
+          $r .= '  <xhtml:link rel="alternate" hreflang="' . static::getHreflangFromLocale( $l->code() ) . '" href="' . $p->urlForLanguage( $l->code() ) . '" />' . "\n";
         }
       }//end if
 
