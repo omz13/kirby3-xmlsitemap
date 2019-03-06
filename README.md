@@ -45,7 +45,7 @@ For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates an x
 
 #### Related plugins
 
-For a user-oriented html-based sitemp, kindly see [omz13/kirby3-htmlsitemap](https://github.com/omz13/kirby3-htmlsitemap).
+For a user-oriented html-based sitemap, kindly see [omz13/kirby3-htmlsitemap](https://github.com/omz13/kirby3-htmlsitemap).
 
 For a plugin that provides the methods `issunset` and `isunderembargo`, kindly see [omz13/kirby3-suncyclepages](https://github.com/omz13/kirby3-suncyclepages).
 
@@ -216,7 +216,7 @@ The sitemap can therefore be retrieved by a simple get to these endpoints:
 curl -H host:whatever.test -k https://whatever.test/sitemap.xml
 ```
 
-### Getting a debugged repsonse
+### Getting a debugged response
 
 If the site is in debug mode, the `/sitemap.xml` will return a verbose debug-filled response if a `debug` parameter is set and this matches the value in the configuration's `debugqueryvalue`, e.g.:
 
