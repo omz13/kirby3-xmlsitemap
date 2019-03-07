@@ -31,8 +31,10 @@ use function max;
 use function md5;
 use function microtime;
 use function str_replace;
+use function strrpos;
 use function strtolower;
 use function strtotime;
+use function substr;
 use function time;
 
 define( 'XMLSITEMAP_VERSION', '1.1.5' );
@@ -466,7 +468,21 @@ class XMLSitemap
   }//end getLastmod()
 
   private static function getHreflangFromLocale( string $locale ) : string {
-    return strtolower( str_replace( '_', '-', $locale ) );
+    // Normalize
+    $locale = strtolower( $locale );
+    // Clean (.whatever@whatever)
+    $x = strrpos( $locale, '.', 0 );
+    if ( $x != false ) {
+      $locale = substr( $locale, 0, -$x - 1 );
+    }
+    // More clean (just in case @whatever)
+    $y = strrpos( $locale, '@', 0 );
+    if ( $y != false ) {
+      $locale = substr( $locale, 0, -$y - 1 );
+    }
+    // Huzzah! $locale is now sanitized (which is not the same as canonicalization)
+    // Ensure hyphens not underscores
+    return str_replace( '_', '-', $locale );
   }//end getHreflangFromLocale()
 
   private static function addComment( string &$r, string $m ) : void {
