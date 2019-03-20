@@ -7,6 +7,7 @@ namespace omz13;
 
 use Kirby\Cms\Page;
 use Kirby\Cms\Pages;
+use Kirby\Cms\System;
 use Kirby\Exception\LogicException;
 
 use const DATE_ATOM;
@@ -234,6 +235,11 @@ class XMLSitemap
       $r .= '<!--         excludePageWhenSlugIs = ' . json_encode( static::$optionXPWSI ) . " -->\n";
       $r .= '<!--                x-shimHomepage = ' . json_encode( static::$optionShimH ) . " -->\n";
     }
+
+    static::addComment( $r,  'Kv = ' . kirby()->version() );
+    $system = new System( kirby() );
+    $license = $system->license();
+    static::addComment( $r,  'Kl = ' . ( $license == false ? 'n' : 'y' ) );
 
     if ( kirby()->multilang() == true ) {
       static::addComment( $r, 'Processing as ML; number of languages = ' . kirby()->languages()->count() );
