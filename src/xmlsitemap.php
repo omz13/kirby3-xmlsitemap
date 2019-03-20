@@ -331,7 +331,7 @@ class XMLSitemap
         if ( isset( static::$optionIUWSI ) && in_array( $p->slug(), static::$optionIUWSI, false ) ) {
           static::addComment( $r, 'including because unlisted but in includeUnlistedWhenSlugIs' );
         } else {
-          if ( isset( static::$optionIUWTI ) && in_array( $p->slug(), static::$optionIUWTI, false ) ) {
+          if ( isset( static::$optionIUWTI ) && in_array( $p->intendedTemplate(), static::$optionIUWTI, false ) ) {
             static::addComment( $r, 'including because unlisted but in includeUnlistedWhenTemplateIs' );
           } else {
             static::addComment( $r, 'excluding because unlisted' );
