@@ -236,10 +236,10 @@ class XMLSitemap
       $r .= '<!--                x-shimHomepage = ' . json_encode( static::$optionShimH ) . " -->\n";
     }
 
-    static::addComment( $r,  'Kv = ' . kirby()->version() );
-    $system = new System( kirby() );
+    static::addComment( $r, 'Kv = ' . kirby()->version() );
+    $system  = new System( kirby() );
     $license = $system->license();
-    static::addComment( $r,  'Kl = ' . ( $license == false ? 'n' : 'y' ) );
+    static::addComment( $r, 'Kl = ' . ( $license == false ? 'n' : 'y' ) );
 
     if ( kirby()->multilang() == true ) {
       static::addComment( $r, 'Processing as ML; number of languages = ' . kirby()->languages()->count() );
