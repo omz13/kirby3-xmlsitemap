@@ -3,6 +3,15 @@ VERSION 1  RELEASE
 ==================
 
    Version 1.1 - Install by Zip or Submodule
+      26/03/2019 02:27  1.1.6  Release
+         cc92fcb Chore: composer update
+         d5d941e Chore: stan
+         a053fbd Chore: code beautification
+         8508343 Feat: include Kirby info in debug output
+         cf7a387 Fix #23
+         6a13cf3 Fix #21 to Fix#19
+         0dd7fd7 Docs: Many fat fingers have I (note to self: one day, pay attention to those squiggly lines)
+         647a276 composer require without --no-dev
       20/02/2019 21:20  1.1.5  Release
          363ceff Chore: composer update
          96314e8 Fix: languages iterator hiccup; fix #18.
