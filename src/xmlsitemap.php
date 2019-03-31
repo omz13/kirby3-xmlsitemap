@@ -54,6 +54,7 @@ class XMLSitemap
   private static $optionXCWTI; // exclude children when template is
   private static $optionXPWTI; // exclude page when template is
   private static $optionXPWSI; // exclude page when slug is
+  private static $optionNOTRA; // hide untranslated
   private static $optionShimH;
   public static $version = XMLSITEMAP_VERSION;
 
@@ -137,6 +138,7 @@ class XMLSitemap
     static::$optionXCWTI = static::getArrayConfigurationForKey( 'excludeChildrenWhenTemplateIs' );
     static::$optionXPWTI = static::getArrayConfigurationForKey( 'excludePageWhenTemplateIs' );
     static::$optionXPWSI = static::getArrayConfigurationForKey( 'excludePageWhenSlugIs' );
+    static::$optionNOTRA = static::getConfigurationForKey( 'hideuntranslated' );
     static::$optionShimH = static::getConfigurationForKey( 'x-shimHomepage' );
   }//end pickupOptions()
 
@@ -172,6 +174,7 @@ class XMLSitemap
       $ops .= '-' . json_encode( static::$optionXCWTI );
       $ops .= '-' . json_encode( static::$optionXPWSI );
       $ops .= '-' . json_encode( static::$optionXPWTI );
+      $ops .= '-' . json_encode( static::$optionNOTRA );
       $ops .= '-' . json_encode( static::$optionShimH );
       $ops .= '-' . json_encode( $debug );
 
@@ -228,6 +231,7 @@ class XMLSitemap
 
     if ( $debug == true ) {
       $r .= '<!--                 disableImages = ' . json_encode( static::$optionNOIMG ) . " -->\n";
+      $r .= '<!--              hideuntranslated = ' . json_encode( static::$optionNOTRA ) . " -->\n";
       $r .= '<!--     includeUnlistedWhenSlugIs = ' . json_encode( static::$optionIUWSI ) . " -->\n";
       $r .= '<!-- includeUnlistedWhenTemplateIs = ' . json_encode( static::$optionIUWTI ) . " -->\n";
       $r .= '<!-- excludeChildrenWhenTemplateIs = ' . json_encode( static::$optionXCWTI ) . " -->\n";
@@ -324,8 +328,14 @@ class XMLSitemap
           static::addComment( $r, '(--) "' . $p->title() . '"' );
         } else {
           static::addComment( $r, '(' . $langcode . ') "' . $p->content( $langcode )-> title() . '"' );
+
+          // skip becaue no translation available
+          if ( static::$optionNOTRA == true && ! $p->translation( $langcode )->exists() ) {
+            static::addComment( $r, 'excluding because translation not available' );
+            continue;
+          }
         }
-      }
+      }//end if
 
       // don't include the error page
       if ( $p->isErrorPage() ) {
@@ -396,8 +406,12 @@ class XMLSitemap
         $r .= '  <xhtml:link rel="alternate" hreflang="x-default" href="' . $p->urlForLanguage( kirby()->language()->code() ) . '" />' . "\n";
         // localized languages: <xhtml:link rel="alternate" hreflang="en" href="http://www.example.com/"/>
         foreach ( kirby()->languages() as $l ) {
-          // Note: Contort PHP locale to hreflang-required form
-          $r .= '  <xhtml:link rel="alternate" hreflang="' . static::getHreflangFromLocale( $l->locale() ) . '" href="' . $p->urlForLanguage( $l->code() ) . '" />' . "\n";
+          if ( static::$optionNOTRA == true && ! $p->translation( $l->code() )->exists() ) {
+            $r .= '  <!-- no translation for     hreflang="' . $l->code() . '" -->' . "\n";
+          } else {
+            // Note: Contort PHP locale to hreflang-required form
+            $r .= '  <xhtml:link rel="alternate" hreflang="' . static::getHreflangFromLocale( $l->locale() ) . '" href="' . $p->urlForLanguage( $l->code() ) . '" />' . "\n";
+          }
         }
       }//end if
 

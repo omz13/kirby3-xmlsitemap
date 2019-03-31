@@ -12,6 +12,8 @@ parameters:
 		- '#Cannot call method code\(\) on Kirby\\Cms\\Language|null.#'
 		- '#Used constant XMLSITEMAP_[A-Z_]+ not found.#'
 		- '#Dynamic call to static method Kirby\\Cms\\App::version().#'
+		- '#Using \$this outside a class.#'
+		- '#Undefined variable: \$this#'
 	tmpDir: %rootDir%/tmp
 	level: 5
 includes:

@@ -3,8 +3,8 @@
 Kirby::plugin(
     'omz13/xmlsitemap',
     [
-      'root'    => dirname( __FILE__, 2 ),
-      'options' => [
+      'root'        => dirname( __FILE__, 2 ),
+      'options'     => [
         'disable'                       => false,
         'cache'                         => true, // enable plugin cache facility
         'debugqueryvalue'               => '42',
@@ -15,10 +15,34 @@ Kirby::plugin(
         'excludePageWhenSlugIs'         => [],
         'excludeChildrenWhenTemplateIs' => [],
         'disableImages'                 => false,
+        'hideuntranslated'              => false,
         'x-shimHomepage'                => false,
       ],
 
-      'routes'  => [
+      'pageMethods' => [
+        'headLinkAlternates' => function () {
+          $r = "<!-- headLinkAlternates -->" . PHP_EOL;
+          if ( kirby()->multilang() ) {
+            foreach ( kirby()->languages() as $language ) {
+              // phpcs:ignore PHPCompatibility.PHP.NewClosure.ThisFoundOutsideClass
+              if ( $language->code() == kirby()->language() && ! $this->translation( $language->code() )->exists() ) {
+                continue;
+              }
+              // phpcs:ignore PHPCompatibility.PHP.NewClosure.ThisFoundOutsideClass
+              $r .= '<link rel="alternate" hreflang="' . $language->code() . '" href="' . $this->url( $language->code() ) . '" />' . PHP_EOL;
+            }
+          } else {
+            $r = "<!-- NA because SL -->" . PHP_EOL;
+          }
+          if ( kirby()->option( 'debug' ) !== null && kirby()->option( 'debug' ) == true ) {
+            return $r;
+          } else {
+            return '';
+          }
+        },
+      ],
+
+      'routes'      => [
         [
           'pattern' => 'sitemap.xml',
           'action'  => function () {

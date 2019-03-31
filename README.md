@@ -6,7 +6,7 @@
 
 ## Coffee, Beer, etc.
 
-A humungous amount of work went into creating this plugin. Seriously it did. Just look at the source code if you dare, because there is a lot going on in there to make _your_ life easier (even if it means that _I_ have to spend days hunched over a keyboard doing this so you don't have to!). Who knew that traversing through all the pages in a kirby 3 site and spitting out the right xml elements could be so much fun (and I use the word fun there in its alternative-reality meaning). If you run a multi-language site you should be jumping up and down with joy because it gets the sitemaps right, and trust me when I say this is not as easy to do as you might think it is. For kicks, and to stop your processor getting hammered because generating process is a bit intense, the result is cached, and writing that cache code involved a lot of coffee. I also get a dopamine hit if you start this repo. So go star it. Pretty please!
+A humungous amount of work went into creating this plugin. Seriously it did. Just look at the source code if you dare, because there is a lot going on in there to make _your_ life easier (even if it means that _I_ have to spend days hunched over a keyboard doing this so you don't have to!). Who knew that traversing through all the pages in a kirby 3 site and spitting out the right xml elements could be so much fun (and I use the word fun there in its alternative-reality meaning). If you run a multi-language site you should be jumping up and down with joy because it gets the sitemaps right, and trust me when I say this is not as easy to do as you might think it is. For kicks, and to stop your processor getting hammered because generating process is a bit intense, the result is cached, and writing that cache code involved a lot of coffee. I also get a dopamine hit if you star this repo. So go star it. Pretty please!
 
 This plugin is free but if you use it in a commercial project to show your support you are welcome (greatly encouraged) to:
 - [make a donation 🍻](https://www.paypal.me/omz13/10) or
@@ -110,6 +110,7 @@ In your site's `site/config/config.php` the following entries prefixed with `omz
 
 - `disable` : a boolean which, if true, to disable the xmlsitemap functionality (c.f. `xmlsitemap` in _via `site.txt`_).
 - `cacheTTL` : the number of minutes that the xml-sitemap should be cached before being regenerated; if explicitly set to zero, the cache is disabled. If not specified a default of 10 minutes is assumed.
+- `hideuntranslated` : a boolean which, if true, will exclude any untranslated pages (for a multi-language site) from the sitemap (thanks to @mauricerenck for the idea).
 - `debugqueryvalue` : a string to be as the value for the query parameter `debug` to return the xml-sitemap with debugging information (as comment nodes within the xml stream). The global kirby `debug` configuration must also be true for this to work. The url must be to `/sitemap.xml?debug=debugqueryvalue` and not `/sitemap?debug=_debugqueryvalue_` (i.e. the `.xls` part is important). Be aware that the debugging information will show, if applicable, details of any pages that have been excluded (so if you are using this in production and you don't want things to leak, set `debugqueryvalue` to something random). Furthermore, the site debug flag needs to be set too (i.e. the `debug` flag in `site/config.php`).
 - `includeUnlistedWhenSlugIs` : an array of slug names whose pages are to be included if their status is unlisted.
 - `includeUnlistedWhenTemplateIs` : an array of template names whose pages are to be included if their status is unlisted.
@@ -205,6 +206,18 @@ fields:
 ```
 
 As pages are implicitly included within a sitemap, this mechanism should only be used when you have a reason to explicitly exclude a page when it is not possible to do otherwise (e.g. using `excludePageWhenTemplateIs`).
+
+## PageMethods
+
+### headLinkAlternates
+
+If you have a multi-language site, as well as having the sitemap include links to all the different languages, on the site itself each page needs to include  `<link rel="alternate" hreflang="" >` elements in the `<head>`.
+
+To make this easy, this plugin provides a pageMethod to do this. So, in your `<head>`, simply add:
+
+```
+<?= $page->headLinkAlternates(); ?>
+```
 
 ## Use
 
