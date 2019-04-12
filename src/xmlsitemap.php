@@ -5,15 +5,20 @@
 
 namespace omz13;
 
+use Closure;
+use Exception;
 use Kirby\Cms\Page;
 use Kirby\Cms\Pages;
 use Kirby\Cms\System;
 use Kirby\Exception\LogicException;
 
+use const CASE_LOWER;
 use const DATE_ATOM;
+use const PHP_EOL;
 use const XMLSITEMAP_CONFIGURATION_PREFIX;
 use const XMLSITEMAP_VERSION;
 
+use function array_change_key_case;
 use function array_key_exists;
 use function array_push;
 use function assert;
@@ -23,6 +28,7 @@ use function file_exists;
 use function file_get_contents;
 use function filectime;
 use function filemtime;
+use function get_class;
 use function in_array;
 use function is_array;
 use function is_string;
@@ -31,6 +37,7 @@ use function kirby;
 use function max;
 use function md5;
 use function microtime;
+use function phpversion;
 use function str_replace;
 use function strrpos;
 use function strtolower;
@@ -77,8 +84,11 @@ class XMLSitemap
   public static function getArrayConfigurationForKey( string $key ) : ?array {
     // Try to pick up configuration when provided in an array (vendor.plugin.array(key=>value))
     $o = kirby()->option( XMLSITEMAP_CONFIGURATION_PREFIX );
-    if ( $o != null && is_array( $o ) && array_key_exists( $key, $o ) ) {
-      return $o[$key];
+    if ( $o != null && is_array( $o ) ) {
+      $oLC = array_change_key_case( $o, CASE_LOWER );
+      if ( array_key_exists( strtolower( $key ) , $oLC ) ) {
+        return $oLC[ strtolower( $key ) ];
+      }
     }
 
     // try to pick up configuration as a discrete (vendor.plugin.key=>value)
@@ -100,8 +110,11 @@ class XMLSitemap
   public static function getConfigurationForKey( string $key ) : string {
     // Try to pick up configuration when provided in an array (vendor.plugin.array(key=>value))
     $o = kirby()->option( XMLSITEMAP_CONFIGURATION_PREFIX );
-    if ( $o != null && is_array( $o ) && array_key_exists( $key, $o ) ) {
-      return $o[$key];
+    if ( $o != null && is_array( $o ) ) {
+      $oLC = array_change_key_case( $o, CASE_LOWER );
+      if ( array_key_exists( strtolower( $key ) , $oLC ) ) {
+        return $oLC[ strtolower( $key ) ];
+      }
     }
 
     // try to pick up configuration as a discrete (vendor.plugin.key=>value)
@@ -113,6 +126,24 @@ class XMLSitemap
     // this should not be reached... because plugin should define defaults for all its options...
     return "";
   }//end getConfigurationForKey()
+
+  public static function getClosureForKey( string $key ) : ?Closure {
+    // Try to pick up configuration when provided in an array (vendor.plugin.array(key=>Closure))
+    $o = kirby()->option( XMLSITEMAP_CONFIGURATION_PREFIX );
+    if ( $o != null && is_array( $o ) ) {
+      $oLC = array_change_key_case( $o, CASE_LOWER );
+      if ( array_key_exists( strtolower( $key ) , $oLC ) ) {
+        return $oLC[ strtolower( $key ) ];
+      }
+    }
+
+    // try to pick up configuration as a discrete (vendor.plugin.key=>Closure)
+    $o = kirby()->option( XMLSITEMAP_CONFIGURATION_PREFIX . '.' . $key );
+    if ( $o != null ) {
+      return $o;
+    }
+    return null;
+  }//end getClosureForKey()
 
   public static function getStylesheet() : string {
     $f = null;
@@ -237,6 +268,7 @@ class XMLSitemap
       $r .= '<!-- excludeChildrenWhenTemplateIs = ' . json_encode( static::$optionXCWTI ) . " -->\n";
       $r .= '<!--     excludePageWhenTemplateIs = ' . json_encode( static::$optionXPWTI ) . " -->\n";
       $r .= '<!--         excludePageWhenSlugIs = ' . json_encode( static::$optionXPWSI ) . " -->\n";
+      $r .= '<!--                      addPages = ' . ( static::getClosureForKey( 'addpages' ) != null ? "Closure" : "null" ) . " -->\n";
       $r .= '<!--                x-shimHomepage = ' . json_encode( static::$optionShimH ) . " -->\n";
     }
 
@@ -280,12 +312,15 @@ class XMLSitemap
       static::addComment( $r, "ML loop count is " . kirby()->languages()->count() );
       // Generate default language
       static::addComment( $r, 'ML loop #0 ' . kirby()->languages()->default()->code() . ' default' );
+
+      static::addPagesToSitemapFromClosure( $r, '--' );
       static::addPagesToSitemap( $p, $r, '--' );
       // Then generate all other languages
       $j = 0;
       foreach ( $lolc as $langcode ) {
         if ( $langcode !== kirby()->language()->code() ) {
           static::addComment( $r, 'ML loop #' . ++$j . ' add secondary ' . $langcode );
+          static::addPagesToSitemapFromClosure( $r, $langcode );
           static::addPagesToSitemap( $p, $r, $langcode );
         } else {
           static::addComment( $r, 'ML loop #' . ++$j . ' skip default ' . $langcode );
@@ -293,6 +328,7 @@ class XMLSitemap
       }
     } else {
       static::addComment( $r, 'Processing as SL' );
+      static::addPagesToSitemapFromClosure( $r, null );
       static::addPagesToSitemap( $p, $r, null );
     }//end if
 
@@ -303,13 +339,34 @@ class XMLSitemap
     if ( $debug == true ) {
       $elapsed = ( $tend - $tbeg );
 
-      $r .= '<!-- v' . static::$version . " -->\n";
-      $r .= '<!-- Generation took ' . ( 1000 * $elapsed ) . " microseconds -->\n";
-      $r .= '<!-- Generated at ' . date( DATE_ATOM, (int) $tend ) . " -->\n";
+      $r .= '<!-- v' . static::$version . ' on ' . phpversion() . '  -->' . PHP_EOL;
+      $r .= '<!-- Generation took ' . ( 1000 * $elapsed ) . ' microseconds -->' . PHP_EOL;
+      $r .= '<!-- Generated at ' . date( DATE_ATOM, (int) $tend ) . ' -->' . PHP_EOL;
     }
 
     return $r;
   }//end generateSitemap()
+
+  private static function addPagesToSitemapFromClosure( string &$r, ?string $langcode = null ) : void {
+    $f = static::getClosureForKey( 'addPages' );
+    if ( $f == null ) {
+      static::addComment( $r, 'addPages is null' );
+      return;
+    }
+
+    $c = $f( $langcode );
+    if ( $c == null ) {
+      static::addComment( $r, 'addPages gives null' );
+    } else {
+      if ( get_class( $c ) == 'Kirby\Cms\Pages' ) {
+        static::addComment( $r, 'BEG addPages' );
+        static::addPagesToSitemap( $c, $r, $langcode );
+        static::addComment( $r, 'END addPages' );
+      } else {
+        throw new Exception( 'Configuration oops. XMLSITEMAP addPages returned ' . get_class( $c ) , 1 );
+      }
+    }
+  }//end addPagesToSitemapFromClosure()
 
   /**
   * @SuppressWarnings(PHPMD.CyclomaticComplexity)

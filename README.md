@@ -40,6 +40,7 @@ For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates an x
   - Pages with a method `issunset` that returns `true` are excluded.
   - Pages with a method `isunderembargo` that returns `true` are excluded.
   - For use with "one-pagers", children of pages made using certain templates can be excluded as sub-ordinate links (c.f. `excludeChildrenWhenTemplateIs` in _Configuration_) but any _images_ in those children *will* be included and listed as normal (which is how one-pagers are expected to work).
+- A closure can be specified to return a set of pages to be included in the sitemap, c.f. `addPages` in _Configuration_.
 - For debugging purposes, the generated sitemap can include additional information as xml comments; c.f. `debugqueryvalue` in _Configuration_.
 - For debugging purposes, the cache can be bypassed and an explicitly regenerated sitemap returned; c.f. _nocache_ in _Use_
 
@@ -118,8 +119,11 @@ In your site's `site/config/config.php` the following entries prefixed with `omz
 - `excludePageWhenSlugIs` : an array of slug names whose pages are to be excluded from the xml-sitemap.
 - `excludeChildrenWhenTemplateIs` : an array of templates names whose children are to be ignored (but pages associated with the template is to be included); this is used for one-pagers (where the principal page will be included and all the 'virtual' children ignored).
 - `disableImages` : a boolean which, if true, disables including data for images related to pages included in the xml-sitemap.
+- `addPages` : a closure which, if present, returns a collection of `Pages` to be added. This is how you get virtual pages into the sitemap.
 
-For example, for the [Kirby Starter Kit](https://github.com/getkirby/starterkit), the following would be applicable:
+##### Example - configuration for the Starter Kit
+
+For the [Kirby Starter Kit](https://github.com/getkirby/starterkit), the following would be applicable:
 
 ```php
 <?php
@@ -173,6 +177,26 @@ return [
 ];
 ```
 
+##### Example 2 - sample closures for `addPages`
+
+Add pages that are in a named collection:
+
+```
+'omz13.xmlsitemap.addPages' => function() {
+   return kirby()->collection('articles');
+   }
+```
+
+Add a specific page:
+
+```
+'omz13.xmlsitemap.addPages' => function() {
+  $c = new Kirby\Cms\Pages;
+  $c->add( kirby()->site()->find('blog/the-sweet-dessert') );
+  return $c;
+  }
+```
+
 #### via `content/site.txt`
 
 The plugin can be explicitly disabled in `content/site.txt` by having an entry for `xmlsitemap` and setting this to `false`. This could be achieved through the panel by adding the following into `site/blueprints/site.yml`:
@@ -211,7 +235,7 @@ As pages are implicitly included within a sitemap, this mechanism should only be
 
 ### headLinkAlternates
 
-If you have a multi-language site, as well as having the sitemap include links to all the different languages, on the site itself each page needs to include  `<link rel="alternate" hreflang="" >` elements in the `<head>`.
+If you have a multi-language site, as well as having the sitemap include links to all the different languages, on the site itself each page needs to include  `<link rel="alternate" hreflang="" />` elements in the `<head>`.
 
 To make this easy, this plugin provides a pageMethod to do this. So, in your `<head>`, simply add:
 

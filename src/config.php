@@ -16,6 +16,7 @@ Kirby::plugin(
         'excludeChildrenWhenTemplateIs' => [],
         'disableImages'                 => false,
         'hideuntranslated'              => false,
+        'addPages'                      => null,
         'x-shimHomepage'                => false,
       ],
 
