@@ -374,8 +374,7 @@ class XMLSitemap
   * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
    */
   private static function addPagesToSitemap( Pages $pages, string &$r, ?string $langcode = null ) : void {
-    $sortedpages = $pages->sortBy( 'url', 'asc' );
-    foreach ( $sortedpages as $p ) {
+    foreach ( $pages as $p ) {
       static::addComment( $r, 'crunching ' . $p->parent() . '/' . $p->uid() . ' [it=' . $p->intendedTemplate() . '] [s=' . $p->status() . '] [d=' . $p->depth() . ']' . ( $p->isHomePage() ? " HOMEPAGE" : "" ) );
 
       if ( $langcode == null ) {
