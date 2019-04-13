@@ -45,7 +45,7 @@ use function strtotime;
 use function substr;
 use function time;
 
-define( 'XMLSITEMAP_VERSION', '1.1.6' );
+define( 'XMLSITEMAP_VERSION', '1.2.0' );
 define( 'XMLSITEMAP_CONFIGURATION_PREFIX', 'omz13.xmlsitemap' );
 
 /**

@@ -2,6 +2,15 @@
 VERSION 1  RELEASE
 ==================
 
+   Version 1.2 - Release
+      13/04/2019 17:49  1.2.0  initial release
+         ff4f84d Chore: composer update
+         1170738 Chore: stan
+         bb201da Chore: composer update
+         71bfc0f Fix #27 (by not sorting pages; add back if downstream is fixed)
+         33cdc86 Fix #17; Fix #7
+         27897e7 Fix #26
+
    Version 1.1 - Install by Zip or Submodule
       26/03/2019 02:27  1.1.6  Release
          cc92fcb Chore: composer update
