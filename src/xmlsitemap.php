@@ -240,6 +240,7 @@ class XMLSitemap
   /**
    * @SuppressWarnings(PHPMD.CyclomaticComplexity)
    * @SuppressWarnings(PHPMD.NPathComplexity)
+   * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
    */
   private static function generateSitemap( Pages $p, bool $debug = false ) : string {
     static::pickupOptions();
