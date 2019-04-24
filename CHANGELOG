@@ -3,6 +3,10 @@ VERSION 1  RELEASE
 ==================
 
    Version 1.2 - Release
+      24/04/2019 20:37  1.2.1  Release
+         3e52664 Chore: composer update
+         e98d2f6 Fix breaking change to language->locale() with Kirby 3.1.3; fix truncation of locale with ‘.’
+         61e5d33 Chore: stan 0.11
       13/04/2019 17:49  1.2.0  initial release
          ff4f84d Chore: composer update
          1170738 Chore: stan
