@@ -7,6 +7,7 @@ namespace omz13;
 
 use Closure;
 use Exception;
+use Kirby\Cms\Language;
 use Kirby\Cms\Page;
 use Kirby\Cms\Pages;
 use Kirby\Cms\System;
@@ -14,6 +15,10 @@ use Kirby\Exception\LogicException;
 
 use const CASE_LOWER;
 use const DATE_ATOM;
+use const LC_ALL;
+use const LC_COLLATE;
+use const LC_CTYPE;
+use const LC_MESSAGES;
 use const PHP_EOL;
 use const XMLSITEMAP_CONFIGURATION_PREFIX;
 use const XMLSITEMAP_VERSION;
@@ -21,6 +26,7 @@ use const XMLSITEMAP_VERSION;
 use function array_change_key_case;
 use function array_key_exists;
 use function array_push;
+use function array_values;
 use function assert;
 use function date;
 use function define;
@@ -282,7 +288,7 @@ class XMLSitemap
       static::addComment( $r, 'Processing as ML; number of languages = ' . kirby()->languages()->count() );
       assert( kirby()->languages()->count() > 0 );
       foreach ( kirby()->languages() as $lang ) {
-        static::addComment( $r, 'ML code=' . $lang->code() . ' locale=' . $lang->locale() . ' name=' . $lang->name() );
+        static::addComment( $r, 'ML code=' . $lang->code() . ' locale=' . static::localeFromLang( $lang ) . ' name=' . $lang->name() );
       }
 
       if ( static::$optionShimH == true ) {
@@ -295,7 +301,7 @@ class XMLSitemap
         $r .= '  <loc>' . kirby()->url( 'index' ) . '</loc>' . "\n";
         $r .= '  <xhtml:link rel="alternate" hreflang="x-default" href="' . $homepage->urlForLanguage( kirby()->language()->code() ) . '" />' . "\n";
         foreach ( kirby()->languages() as $lang ) {
-          $r .= '  <xhtml:link rel="alternate" hreflang="' . static::getHreflangFromLocale( $lang->locale() ) . '" href="' . $homepage->urlForLanguage( $lang->code() ) . '" />' . "\n";
+          $r .= '  <xhtml:link rel="alternate" hreflang="' . static::getHreflangFromLocale( static::localeFromLang( $lang ) ) . '" href="' . $homepage->urlForLanguage( $lang->code() ) . '" />' . "\n";
         }
         $r .= '</url>' . "\n";
       }
@@ -467,7 +473,7 @@ class XMLSitemap
             $r .= '  <!-- no translation for     hreflang="' . $l->code() . '" -->' . "\n";
           } else {
             // Note: Contort PHP locale to hreflang-required form
-            $r .= '  <xhtml:link rel="alternate" hreflang="' . static::getHreflangFromLocale( $l->locale() ) . '" href="' . $p->urlForLanguage( $l->code() ) . '" />' . "\n";
+            $r .= '  <xhtml:link rel="alternate" hreflang="' . static::getHreflangFromLocale( static::localeFromLang( $l ) ) . '" href="' . $p->urlForLanguage( $l->code() ) . '" />' . "\n";
           }
         }
       }//end if
@@ -544,18 +550,44 @@ class XMLSitemap
     return $lastmod;
   }//end getLastmod()
 
+  private static function localeFromLang( ?Language $lang = null ) : string {
+    if ( $lang == null ) {
+      $lang = kirby()->language();
+    }
+
+    $l = $lang->locale();
+
+    // kirby < 3.1.3 - locale is a string
+    if ( is_string( $l ) ) {
+      return $l;
+    }
+    if ( is_array( $l ) ) {
+      // array implies kirby >= 3.1.3 where can be array of LC_WHATEVER values.
+      foreach ( [ LC_ALL, LC_CTYPE, LC_COLLATE, LC_MESSAGES ] as $w ) {
+        $s = $lang->locale( $w );
+        if ( $s != null ) {
+          assert( is_string( $s ) ); // to stop stan complaining
+          return $s;
+        }
+      }
+      // Fallback: return first value in the array, and hope its good enough.
+      return array_values( $l )[ '0' ];
+    }
+    throw new Exception( "Getting locale from language borked " . json_encode( $lang->locale() ), 1 );
+  }//end localeFromLang()
+
   private static function getHreflangFromLocale( string $locale ) : string {
     // Normalize
     $locale = strtolower( $locale );
     // Clean (.whatever@whatever)
     $x = strrpos( $locale, '.', 0 );
     if ( $x != false ) {
-      $locale = substr( $locale, 0, -$x - 1 );
+      $locale = substr( $locale, 0, -$x );
     }
     // More clean (just in case @whatever)
     $y = strrpos( $locale, '@', 0 );
     if ( $y != false ) {
-      $locale = substr( $locale, 0, -$y - 1 );
+      $locale = substr( $locale, 0, -$y );
     }
     // Huzzah! $locale is now sanitized (which is not the same as canonicalization)
     // Ensure hyphens not underscores
