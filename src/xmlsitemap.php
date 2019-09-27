@@ -390,10 +390,7 @@ class XMLSitemap
         if ( $langcode == '--' ) {
           static::addComment( $r, '(--) "' . $p->title() . '"' );
         } else {
-          static::addComment( $r, '(' . $langcode . ') "' . $p->content( $langcode )-> title() . '"' );
-
-          // skip becaue no translation available
-          if ( static::$optionNOTRA == true && ! $p->translation( $langcode )->exists() ) {
+          if ( static::$optionNOTRA == true && is_null($p->translation($langcode)) ) {
             static::addComment( $r, 'excluding because translation not available' );
             continue;
           }
@@ -469,7 +466,7 @@ class XMLSitemap
         $r .= '  <xhtml:link rel="alternate" hreflang="x-default" href="' . $p->urlForLanguage( kirby()->language()->code() ) . '" />' . "\n";
         // localized languages: <xhtml:link rel="alternate" hreflang="en" href="http://www.example.com/"/>
         foreach ( kirby()->languages() as $l ) {
-          if ( static::$optionNOTRA == true && ! $p->translation( $l->code() )->exists() ) {
+          if ( static::$optionNOTRA == true && is_null( $p->translation( $l->code() ) ) ) {
             $r .= '  <!-- no translation for     hreflang="' . $l->code() . '" -->' . "\n";
           } else {
             // Note: Contort PHP locale to hreflang-required form
