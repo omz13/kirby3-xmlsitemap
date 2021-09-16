@@ -13,6 +13,7 @@ Kirby::plugin(
         'includeUnlistedWhenTemplateIs' => [],
         'excludePageWhenTemplateIs'     => [],
         'excludePageWhenSlugIs'         => [],
+        'excludePageWhenLanguageIs'     => [],
         'excludeChildrenWhenTemplateIs' => [],
         'disableImages'                 => false,
         'hideuntranslated'              => false,
