@@ -607,12 +607,12 @@ class XMLSitemap
     // Clean (.whatever@whatever)
     $x = strrpos( $locale, '.', 0 );
     if ( $x != false ) {
-      $locale = substr( $locale, 0, -$x );
+      $locale = substr( $locale, 0, $x );
     }
     // More clean (just in case @whatever)
     $y = strrpos( $locale, '@', 0 );
     if ( $y != false ) {
-      $locale = substr( $locale, 0, -$y );
+      $locale = substr( $locale, 0, $y );
     }
     // Huzzah! $locale is now sanitized (which is not the same as canonicalization)
     // Ensure hyphens not underscores
