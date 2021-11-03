@@ -36,6 +36,7 @@ For a kirby3 site, this plugin (_omz13/xmlsitemap_) automatically generates an x
   - Unpublished pages can be explicitly included based on their template; c.f. `includeUnlistedWhenTemplateIs` in _Configuration_.
   - Pages made using certain templates can be excluded; c.f. `excludePageWhenTemplateIs` in _Configuration_.
   - Pages with certain slugnames can be excluded; c.f. `excludePageWhenSlugIs` in _Configuration_.
+  - Pages of certain languages can be excluded; c.f. `excludePageWhenLanguageIs` in _Configuration_.
   - Pages with a content field `excludefromxmlsitemap` that is `true` are excluded.
   - Pages with a method `issunset` that returns `true` are excluded.
   - Pages with a method `isunderembargo` that returns `true` are excluded.
@@ -71,6 +72,7 @@ The non-binding list of planned features and implementation notes are:
 - [ ] `<image:license>`
 - [x] Exclude image sitemap; c.f. `disableImages` **done 0.3**
 - [x] Exclusion of individual pages – **done 0.2** c.f. `excludePageWhenSlugIs`
+- [x] Exclusion of individual languages – **done 1.3** c.f. `excludePageWhenLanguageIs`
 - [x] Exclusion of pages by template – **done 0.1** c.f. `excludePageWhenTemplateIs`
 - [x] Better heuristics for `<lastmod>` (e.g. `modifiedat` field?)
 - [ ] ~~Overriding of stylesheet~~
@@ -117,6 +119,7 @@ In your site's `site/config/config.php` the following entries prefixed with `omz
 - `includeUnlistedWhenTemplateIs` : an array of template names whose pages are to be included if their status is unlisted.
 - `excludePageWhenTemplateIs` : an array of templates names whose pages are to be excluded from the xml-sitemap.
 - `excludePageWhenSlugIs` : an array of slug names whose pages are to be excluded from the xml-sitemap.
+- `excludePageWhenLanguageIs` : an array of language codes to be excluded from the xml-sitemap.
 - `excludeChildrenWhenTemplateIs` : an array of templates names whose children are to be ignored (but pages associated with the template is to be included); this is used for one-pagers (where the principal page will be included and all the 'virtual' children ignored).
 - `disableImages` : a boolean which, if true, disables including data for images related to pages included in the xml-sitemap.
 - `addPages` : a closure which, if present, returns a collection of `Pages` to be added. This is how you get virtual pages into the sitemap.
@@ -134,6 +137,7 @@ return [
   'omz13.xmlsitemap.includeUnlistedWhenTemplateIs' => [ ],
   'omz13.xmlsitemap.excludePageWhenTemplateIs' => [ 'contact','sandbox' ],
   'omz13.xmlsitemap.excludePageWhenSlugIs' => [ 'form' ],
+  'omz13.xmlsitemap.excludePageWhenLanguageIs' => [ ],
   'omz13.xmlsitemap.excludeChildrenWhenTemplateIs' => [ 'events','one-pager','shop','team','testimonials' ],
   ],
 ];
@@ -151,6 +155,7 @@ return [
     'includeUnlistedWhenTemplateIs' => [ ],
     'excludePageWhenTemplateIs' => ['contact','sandbox'],
     'excludePageWhenSlugIs' => [ 'form' ],
+    'excludePageWhenLanguageIs' => [ ],
     'excludeChildrenWhenTemplateIs' => [ 'events','one-pager','shop','team','testimonials' ],
     'disableImages' => false,
   ],
@@ -173,6 +178,7 @@ return [
     'omz13.xmlsitemap.excludeChildrenWhenTemplateIs' => ['events','one-pager','shop','team','testimonials'],
     'omz13.xmlsitemap.excludePageWhenTemplateIs' => ['contact','sandbox'],
     'omz13.xmlsitemap.excludePageWhenSlugIs' => [ 'form' ],
+    'omz13.xmlsitemap.excludePageWhenLanguageIs => [ ],
   ],
 ];
 ```
