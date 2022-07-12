@@ -1,5 +1,5 @@
 {
-  "name": "omz13/kirby3-xmlsitemap",
+  "name": "wearejust/kirby3-xmlsitemap",
   "type": "kirby-plugin",
   "description": "kirby3 plugin to generate an xml-based sitemap",
   "keywords": [
